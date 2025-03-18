@@ -1,20 +1,20 @@
-import type { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from "@mui/material/Box";
 
-import { m } from 'framer-motion';
-import { varAlpha } from 'minimal-shared/utils';
+import { m } from "framer-motion";
+import { varAlpha } from "minimal-shared/utils";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { CONFIG } from 'src/global-config';
+import { CONFIG } from "src/global-config";
 
-import { Label } from 'src/components/label';
+import { Label } from "src/components/label";
 
-import { useMockedUser } from 'src/auth/hooks';
+import { useMockedUser } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 
@@ -23,11 +23,11 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
 
   return (
     <Box
-      sx={[{ px: 2, py: 5, textAlign: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ px: 2, py: 5, textAlign: "center" }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-        <Box sx={{ position: 'relative' }}>
+      <Box sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+        <Box sx={{ position: "relative" }}>
           <Avatar src={user?.photoURL} alt={user?.displayName} sx={{ width: 48, height: 48 }}>
             {user?.displayName?.charAt(0).toUpperCase()}
           </Avatar>
@@ -40,7 +40,7 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
               px: 0.5,
               left: 40,
               height: 20,
-              position: 'absolute',
+              position: "absolute",
               borderBottomLeftRadius: 2,
             }}
           >
@@ -52,7 +52,7 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
           <Typography
             variant="subtitle2"
             noWrap
-            sx={{ mb: 1, color: 'var(--layout-nav-text-primary-color)' }}
+            sx={{ mb: 1, color: "var(--layout-nav-text-primary-color)" }}
           >
             {user?.displayName}
           </Typography>
@@ -60,7 +60,7 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
           <Typography
             variant="body2"
             noWrap
-            sx={{ color: 'var(--layout-nav-text-disabled-color)' }}
+            sx={{ color: "var(--layout-nav-text-disabled-color)" }}
           >
             {user?.email}
           </Typography>
@@ -90,7 +90,7 @@ export function UpgradeBlock({ sx, ...other }: BoxProps) {
           px: 3,
           py: 4,
           borderRadius: 2,
-          position: 'relative',
+          position: "relative",
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -103,7 +103,7 @@ export function UpgradeBlock({ sx, ...other }: BoxProps) {
           width: 1,
           height: 1,
           borderRadius: 2,
-          position: 'absolute',
+          position: "absolute",
           border: `solid 3px ${varAlpha(theme.vars.palette.common.whiteChannel, 0.16)}`,
         })}
       />
@@ -113,7 +113,7 @@ export function UpgradeBlock({ sx, ...other }: BoxProps) {
         animate={{ y: [12, -12, 12] }}
         transition={{
           duration: 8,
-          ease: 'linear',
+          ease: "linear",
           repeat: Infinity,
           repeatDelay: 0,
         }}
@@ -123,19 +123,19 @@ export function UpgradeBlock({ sx, ...other }: BoxProps) {
           right: 0,
           width: 112,
           height: 112,
-          position: 'absolute',
+          position: "absolute",
         }}
       />
 
       <Box
         sx={{
-          display: 'flex',
-          position: 'relative',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
+          display: "flex",
+          position: "relative",
+          flexDirection: "column",
+          alignItems: "flex-start",
         }}
       >
-        <Box component="span" sx={{ typography: 'h5', color: 'common.white' }}>
+        <Box component="span" sx={{ typography: "h5", color: "common.white" }}>
           35% OFF
         </Box>
 
@@ -144,8 +144,8 @@ export function UpgradeBlock({ sx, ...other }: BoxProps) {
           sx={{
             mb: 2,
             mt: 0.5,
-            color: 'common.white',
-            typography: 'subtitle2',
+            color: "common.white",
+            typography: "subtitle2",
           }}
         >
           Power up Productivity!

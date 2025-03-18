@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { z as zod } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { z as zod } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Box from '@mui/material/Box';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Box from "@mui/material/Box";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
-import { PasswordIcon } from 'src/assets/icons';
+import { PasswordIcon } from "src/assets/icons";
 
-import { Form, Field } from 'src/components/hook-form';
+import { Form, Field } from "src/components/hook-form";
 
-import { resetPassword } from '../../context/amplify';
-import { FormHead } from '../../components/form-head';
-import { FormReturnLink } from '../../components/form-return-link';
+import { resetPassword } from "../../context/amplify";
+import { FormHead } from "../../components/form-head";
+import { FormReturnLink } from "../../components/form-return-link";
 
 // ----------------------------------------------------------------------
 
@@ -25,8 +25,8 @@ export type ResetPasswordSchemaType = zod.infer<typeof ResetPasswordSchema>;
 export const ResetPasswordSchema = zod.object({
   email: zod
     .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
+    .min(1, { message: "Email is required!" })
+    .email({ message: "Email must be a valid email address!" }),
 });
 
 // ----------------------------------------------------------------------
@@ -35,7 +35,7 @@ export function AmplifyResetPasswordView() {
   const router = useRouter();
 
   const defaultValues: ResetPasswordSchemaType = {
-    email: '',
+    email: "",
   };
 
   const methods = useForm<ResetPasswordSchemaType>({
@@ -66,7 +66,7 @@ export function AmplifyResetPasswordView() {
   });
 
   const renderForm = () => (
-    <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
       <Field.Text
         autoFocus
         name="email"

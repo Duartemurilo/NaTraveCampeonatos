@@ -1,0 +1,168 @@
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useSignUp } from "@clerk/clerk-react";
+import { useBoolean } from "minimal-shared/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
+import { CircularProgress } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import LoadingButton from "@mui/lab/LoadingButton";
+import InputAdornment from "@mui/material/InputAdornment";
+
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
+
+import { CONFIG } from "src/global-config";
+
+import { Iconify } from "src/components/iconify";
+import { Form, Field } from "src/components/hook-form";
+
+import { getErrorMessage } from "../../../utils";
+import { signUpdefaultValues } from "../constants";
+import { FormHead } from "../../../components/form-head";
+import { SignUpTerms } from "../../../components/sign-up-terms";
+import { SignUpSchema, type SignUpSchemaType } from "../form-data";
+
+export function ClerkSignUpView() {
+  const router = useRouter();
+  const showPassword = useBoolean();
+  const { signUp, setActive } = useSignUp();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
+
+  const methods = useForm<SignUpSchemaType>({
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: signUpdefaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (!signUp || !setActive) {
+      console.error("Clerk não está devidamente inicializado.");
+      return;
+    }
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
+      const emailLinkFlow = signUp.createEmailLinkFlow();
+      const result = await emailLinkFlow.startEmailLinkFlow({
+        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
+      });
+
+      setInfoMessage(
+        "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+      );
+
+      if (result.verifications.emailAddress?.verifiedFromTheSameClient()) {
+        await setActive({ session: result.createdSessionId });
+        router.push(paths.dashboard.root);
+      } else {
+        setInfoMessage(
+          "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+        );
+      }
+    } catch (error: any) {
+      console.error(error);
+      const feedbackMessage = getErrorMessage(error);
+      setErrorMessage(feedbackMessage);
+    }
+  });
+
+  const renderForm = () => (
+    <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: { xs: 3, sm: 2 },
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
+        <Field.Text name="firstName" label="Nome" slotProps={{ inputLabel: { shrink: true } }} />
+        <Field.Text
+          name="lastName"
+          label="Sobrenome"
+          slotProps={{ inputLabel: { shrink: true } }}
+        />
+      </Box>
+      <Field.Text
+        name="email"
+        label="Endereço de email"
+        slotProps={{ inputLabel: { shrink: true } }}
+      />
+      <Field.Text
+        name="password"
+        label="Senha"
+        placeholder="6+ caracteres"
+        type={showPassword.value ? "text" : "password"}
+        slotProps={{
+          inputLabel: { shrink: true },
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={showPassword.onToggle} edge="end">
+                  <Iconify icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
+      <LoadingButton
+        fullWidth
+        color="inherit"
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={isSubmitting}
+        loadingIndicator={<CircularProgress size={16} />}
+      >
+        Criar conta
+      </LoadingButton>
+    </Box>
+  );
+
+  return (
+    <>
+      <FormHead
+        title="Comece gratuitamente"
+        description={
+          <>
+            Já possui uma conta?{" "}
+            <Link component={RouterLink} href={paths.auth.clerk.signIn} variant="subtitle2">
+              Entrar
+            </Link>
+          </>
+        }
+        sx={{ textAlign: { xs: "center", md: "left" } }}
+      />
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {errorMessage}
+        </Alert>
+      )}
+      {infoMessage && (
+        <Alert severity="info" sx={{ mb: 3 }}>
+          {infoMessage}
+        </Alert>
+      )}
+      <Form methods={methods} onSubmit={onSubmit}>
+        {renderForm()}
+      </Form>
+      <SignUpTerms />
+    </>
+  );
+}
