@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { UserNewEditForm } from '../user-new-edit-form';
+import { UserNewEditForm } from "../user-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -16,9 +16,9 @@ export function UserCreateView() {
       <CustomBreadcrumbs
         heading="Create a new user"
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'User', href: paths.dashboard.user.root },
-          { name: 'New user' },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "User", href: paths.dashboard.user.root },
+          { name: "New user" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

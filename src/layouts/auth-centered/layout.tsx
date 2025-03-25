@@ -1,34 +1,32 @@
-'use client';
+"use client";
 
-import type { Theme, CSSObject, Breakpoint } from '@mui/material/styles';
+import type { Theme, CSSObject, Breakpoint } from "@mui/material/styles";
 
-import { merge } from 'es-toolkit';
+import { merge } from "es-toolkit";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
 
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 
-import { CONFIG } from 'src/global-config';
+import { CONFIG } from "src/global-config";
 
-import { Logo } from 'src/components/logo';
+import { AuthCenteredContent } from "./content";
+import { MainSection } from "../core/main-section";
+import { LayoutSection } from "../core/layout-section";
+import { HeaderSection } from "../core/header-section";
+import { SettingsButton } from "../components/settings-button";
 
-import { AuthCenteredContent } from './content';
-import { MainSection } from '../core/main-section';
-import { LayoutSection } from '../core/layout-section';
-import { HeaderSection } from '../core/header-section';
-import { SettingsButton } from '../components/settings-button';
-
-import type { AuthCenteredContentProps } from './content';
-import type { MainSectionProps } from '../core/main-section';
-import type { HeaderSectionProps } from '../core/header-section';
-import type { LayoutSectionProps } from '../core/layout-section';
+import type { AuthCenteredContentProps } from "./content";
+import type { MainSectionProps } from "../core/main-section";
+import type { HeaderSectionProps } from "../core/header-section";
+import type { LayoutSectionProps } from "../core/layout-section";
 
 // ----------------------------------------------------------------------
 
-type LayoutBaseProps = Pick<LayoutSectionProps, 'sx' | 'children' | 'cssVars'>;
+type LayoutBaseProps = Pick<LayoutSectionProps, "sx" | "children" | "cssVars">;
 
 export type AuthCenteredLayoutProps = LayoutBaseProps & {
   layoutQuery?: Breakpoint;
@@ -44,31 +42,36 @@ export function AuthCenteredLayout({
   cssVars,
   children,
   slotProps,
-  layoutQuery = 'md',
+  layoutQuery = "md",
 }: AuthCenteredLayoutProps) {
   const renderHeader = () => {
-    const headerSlotProps: HeaderSectionProps['slotProps'] = { container: { maxWidth: false } };
+    const headerSlotProps: HeaderSectionProps["slotProps"] = { container: { maxWidth: false } };
 
-    const headerSlots: HeaderSectionProps['slots'] = {
+    const headerSlots: HeaderSectionProps["slots"] = {
       topArea: (
-        <Alert severity="info" sx={{ display: 'none', borderRadius: 0 }}>
+        <Alert severity="info" sx={{ display: "none", borderRadius: 0 }}>
           This is an info Alert.
         </Alert>
       ),
       leftArea: (
         <>
           {/** @slot Logo */}
-          <Logo />
+          <img
+            alt="Full logo"
+            src={`${CONFIG.assetsDir}/logo/logo-full.svg`}
+            width="70px"
+            height="70px"
+          />
         </>
       ),
       rightArea: (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 1.5 } }}>
           {/** @slot Help link */}
           <Link
             href={paths.faqs}
             component={RouterLink}
             color="inherit"
-            sx={{ typography: 'subtitle2' }}
+            sx={{ typography: "subtitle2" }}
           >
             Need help?
           </Link>
@@ -87,7 +90,7 @@ export function AuthCenteredLayout({
         slots={{ ...headerSlots, ...slotProps?.header?.slots }}
         slotProps={merge(headerSlotProps, slotProps?.header?.slotProps ?? {})}
         sx={[
-          { position: { [layoutQuery]: 'fixed' } },
+          { position: { [layoutQuery]: "fixed" } },
           ...(Array.isArray(slotProps?.header?.sx)
             ? (slotProps?.header?.sx ?? [])
             : [slotProps?.header?.sx]),
@@ -103,10 +106,10 @@ export function AuthCenteredLayout({
       {...slotProps?.main}
       sx={[
         (theme) => ({
-          alignItems: 'center',
+          alignItems: "center",
           p: theme.spacing(3, 2, 10, 2),
           [theme.breakpoints.up(layoutQuery)]: {
-            justifyContent: 'center',
+            justifyContent: "center",
             p: theme.spacing(10, 0, 10, 0),
           },
         }),
@@ -132,11 +135,11 @@ export function AuthCenteredLayout({
       /** **************************************
        * @Styles
        *************************************** */
-      cssVars={{ '--layout-auth-content-width': '420px', ...cssVars }}
+      cssVars={{ "--layout-auth-content-width": "420px", ...cssVars }}
       sx={[
         (theme) => ({
-          position: 'relative',
-          '&::before': backgroundStyles(theme),
+          position: "relative",
+          "&::before": backgroundStyles(theme),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -154,11 +157,11 @@ const backgroundStyles = (theme: Theme): CSSObject => ({
   }),
   zIndex: 1,
   opacity: 0.24,
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
   content: "''",
-  position: 'absolute',
-  ...theme.applyStyles('dark', {
+  position: "absolute",
+  ...theme.applyStyles("dark", {
     opacity: 0.08,
   }),
 });

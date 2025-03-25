@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import type { SettingsState } from 'src/components/settings';
-import type { Theme, Components } from '@mui/material/styles';
+import type { SettingsState } from "src/components/settings";
+import type { Theme, Components } from "@mui/material/styles";
 
-import { createTheme as createMuiTheme } from '@mui/material/styles';
+import { createTheme as createMuiTheme } from "@mui/material/styles";
 
-import { mixins } from './core/mixins';
-import { shadows } from './core/shadows';
-import { palette } from './core/palette';
-import { themeConfig } from './theme-config';
-import { components } from './core/components';
-import { typography } from './core/typography';
-import { customShadows } from './core/custom-shadows';
-import { updateCoreWithSettings, updateComponentsWithSettings } from './with-settings';
+import { mixins } from "./core/mixins";
+import { shadows } from "./core/shadows";
+import { palette } from "./core/palette";
+import { themeConfig } from "./theme-config";
+import { components } from "./core/components";
+import { typography } from "./core/typography";
+import { customShadows } from "./core/custom-shadows";
+import { updateCoreWithSettings, updateComponentsWithSettings } from "./with-settings";
 
-import type { ThemeOptions } from './types';
+import type { ThemeOptions } from "./types";
 
 // ----------------------------------------------------------------------
 

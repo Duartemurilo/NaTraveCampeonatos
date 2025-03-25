@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import type { IProductItem } from 'src/types/product';
+import type { IProductItem } from "src/types/product";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { ProductNewEditForm } from '../product-new-edit-form';
+import { ProductNewEditForm } from "../product-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -23,8 +23,8 @@ export function ProductEditView({ product }: Props) {
         heading="Edit"
         backHref={paths.dashboard.product.root}
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Product', href: paths.dashboard.product.root },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "Product", href: paths.dashboard.product.root },
           { name: product?.name },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}

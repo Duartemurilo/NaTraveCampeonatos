@@ -1,61 +1,61 @@
-import { useForm } from 'react-hook-form';
-import { useBoolean } from 'minimal-shared/hooks';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from "react-hook-form";
+import { useBoolean } from "minimal-shared/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Backdrop from '@mui/material/Backdrop';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
+import Backdrop from "@mui/material/Backdrop";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import { today } from 'src/utils/format-time';
+import { today } from "src/utils/format-time";
 
-import { Iconify } from 'src/components/iconify';
-import { Form, Field } from 'src/components/hook-form';
+import { Iconify } from "src/components/iconify";
+import { Form, Field } from "src/components/hook-form";
 
-import { FieldsSchema } from './schema';
-import { ComponentBox } from '../../layout';
-import { ValuesPreview } from './components/values-preview';
-import { FormGrid, FormActions, FieldContainer, componentBoxStyles } from './components';
+import { FieldsSchema } from "./schema";
+import { ComponentBox } from "../../layout";
+import { ValuesPreview } from "./components/values-preview";
+import { FormGrid, FormActions, FieldContainer, componentBoxStyles } from "./components";
 
-import type { FieldsSchemaType } from './schema';
+import type { FieldsSchemaType } from "./schema";
 
 // ----------------------------------------------------------------------
 
 const OPTIONS = [
-  { value: 'option 1', label: 'Option 1' },
-  { value: 'option 2', label: 'Option 2' },
-  { value: 'option 3', label: 'Option 3' },
-  { value: 'option 4', label: 'Option 4' },
-  { value: 'option 5', label: 'Option 5' },
-  { value: 'option 6', label: 'Option 6' },
-  { value: 'option 7', label: 'Option 7' },
-  { value: 'option 8', label: 'Option 8' },
+  { value: "option 1", label: "Option 1" },
+  { value: "option 2", label: "Option 2" },
+  { value: "option 3", label: "Option 3" },
+  { value: "option 4", label: "Option 4" },
+  { value: "option 5", label: "Option 5" },
+  { value: "option 6", label: "Option 6" },
+  { value: "option 7", label: "Option 7" },
+  { value: "option 8", label: "Option 8" },
 ];
 
 const defaultValues: FieldsSchemaType = {
-  email: '',
-  fullName: '',
+  email: "",
+  fullName: "",
   // handle number with 0, null, undefined
   age: null,
   price: undefined,
   quantity: 0,
   // phone and code
-  code: '',
-  phoneNumber: '',
+  code: "",
+  phoneNumber: "",
   // password
-  password: '',
-  confirmPassword: '',
+  password: "",
+  confirmPassword: "",
   // date
   startDate: today(),
   endDate: null,
   // country
-  singleCountry: '',
+  singleCountry: "",
   multiCountry: [],
   // select
-  singleSelect: '',
+  singleSelect: "",
   multiSelect: [],
   autocomplete: null,
 };
@@ -83,7 +83,7 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       reset();
-      console.info('DATA', data);
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -114,7 +114,7 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
             input: {
               startAdornment: (
                 <InputAdornment position="start" sx={{ mr: 0.75 }}>
-                  <Box component="span" sx={{ color: 'text.disabled' }}>
+                  <Box component="span" sx={{ color: "text.disabled" }}>
                     $
                   </Box>
                 </InputAdornment>
@@ -124,7 +124,7 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
         />
       </FieldContainer>
 
-      <FieldContainer label="RHFNumberInput" sx={{ alignItems: 'flex-start' }}>
+      <FieldContainer label="RHFNumberInput" sx={{ alignItems: "flex-start" }}>
         <Field.NumberInput
           name="quantity"
           helperText={
@@ -145,14 +145,14 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
         <Field.Text
           name="password"
           label="Password"
-          type={showPassword.value ? 'text' : 'password'}
+          type={showPassword.value ? "text" : "password"}
           slotProps={{
             input: {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={showPassword.onToggle} edge="end">
                     <Iconify
-                      icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                      icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"}
                     />
                   </IconButton>
                 </InputAdornment>
@@ -166,14 +166,14 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
         <Field.Text
           name="confirmPassword"
           label="Confirm password"
-          type={showPassword.value ? 'text' : 'password'}
+          type={showPassword.value ? "text" : "password"}
           slotProps={{
             input: {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={showPassword.onToggle} edge="end">
                     <Iconify
-                      icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                      icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"}
                     />
                   </IconButton>
                 </InputAdornment>
@@ -209,7 +209,7 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
           autoFocus={false}
           slotProps={{
             textfield: {
-              variant: 'standard',
+              variant: "standard",
               disabled: false,
             },
           }}
@@ -248,7 +248,7 @@ export function FieldsDemo({ debug, onCloseDebug }: Props) {
       <FieldContainer label="RHFSelect">
         <Field.Select name="singleSelect" label="Single select">
           <MenuItem value="">None</MenuItem>
-          <Divider sx={{ borderStyle: 'dashed' }} />
+          <Divider sx={{ borderStyle: "dashed" }} />
           {OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.label}>
               {option.label}

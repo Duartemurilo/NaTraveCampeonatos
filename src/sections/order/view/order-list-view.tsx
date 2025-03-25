@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import type { TableHeadCellProps } from 'src/components/table';
-import type { IOrderItem, IOrderTableFilters } from 'src/types/order';
+import type { TableHeadCellProps } from "src/components/table";
+import type { IOrderItem, IOrderTableFilters } from "src/types/order";
 
-import { useState, useCallback } from 'react';
-import { varAlpha } from 'minimal-shared/utils';
-import { useBoolean, useSetState } from 'minimal-shared/hooks';
+import { useState, useCallback } from "react";
+import { varAlpha } from "minimal-shared/utils";
+import { useBoolean, useSetState } from "minimal-shared/hooks";
 
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import TableBody from "@mui/material/TableBody";
+import IconButton from "@mui/material/IconButton";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+import { fIsAfter, fIsBetween } from "src/utils/format-time";
 
-import { DashboardContent } from 'src/layouts/dashboard';
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
+import { DashboardContent } from "src/layouts/dashboard";
+import { _orders, ORDER_STATUS_OPTIONS } from "src/_mock";
 
-import { Label } from 'src/components/label';
-import { toast } from 'src/components/snackbar';
-import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { Label } from "src/components/label";
+import { toast } from "src/components/snackbar";
+import { Iconify } from "src/components/iconify";
+import { Scrollbar } from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 import {
   useTable,
   emptyRows,
@@ -40,38 +40,38 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
+} from "src/components/table";
 
-import { OrderTableRow } from '../order-table-row';
-import { OrderTableToolbar } from '../order-table-toolbar';
-import { OrderTableFiltersResult } from '../order-table-filters-result';
+import { OrderTableRow } from "../order-table-row";
+import { OrderTableToolbar } from "../order-table-toolbar";
+import { OrderTableFiltersResult } from "../order-table-filters-result";
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...ORDER_STATUS_OPTIONS];
+const STATUS_OPTIONS = [{ value: "all", label: "All" }, ...ORDER_STATUS_OPTIONS];
 
 const TABLE_HEAD: TableHeadCellProps[] = [
-  { id: 'orderNumber', label: 'Order', width: 88 },
-  { id: 'name', label: 'Customer' },
-  { id: 'createdAt', label: 'Date', width: 140 },
-  { id: 'totalQuantity', label: 'Items', width: 120, align: 'center' },
-  { id: 'totalAmount', label: 'Price', width: 140 },
-  { id: 'status', label: 'Status', width: 110 },
-  { id: '', width: 88 },
+  { id: "orderNumber", label: "Order", width: 88 },
+  { id: "name", label: "Customer" },
+  { id: "createdAt", label: "Date", width: 140 },
+  { id: "totalQuantity", label: "Items", width: 120, align: "center" },
+  { id: "totalAmount", label: "Price", width: 140 },
+  { id: "status", label: "Status", width: 110 },
+  { id: "", width: 88 },
 ];
 
 // ----------------------------------------------------------------------
 
 export function OrderListView() {
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const table = useTable({ defaultOrderBy: "orderNumber" });
 
   const confirmDialog = useBoolean();
 
   const [tableData, setTableData] = useState<IOrderItem[]>(_orders);
 
   const filters = useSetState<IOrderTableFilters>({
-    name: '',
-    status: 'all',
+    name: "",
+    status: "all",
     startDate: null,
     endDate: null,
   });
@@ -90,7 +90,7 @@ export function OrderListView() {
 
   const canReset =
     !!currentFilters.name ||
-    currentFilters.status !== 'all' ||
+    currentFilters.status !== "all" ||
     (!!currentFilters.startDate && !!currentFilters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
@@ -99,7 +99,7 @@ export function OrderListView() {
     (id: string) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success("Delete success!");
 
       setTableData(deleteRow);
 
@@ -111,7 +111,7 @@ export function OrderListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success("Delete success!");
 
     setTableData(deleteRows);
 
@@ -157,9 +157,9 @@ export function OrderListView() {
         <CustomBreadcrumbs
           heading="List"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Order', href: paths.dashboard.order.root },
-            { name: 'List' },
+            { name: "Dashboard", href: paths.dashboard.championships.root },
+            { name: "Order", href: paths.dashboard.order.root },
+            { name: "List" },
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
         />
@@ -171,7 +171,7 @@ export function OrderListView() {
             sx={[
               (theme) => ({
                 px: 2.5,
-                boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+                boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey["500Channel"], 0.08)}`,
               }),
             ]}
           >
@@ -184,17 +184,17 @@ export function OrderListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === currentFilters.status) && 'filled') ||
-                      'soft'
+                      ((tab.value === "all" || tab.value === currentFilters.status) && "filled") ||
+                      "soft"
                     }
                     color={
-                      (tab.value === 'completed' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'cancelled' && 'error') ||
-                      'default'
+                      (tab.value === "completed" && "success") ||
+                      (tab.value === "pending" && "warning") ||
+                      (tab.value === "cancelled" && "error") ||
+                      "default"
                     }
                   >
-                    {['completed', 'pending', 'cancelled', 'refunded'].includes(tab.value)
+                    {["completed", "pending", "cancelled", "refunded"].includes(tab.value)
                       ? tableData.filter((user) => user.status === tab.value).length
                       : tableData.length}
                   </Label>
@@ -218,7 +218,7 @@ export function OrderListView() {
             />
           )}
 
-          <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: "relative" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -239,7 +239,7 @@ export function OrderListView() {
             />
 
             <Scrollbar sx={{ minHeight: 444 }}>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <Table size={table.dense ? "small" : "medium"} sx={{ minWidth: 960 }}>
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -330,7 +330,7 @@ function applyFilter({ inputData, comparator, filters, dateError }: ApplyFilterP
     );
   }
 
-  if (status !== 'all') {
+  if (status !== "all") {
     inputData = inputData.filter((order) => order.status === status);
   }
 

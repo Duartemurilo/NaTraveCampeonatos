@@ -1,10 +1,10 @@
-import type { SWRConfiguration } from 'swr';
-import type { IPostItem } from 'src/types/blog';
+import type { SWRConfiguration } from "swr";
+import type { IPostItem } from "src/types/blog";
 
-import useSWR from 'swr';
-import { useMemo } from 'react';
+import useSWR from "swr";
+import { useMemo } from "react";
 
-import { fetcher, endpoints } from 'src/lib/axios';
+import { fetcher, endpoints } from "src/lib/axios";
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ type PostData = {
 };
 
 export function useGetPost(title: string) {
-  const url = title ? [endpoints.post.details, { params: { title } }] : '';
+  const url = title ? [endpoints.post.details, { params: { title } }] : "";
 
   const { data, isLoading, error, isValidating } = useSWR<PostData>(url, fetcher, swrOptions);
 
@@ -70,7 +70,7 @@ type LatestPostsData = {
 };
 
 export function useGetLatestPosts(title: string) {
-  const url = title ? [endpoints.post.latest, { params: { title } }] : '';
+  const url = title ? [endpoints.post.latest, { params: { title } }] : "";
 
   const { data, isLoading, error, isValidating } = useSWR<LatestPostsData>(
     url,
@@ -99,7 +99,7 @@ type SearchResultsData = {
 };
 
 export function useSearchPosts(query: string) {
-  const url = query ? [endpoints.post.search, { params: { query } }] : '';
+  const url = query ? [endpoints.post.search, { params: { query } }] : "";
 
   const { data, isLoading, error, isValidating } = useSWR<SearchResultsData>(url, fetcher, {
     ...swrOptions,

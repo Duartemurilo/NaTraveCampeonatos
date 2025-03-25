@@ -1,0 +1,6 @@
+export enum TournamentFormat {
+  POINTS = "POINTS",
+  KNOCKOUT = "KNOCKOUT",
+  GROUPS = "GROUPS",
+  GROUPS_AND_KNOCKOUT = "GROUPS_AND_KNOCKOUT",
+}

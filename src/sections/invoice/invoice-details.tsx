@@ -1,28 +1,28 @@
-import type { IInvoice } from 'src/types/invoice';
+import type { IInvoice } from "src/types/invoice";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
-import TableRow from '@mui/material/TableRow';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import Typography from "@mui/material/Typography";
 
-import { fDate } from 'src/utils/format-time';
-import { fCurrency } from 'src/utils/format-number';
+import { fDate } from "src/utils/format-time";
+import { fCurrency } from "src/utils/format-number";
 
-import { INVOICE_STATUS_OPTIONS } from 'src/_mock';
+import { INVOICE_STATUS_OPTIONS } from "src/_mock";
 
-import { Label } from 'src/components/label';
-import { Scrollbar } from 'src/components/scrollbar';
+import { Label } from "src/components/label";
+import { Scrollbar } from "src/components/scrollbar";
 
-import { InvoiceToolbar } from './invoice-toolbar';
-import { InvoiceTotalSummary } from './invoice-total-summary';
+import { InvoiceToolbar } from "./invoice-toolbar";
+import { InvoiceTotalSummary } from "./invoice-total-summary";
 
 // ----------------------------------------------------------------------
 
@@ -42,9 +42,9 @@ export function InvoiceDetails({ invoice }: Props) {
       sx={{
         py: 3,
         gap: 2,
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
       }}
     >
       <div>
@@ -56,7 +56,7 @@ export function InvoiceDetails({ invoice }: Props) {
         </Typography>
       </div>
 
-      <Box sx={{ flexGrow: { md: 1 }, textAlign: { md: 'right' } }}>
+      <Box sx={{ flexGrow: { md: 1 }, textAlign: { md: "right" } }}>
         <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
           Have a question?
         </Typography>
@@ -71,7 +71,7 @@ export function InvoiceDetails({ invoice }: Props) {
         <TableHead>
           <TableRow>
             <TableCell width={40}>#</TableCell>
-            <TableCell sx={{ typography: 'subtitle2' }}>Description</TableCell>
+            <TableCell sx={{ typography: "subtitle2" }}>Description</TableCell>
             <TableCell>Qty</TableCell>
             <TableCell align="right">Unit price</TableCell>
             <TableCell align="right">Total</TableCell>
@@ -87,7 +87,7 @@ export function InvoiceDetails({ invoice }: Props) {
                 <Box sx={{ maxWidth: 560 }}>
                   <Typography variant="subtitle2">{row.title}</Typography>
 
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
                     {row.description}
                   </Typography>
                 </Box>
@@ -107,7 +107,7 @@ export function InvoiceDetails({ invoice }: Props) {
     <>
       <InvoiceToolbar
         invoice={invoice}
-        currentStatus={currentStatus || ''}
+        currentStatus={currentStatus || ""}
         onChangeStatus={handleChangeStatus}
         statusOptions={INVOICE_STATUS_OPTIONS}
       />
@@ -116,9 +116,9 @@ export function InvoiceDetails({ invoice }: Props) {
         <Box
           sx={{
             rowGap: 5,
-            display: 'grid',
-            alignItems: 'center',
-            gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+            display: "grid",
+            alignItems: "center",
+            gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" },
           }}
         >
           <Box
@@ -128,14 +128,14 @@ export function InvoiceDetails({ invoice }: Props) {
             sx={{ width: 48, height: 48 }}
           />
 
-          <Stack spacing={1} sx={{ alignItems: { xs: 'flex-start', md: 'flex-end' } }}>
+          <Stack spacing={1} sx={{ alignItems: { xs: "flex-start", md: "flex-end" } }}>
             <Label
               variant="soft"
               color={
-                (currentStatus === 'paid' && 'success') ||
-                (currentStatus === 'pending' && 'warning') ||
-                (currentStatus === 'overdue' && 'error') ||
-                'default'
+                (currentStatus === "paid" && "success") ||
+                (currentStatus === "pending" && "warning") ||
+                (currentStatus === "overdue" && "error") ||
+                "default"
               }
             >
               {currentStatus}
@@ -144,7 +144,7 @@ export function InvoiceDetails({ invoice }: Props) {
             <Typography variant="h6">{invoice?.invoiceNumber}</Typography>
           </Stack>
 
-          <Stack sx={{ typography: 'body2' }}>
+          <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Invoice from
             </Typography>
@@ -156,7 +156,7 @@ export function InvoiceDetails({ invoice }: Props) {
             <br />
           </Stack>
 
-          <Stack sx={{ typography: 'body2' }}>
+          <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Invoice to
             </Typography>
@@ -168,14 +168,14 @@ export function InvoiceDetails({ invoice }: Props) {
             <br />
           </Stack>
 
-          <Stack sx={{ typography: 'body2' }}>
+          <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Date create
             </Typography>
             {fDate(invoice?.createDate)}
           </Stack>
 
-          <Stack sx={{ typography: 'body2' }}>
+          <Stack sx={{ typography: "body2" }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Due date
             </Typography>
@@ -185,7 +185,7 @@ export function InvoiceDetails({ invoice }: Props) {
 
         {renderList()}
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
         <InvoiceTotalSummary
           taxes={invoice?.taxes}
@@ -195,7 +195,7 @@ export function InvoiceDetails({ invoice }: Props) {
           totalAmount={invoice?.totalAmount}
         />
 
-        <Divider sx={{ mt: 5, borderStyle: 'dashed' }} />
+        <Divider sx={{ mt: 5, borderStyle: "dashed" }} />
 
         {renderFooter()}
       </Card>

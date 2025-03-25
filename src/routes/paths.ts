@@ -5,7 +5,6 @@ import { _id, _postTitles } from "src/_mock/assets";
 // ----------------------------------------------------------------------
 
 const MOCK_ID = _id[1];
-
 const MOCK_TITLE = _postTitles[2];
 
 const ROOTS = {
@@ -54,7 +53,10 @@ export const paths = {
       updatePassword: `${ROOTS.AUTH}/amplify/update-password`,
       resetPassword: `${ROOTS.AUTH}/amplify/reset-password`,
     },
-    jwt: { signIn: `${ROOTS.AUTH}/jwt/sign-in`, signUp: `${ROOTS.AUTH}/jwt/sign-up` },
+    jwt: {
+      signIn: `${ROOTS.AUTH}/jwt/sign-in`,
+      signUp: `${ROOTS.AUTH}/jwt/sign-up`,
+    },
     firebase: {
       signIn: `${ROOTS.AUTH}/firebase/sign-in`,
       verify: `${ROOTS.AUTH}/firebase/verify`,
@@ -175,6 +177,15 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}`,
         edit: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}/edit`,
       },
+    },
+
+    championships: {
+      root: `${ROOTS.DASHBOARD}/championships/cards`,
+      cards: `${ROOTS.DASHBOARD}/championships/cards`,
+      list: `${ROOTS.DASHBOARD}/championships/list`,
+      new: `${ROOTS.DASHBOARD}/championships/new`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/championships/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/championships/${id}/edit`,
     },
   },
 };

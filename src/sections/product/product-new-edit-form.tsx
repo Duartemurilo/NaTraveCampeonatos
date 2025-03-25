@@ -1,24 +1,24 @@
-import type { IProductItem } from 'src/types/product';
+import type { IProductItem } from "src/types/product";
 
-import { z as zod } from 'zod';
-import { useForm } from 'react-hook-form';
-import { useState, useCallback } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { z as zod } from "zod";
+import { useForm } from "react-hook-form";
+import { useState, useCallback } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import Divider from '@mui/material/Divider';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
+import Switch from "@mui/material/Switch";
+import Divider from "@mui/material/Divider";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
 import {
   _tags,
@@ -26,40 +26,40 @@ import {
   PRODUCT_GENDER_OPTIONS,
   PRODUCT_COLOR_NAME_OPTIONS,
   PRODUCT_CATEGORY_GROUP_OPTIONS,
-} from 'src/_mock';
+} from "src/_mock";
 
-import { toast } from 'src/components/snackbar';
-import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import { toast } from "src/components/snackbar";
+import { Form, Field, schemaHelper } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 export type NewProductSchemaType = zod.infer<typeof NewProductSchema>;
 
 export const NewProductSchema = zod.object({
-  name: zod.string().min(1, { message: 'Name is required!' }),
+  name: zod.string().min(1, { message: "Name is required!" }),
   description: schemaHelper
-    .editor({ message: 'Description is required!' })
-    .min(100, { message: 'Description must be at least 100 characters' })
-    .max(500, { message: 'Description must be less than 500 characters' }),
-  images: schemaHelper.files({ message: 'Images is required!' }),
-  code: zod.string().min(1, { message: 'Product code is required!' }),
-  sku: zod.string().min(1, { message: 'Product sku is required!' }),
+    .editor({ message: "Description is required!" })
+    .min(100, { message: "Description must be at least 100 characters" })
+    .max(500, { message: "Description must be less than 500 characters" }),
+  images: schemaHelper.files({ message: "Images is required!" }),
+  code: zod.string().min(1, { message: "Product code is required!" }),
+  sku: zod.string().min(1, { message: "Product sku is required!" }),
   quantity: schemaHelper.nullableInput(
-    zod.number({ coerce: true }).min(1, { message: 'Quantity is required!' }),
+    zod.number({ coerce: true }).min(1, { message: "Quantity is required!" }),
     {
       // message for null value
-      message: 'Quantity is required!',
+      message: "Quantity is required!",
     }
   ),
-  colors: zod.string().array().min(1, { message: 'Choose at least one option!' }),
-  sizes: zod.string().array().min(1, { message: 'Choose at least one option!' }),
-  tags: zod.string().array().min(2, { message: 'Must have at least 2 items!' }),
-  gender: zod.array(zod.string()).min(1, { message: 'Choose at least one option!' }),
+  colors: zod.string().array().min(1, { message: "Choose at least one option!" }),
+  sizes: zod.string().array().min(1, { message: "Choose at least one option!" }),
+  tags: zod.string().array().min(2, { message: "Must have at least 2 items!" }),
+  gender: zod.array(zod.string()).min(1, { message: "Choose at least one option!" }),
   price: schemaHelper.nullableInput(
-    zod.number({ coerce: true }).min(1, { message: 'Price is required!' }),
+    zod.number({ coerce: true }).min(1, { message: "Price is required!" }),
     {
       // message for null value
-      message: 'Price is required!',
+      message: "Price is required!",
     }
   ),
   // Not required
@@ -83,13 +83,13 @@ export function ProductNewEditForm({ currentProduct }: Props) {
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
   const defaultValues: NewProductSchemaType = {
-    name: '',
-    description: '',
-    subDescription: '',
+    name: "",
+    description: "",
+    subDescription: "",
     images: [],
     /********/
-    code: '',
-    sku: '',
+    code: "",
+    sku: "",
     price: null,
     taxes: null,
     priceSale: null,
@@ -99,8 +99,8 @@ export function ProductNewEditForm({ currentProduct }: Props) {
     category: PRODUCT_CATEGORY_GROUP_OPTIONS[0].classify[1],
     colors: [],
     sizes: [],
-    newLabel: { enabled: false, content: '' },
-    saleLabel: { enabled: false, content: '' },
+    newLabel: { enabled: false, content: "" },
+    saleLabel: { enabled: false, content: "" },
   };
 
   const methods = useForm<NewProductSchemaType>({
@@ -128,9 +128,9 @@ export function ProductNewEditForm({ currentProduct }: Props) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      toast.success(currentProduct ? 'Update success!' : 'Create success!');
+      toast.success(currentProduct ? "Update success!" : "Create success!");
       router.push(paths.dashboard.product.root);
-      console.info('DATA', updatedData);
+      console.info("DATA", updatedData);
     } catch (error) {
       console.error(error);
     }
@@ -139,13 +139,13 @@ export function ProductNewEditForm({ currentProduct }: Props) {
   const handleRemoveFile = useCallback(
     (inputFile: File | string) => {
       const filtered = values.images && values.images?.filter((file) => file !== inputFile);
-      setValue('images', filtered);
+      setValue("images", filtered);
     },
     [setValue, values.images]
   );
 
   const handleRemoveAllFiles = useCallback(() => {
-    setValue('images', [], { shouldValidate: true });
+    setValue("images", [], { shouldValidate: true });
   }, [setValue]);
 
   const handleChangeIncludeTaxes = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +177,7 @@ export function ProductNewEditForm({ currentProduct }: Props) {
             maxSize={3145728}
             onRemove={handleRemoveFile}
             onRemoveAll={handleRemoveAllFiles}
-            onUpload={() => console.info('ON UPLOAD')}
+            onUpload={() => console.info("ON UPLOAD")}
           />
         </Stack>
       </Stack>
@@ -199,8 +199,8 @@ export function ProductNewEditForm({ currentProduct }: Props) {
           sx={{
             rowGap: 3,
             columnGap: 2,
-            display: 'grid',
-            gridTemplateColumns: { xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' },
+            display: "grid",
+            gridTemplateColumns: { xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)" },
           }}
         >
           <Field.Text name="code" label="Product code" />
@@ -277,9 +277,9 @@ export function ProductNewEditForm({ currentProduct }: Props) {
           <Field.MultiCheckbox row name="gender" options={PRODUCT_GENDER_OPTIONS} sx={{ gap: 2 }} />
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        <Divider sx={{ borderStyle: "dashed" }} />
 
-        <Box sx={{ gap: 3, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ gap: 3, display: "flex", alignItems: "center" }}>
           <Field.Switch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
           <Field.Text
             name="saleLabel.content"
@@ -289,7 +289,7 @@ export function ProductNewEditForm({ currentProduct }: Props) {
           />
         </Box>
 
-        <Box sx={{ gap: 3, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ gap: 3, display: "flex", alignItems: "center" }}>
           <Field.Switch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
           <Field.Text
             name="newLabel.content"
@@ -319,7 +319,7 @@ export function ProductNewEditForm({ currentProduct }: Props) {
             input: {
               startAdornment: (
                 <InputAdornment position="start" sx={{ mr: 0.75 }}>
-                  <Box component="span" sx={{ color: 'text.disabled' }}>
+                  <Box component="span" sx={{ color: "text.disabled" }}>
                     $
                   </Box>
                 </InputAdornment>
@@ -338,7 +338,7 @@ export function ProductNewEditForm({ currentProduct }: Props) {
             input: {
               startAdornment: (
                 <InputAdornment position="start" sx={{ mr: 0.75 }}>
-                  <Box component="span" sx={{ color: 'text.disabled' }}>
+                  <Box component="span" sx={{ color: "text.disabled" }}>
                     $
                   </Box>
                 </InputAdornment>
@@ -365,7 +365,7 @@ export function ProductNewEditForm({ currentProduct }: Props) {
               input: {
                 startAdornment: (
                   <InputAdornment position="start" sx={{ mr: 0.75 }}>
-                    <Box component="span" sx={{ color: 'text.disabled' }}>
+                    <Box component="span" sx={{ color: "text.disabled" }}>
                       %
                     </Box>
                   </InputAdornment>
@@ -382,26 +382,26 @@ export function ProductNewEditForm({ currentProduct }: Props) {
     <Box
       sx={{
         gap: 3,
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
       }}
     >
       <FormControlLabel
         label="Publish"
-        control={<Switch defaultChecked inputProps={{ id: 'publish-switch' }} />}
+        control={<Switch defaultChecked inputProps={{ id: "publish-switch" }} />}
         sx={{ pl: 3, flexGrow: 1 }}
       />
 
       <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-        {!currentProduct ? 'Create product' : 'Save changes'}
+        {!currentProduct ? "Create product" : "Save changes"}
       </LoadingButton>
     </Box>
   );
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto', maxWidth: { xs: 720, xl: 880 } }}>
+      <Stack spacing={{ xs: 3, md: 5 }} sx={{ mx: "auto", maxWidth: { xs: 720, xl: 880 } }}>
         {renderDetails()}
         {renderProperties()}
         {renderPricing()}

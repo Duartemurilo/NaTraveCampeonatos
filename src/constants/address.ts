@@ -1,0 +1,47 @@
+export const STATE_OPTIONS = [
+  { label: "Acre", value: "AC" },
+  { label: "Alagoas", value: "AL" },
+  { label: "Amapá", value: "AP" },
+  { label: "Amazonas", value: "AM" },
+  { label: "Bahia", value: "BA" },
+  { label: "Ceará", value: "CE" },
+  { label: "Distrito Federal", value: "DF" },
+  { label: "Espírito Santo", value: "ES" },
+  { label: "Goiás", value: "GO" },
+  { label: "Maranhão", value: "MA" },
+  { label: "Mato Grosso", value: "MT" },
+  { label: "Mato Grosso do Sul", value: "MS" },
+  { label: "Minas Gerais", value: "MG" },
+  { label: "Pará", value: "PA" },
+  { label: "Paraíba", value: "PB" },
+  { label: "Paraná", value: "PR" },
+  { label: "Pernambuco", value: "PE" },
+  { label: "Piauí", value: "PI" },
+  { label: "Rio de Janeiro", value: "RJ" },
+  { label: "Rio Grande do Norte", value: "RN" },
+  { label: "Rio Grande do Sul", value: "RS" },
+  { label: "Rondônia", value: "RO" },
+  { label: "Roraima", value: "RR" },
+  { label: "Santa Catarina", value: "SC" },
+  { label: "São Paulo", value: "SP" },
+  { label: "Sergipe", value: "SE" },
+  { label: "Tocantins", value: "TO" },
+];
+
+export const CITIES_BY_STATE: Record<string, { label: string; value: string }[]> = {
+  SP: [
+    { label: "São Paulo", value: "São Paulo" },
+    { label: "Campinas", value: "Campinas" },
+    { label: "Santos", value: "Santos" },
+  ],
+  RJ: [
+    { label: "Rio de Janeiro", value: "Rio de Janeiro" },
+    { label: "Niterói", value: "Niterói" },
+    { label: "Volta Redonda", value: "Volta Redonda" },
+  ],
+  MG: [
+    { label: "Belo Horizonte", value: "Belo Horizonte" },
+    { label: "Uberlândia", value: "Uberlândia" },
+    { label: "Juiz de Fora", value: "Juiz de Fora" },
+  ],
+};

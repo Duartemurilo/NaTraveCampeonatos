@@ -13,8 +13,6 @@ import { RouterLink } from "src/routes/components";
 
 import { CONFIG } from "src/global-config";
 
-import { Logo } from "src/components/logo";
-
 import { AuthSplitSection } from "./section";
 import { AuthSplitContent } from "./content";
 import { MainSection } from "../core/main-section";
@@ -65,7 +63,12 @@ export function AuthSplitLayout({
       leftArea: (
         <>
           {/** @slot Logo */}
-          <Logo />
+          <img
+            alt="Full logo"
+            src={`${CONFIG.assetsDir}/logo/logo-full.svg`}
+            width="70px"
+            height="70px"
+          />
         </>
       ),
       rightArea: (

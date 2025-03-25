@@ -1,17 +1,17 @@
-import type { BoxProps } from '@mui/material/Box';
-import type { Theme, SxProps } from '@mui/material/styles';
+import type { BoxProps } from "@mui/material/Box";
+import type { Theme, SxProps } from "@mui/material/styles";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // ----------------------------------------------------------------------
 
 export const componentBoxStyles: SxProps<Theme> = {
-  flexDirection: 'column',
-  alignItems: 'unset',
-  justifyContent: 'flex-start',
+  flexDirection: "column",
+  alignItems: "unset",
+  justifyContent: "flex-start",
 };
 
 // ----------------------------------------------------------------------
@@ -29,8 +29,8 @@ export function FormActions({ sx, disabled, onReset, loading, ...other }: FormAc
         () => ({
           mb: 3,
           gap: 2,
-          display: 'flex',
-          justifyContent: 'flex-end',
+          display: "flex",
+          justifyContent: "flex-end",
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -55,11 +55,11 @@ export function FormGrid({ sx, children, ...other }: BoxProps) {
         () => ({
           rowGap: 5,
           columnGap: 3,
-          display: 'grid',
+          display: "grid",
           gridTemplateColumns: {
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(2, 1fr)',
-            lg: 'repeat(3, 1fr)',
+            xs: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
           },
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
@@ -78,15 +78,15 @@ type FieldContainerProps = BoxProps & {
   children: React.ReactNode;
 };
 
-export function FieldContainer({ sx, children, label = 'RHFTextField' }: FieldContainerProps) {
+export function FieldContainer({ sx, children, label = "RHFTextField" }: FieldContainerProps) {
   return (
     <Box
       sx={[
         () => ({
           gap: 1,
           width: 1,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -95,9 +95,9 @@ export function FieldContainer({ sx, children, label = 'RHFTextField' }: FieldCo
         variant="caption"
         sx={[
           (theme) => ({
-            textAlign: 'right',
-            fontStyle: 'italic',
-            color: 'text.disabled',
+            textAlign: "right",
+            fontStyle: "italic",
+            color: "text.disabled",
             fontSize: theme.typography.pxToRem(10),
           }),
         ]}

@@ -1,12 +1,12 @@
-import type { ColorSystem } from '@mui/material/styles';
-import type { SettingsState } from 'src/components/settings';
+import type { ColorSystem } from "@mui/material/styles";
+import type { SettingsState } from "src/components/settings";
 
-import { setFont, hexToRgbChannel, createPaletteChannel } from 'minimal-shared/utils';
+import { setFont, hexToRgbChannel, createPaletteChannel } from "minimal-shared/utils";
 
-import { primaryColorPresets } from './color-presets';
-import { createShadowColor } from '../core/custom-shadows';
+import { primaryColorPresets } from "./color-presets";
+import { createShadowColor } from "../core/custom-shadows";
 
-import type { ThemeOptions, ThemeColorScheme } from '../types';
+import type { ThemeOptions, ThemeColorScheme } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -23,14 +23,14 @@ export function updateCoreWithSettings(
   const {
     direction,
     fontFamily,
-    contrast = 'default',
-    primaryColor = 'default',
+    contrast = "default",
+    primaryColor = "default",
   } = settingsState ?? {};
 
-  const isDefaultContrast = contrast === 'default';
-  const isDefaultPrimaryColor = primaryColor === 'default';
+  const isDefaultContrast = contrast === "default";
+  const isDefaultPrimaryColor = primaryColor === "default";
 
-  const lightPalette = theme.colorSchemes?.light.palette as ColorSystem['palette'];
+  const lightPalette = theme.colorSchemes?.light.palette as ColorSystem["palette"];
 
   const updatedPrimaryColor = createPaletteChannel(primaryColorPresets[primaryColor]);
   // const updatedSecondaryColor = createPaletteChannel(SECONDARY_COLORS[primaryColor!]);
@@ -44,7 +44,7 @@ export function updateCoreWithSettings(
         primary: updatedPrimaryColor,
         // secondary: updatedSecondaryColor,
       }),
-      ...(scheme === 'light' && {
+      ...(scheme === "light" && {
         background: {
           ...lightPalette?.background,
           ...(!isDefaultContrast && {
@@ -74,8 +74,8 @@ export function updateCoreWithSettings(
     ...theme,
     direction,
     colorSchemes: {
-      light: updateColorScheme('light'),
-      dark: updateColorScheme('dark'),
+      light: updateColorScheme("light"),
+      dark: updateColorScheme("dark"),
     },
     typography: {
       ...theme.typography,

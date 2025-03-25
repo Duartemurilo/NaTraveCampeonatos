@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { ProductNewEditForm } from '../product-new-edit-form';
+import { ProductNewEditForm } from "../product-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -16,9 +16,9 @@ export function ProductCreateView() {
       <CustomBreadcrumbs
         heading="Create a new product"
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Product', href: paths.dashboard.product.root },
-          { name: 'New product' },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "Product", href: paths.dashboard.product.root },
+          { name: "New product" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { mergeClasses } from 'minimal-shared/utils';
+import { mergeClasses } from "minimal-shared/utils";
 
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
-import { layoutClasses } from '../core/classes';
+import { layoutClasses } from "../core/classes";
 
 // ----------------------------------------------------------------------
 
@@ -20,8 +20,8 @@ export function MainSection({ children, className, sx, ...other }: MainSectionPr
 
 // ----------------------------------------------------------------------
 
-const MainRoot = styled('main')({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
+const MainRoot = styled("main")({
+  display: "flex",
+  flex: "1 1 auto",
+  flexDirection: "column",
 });

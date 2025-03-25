@@ -16,7 +16,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { isSignedIn, isLoaded } = useUser();
-  console.log(isSignedIn);
+
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       const queryString = new URLSearchParams({ returnTo: pathname }).toString();

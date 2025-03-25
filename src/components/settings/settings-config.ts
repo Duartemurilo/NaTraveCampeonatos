@@ -13,7 +13,7 @@ export const defaultSettings: SettingsState = {
   contrast: "default",
   navLayout: "vertical",
   primaryColor: "default",
-  navColor: "integrate",
+  navColor: "apparent",
   compactLayout: true,
   fontSize: 16,
   fontFamily: themeConfig.fontFamily.primary,

@@ -8,6 +8,8 @@ export type ConfigValue = {
   appName: string;
   appVersion: string;
   serverUrl: string;
+  brasilapiUrl: string;
+
   assetsDir: string;
   baseUrl: string;
   isStaticExport: boolean;
@@ -46,6 +48,7 @@ export const CONFIG: ConfigValue = {
   appName: "NaTrave Campeonatos",
   appVersion: packageJson.version,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? "",
+  brasilapiUrl: process.env.NEXT_PUBLIC_BRASILAPI_URL ?? "",
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? "",
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? "",
   isStaticExport: JSON.parse(`${process.env.BUILD_STATIC_EXPORT}`),
@@ -56,7 +59,7 @@ export const CONFIG: ConfigValue = {
   auth: {
     method: "jwt",
     skip: false,
-    redirectPath: paths.dashboard.root,
+    redirectPath: paths.dashboard.championships.root,
   },
   /**
    * Mapbox

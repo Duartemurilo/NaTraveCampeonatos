@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
+import { CircularProgress } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import LoadingButton from "@mui/lab/LoadingButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -68,7 +69,7 @@ export function ClerkResetPasswordView() {
           return;
         }
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.root);
+        router.push(paths.dashboard.championships.root);
       }
     } catch (err: any) {
       setError(err.errors?.[0]?.longMessage || "Ocorreu um erro.");
@@ -105,7 +106,7 @@ export function ClerkResetPasswordView() {
         <Field.Text
           name="password"
           label="Nova senha"
-          placeholder="6+ caracteres"
+          placeholder="8+ caracteres"
           type={showPassword.value ? "text" : "password"}
           slotProps={{
             inputLabel: { shrink: true },
@@ -134,7 +135,7 @@ export function ClerkResetPasswordView() {
           type="submit"
           variant="contained"
           loading={methodsStep2.formState.isSubmitting}
-          loadingIndicator="Redefinindo senha..."
+          loadingIndicator={<CircularProgress />}
         >
           Redefinir senha
         </LoadingButton>

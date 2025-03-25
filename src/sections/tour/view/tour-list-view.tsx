@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import type { ITourItem, ITourFilters } from 'src/types/tour';
+import type { ITourItem, ITourFilters } from "src/types/tour";
 
-import { orderBy } from 'es-toolkit';
-import { useState, useCallback } from 'react';
-import { useBoolean, useSetState } from 'minimal-shared/hooks';
+import { orderBy } from "es-toolkit";
+import { useState, useCallback } from "react";
+import { useBoolean, useSetState } from "minimal-shared/hooks";
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+import { fIsAfter, fIsBetween } from "src/utils/format-time";
 
-import { DashboardContent } from 'src/layouts/dashboard';
-import { _tours, _tourGuides, TOUR_SORT_OPTIONS, TOUR_SERVICE_OPTIONS } from 'src/_mock';
+import { DashboardContent } from "src/layouts/dashboard";
+import { _tours, _tourGuides, TOUR_SORT_OPTIONS, TOUR_SERVICE_OPTIONS } from "src/_mock";
 
-import { Iconify } from 'src/components/iconify';
-import { EmptyContent } from 'src/components/empty-content';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { Iconify } from "src/components/iconify";
+import { EmptyContent } from "src/components/empty-content";
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { TourList } from '../tour-list';
-import { TourSort } from '../tour-sort';
-import { TourSearch } from '../tour-search';
-import { TourFilters } from '../tour-filters';
-import { TourFiltersResult } from '../tour-filters-result';
+import { TourList } from "../tour-list";
+import { TourSort } from "../tour-sort";
+import { TourSearch } from "../tour-search";
+import { TourFilters } from "../tour-filters";
+import { TourFiltersResult } from "../tour-filters-result";
 
 // ----------------------------------------------------------------------
 
 export function TourListView() {
   const openFilters = useBoolean();
 
-  const [sortBy, setSortBy] = useState('latest');
+  const [sortBy, setSortBy] = useState("latest");
 
   const filters = useSetState<ITourFilters>({
     destination: [],
@@ -69,15 +69,15 @@ export function TourListView() {
     <Box
       sx={{
         gap: 3,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: { xs: 'flex-end', sm: 'center' },
-        flexDirection: { xs: 'column', sm: 'row' },
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: { xs: "flex-end", sm: "center" },
+        flexDirection: { xs: "column", sm: "row" },
       }}
     >
       <TourSearch redirectPath={(id: string) => paths.dashboard.tour.details(id)} />
 
-      <Box sx={{ gap: 1, flexShrink: 0, display: 'flex' }}>
+      <Box sx={{ gap: 1, flexShrink: 0, display: "flex" }}>
         <TourFilters
           filters={filters}
           canReset={canReset}
@@ -105,9 +105,9 @@ export function TourListView() {
       <CustomBreadcrumbs
         heading="List"
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Tour', href: paths.dashboard.tour.root },
-          { name: 'List' },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "Tour", href: paths.dashboard.tour.root },
+          { name: "List" },
         ]}
         action={
           <Button
@@ -149,16 +149,16 @@ function applyFilter({ inputData, filters, sortBy, dateError }: ApplyFilterProps
   const tourGuideIds = tourGuides.map((tourGuide) => tourGuide.id);
 
   // Sort by
-  if (sortBy === 'latest') {
-    inputData = orderBy(inputData, ['createdAt'], ['desc']);
+  if (sortBy === "latest") {
+    inputData = orderBy(inputData, ["createdAt"], ["desc"]);
   }
 
-  if (sortBy === 'oldest') {
-    inputData = orderBy(inputData, ['createdAt'], ['asc']);
+  if (sortBy === "oldest") {
+    inputData = orderBy(inputData, ["createdAt"], ["asc"]);
   }
 
-  if (sortBy === 'popular') {
-    inputData = orderBy(inputData, ['totalViews'], ['desc']);
+  if (sortBy === "popular") {
+    inputData = orderBy(inputData, ["totalViews"], ["desc"]);
   }
 
   // Filters

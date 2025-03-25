@@ -1,6 +1,6 @@
-import { MainLayout } from 'src/layouts/main';
-
 // ----------------------------------------------------------------------
+
+import { MainLayout } from "../../layouts/main";
 
 type Props = {
   children: React.ReactNode;

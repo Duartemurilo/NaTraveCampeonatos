@@ -18,16 +18,29 @@ import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 import { RouterLink } from "src/routes/components";
 
+import {
+  checkIfHasNumbers,
+  checkIfHasLoweCase,
+  checkIfHasUpperCase,
+  checkIfHasSpecialCharacters,
+} from "src/utils/string-helpers";
+
 import { CONFIG } from "src/global-config";
 
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
+import { FormDivider } from "src/auth/components/form-divider";
+import { FormSocials } from "src/auth/components/form-socials";
+import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
+
+import { SignUpSchema } from "../form-data";
 import { getErrorMessage } from "../../../utils";
 import { signUpdefaultValues } from "../constants";
 import { FormHead } from "../../../components/form-head";
 import { SignUpTerms } from "../../../components/sign-up-terms";
-import { SignUpSchema, type SignUpSchemaType } from "../form-data";
+
+import type { SignUpSchemaType } from "../form-data";
 
 export function ClerkSignUpView() {
   const router = useRouter();
@@ -35,6 +48,7 @@ export function ClerkSignUpView() {
   const { signUp, setActive } = useSignUp();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
   const methods = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
@@ -44,7 +58,46 @@ export function ClerkSignUpView() {
   const {
     handleSubmit,
     formState: { isSubmitting },
+    watch,
   } = methods;
+
+  const passwordValue = watch("password");
+
+  const isPasswordValid =
+    passwordValue &&
+    passwordValue.length >= 8 &&
+    checkIfHasSpecialCharacters(passwordValue) &&
+    checkIfHasLoweCase(passwordValue) &&
+    checkIfHasUpperCase(passwordValue) &&
+    checkIfHasNumbers(passwordValue);
+
+  const signUpWithGoogle = async () => {
+    if (!signUp) return;
+
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/auth/callback",
+        redirectUrlComplete: paths.dashboard.championships.root,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const signUpWithApple = async () => {
+    if (!signUp) return;
+
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy: "oauth_apple",
+        redirectUrl: "/auth/callback",
+        redirectUrlComplete: paths.dashboard.championships.root,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     if (!signUp || !setActive) {
@@ -58,18 +111,19 @@ export function ClerkSignUpView() {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      const emailLinkFlow = signUp.createEmailLinkFlow();
-      const result = await emailLinkFlow.startEmailLinkFlow({
-        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
-      });
 
       setInfoMessage(
         "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
       );
 
+      const emailLinkFlow = signUp.createEmailLinkFlow();
+      const result = await emailLinkFlow.startEmailLinkFlow({
+        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
+      });
+
       if (result.verifications.emailAddress?.verifiedFromTheSameClient()) {
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.root);
+        router.push(paths.dashboard.championships.root);
       } else {
         setInfoMessage(
           "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
@@ -106,8 +160,11 @@ export function ClerkSignUpView() {
       <Field.Text
         name="password"
         label="Senha"
-        placeholder="6+ caracteres"
+        placeholder="8+ caracteres"
         type={showPassword.value ? "text" : "password"}
+        onBlur={() => {
+          if (passwordValue) setShowPasswordRequirements(true);
+        }}
         slotProps={{
           inputLabel: { shrink: true },
           input: {
@@ -121,6 +178,15 @@ export function ClerkSignUpView() {
           },
         }}
       />
+      {showPasswordRequirements && passwordValue && (
+        <PasswordRequirementsSection
+          hasSpecialCharacter={checkIfHasSpecialCharacters(passwordValue)}
+          hasLowerCase={checkIfHasLoweCase(passwordValue)}
+          hasUpperCase={checkIfHasUpperCase(passwordValue)}
+          hasNumber={checkIfHasNumbers(passwordValue)}
+          hasMinCharacters={passwordValue.length >= 8}
+        />
+      )}
       <LoadingButton
         fullWidth
         color="inherit"
@@ -129,6 +195,7 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
+        disabled={!isPasswordValid} // Desabilita o botão caso a senha não seja válida
       >
         Criar conta
       </LoadingButton>
@@ -149,11 +216,13 @@ export function ClerkSignUpView() {
         }
         sx={{ textAlign: { xs: "center", md: "left" } }}
       />
+
       {errorMessage && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {errorMessage}
         </Alert>
       )}
+
       {infoMessage && (
         <Alert severity="info" sx={{ mb: 3 }}>
           {infoMessage}
@@ -162,6 +231,13 @@ export function ClerkSignUpView() {
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm()}
       </Form>
+
+      <FormDivider />
+
+      <FormSocials
+        signInWithGoogle={() => signUpWithGoogle()}
+        signInWithApple={() => signUpWithApple()}
+      />
       <SignUpTerms />
     </>
   );

@@ -1,14 +1,14 @@
-import type { BoxProps } from '@mui/material/Box';
-import type { InputBaseProps } from '@mui/material/InputBase';
-import type { ButtonBaseProps } from '@mui/material/ButtonBase';
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
+import type { BoxProps } from "@mui/material/Box";
+import type { InputBaseProps } from "@mui/material/InputBase";
+import type { ButtonBaseProps } from "@mui/material/ButtonBase";
+import type { FormHelperTextProps } from "@mui/material/FormHelperText";
 
-import { varAlpha } from 'minimal-shared/utils';
-import { useId, forwardRef, useCallback } from 'react';
+import { varAlpha } from "minimal-shared/utils";
+import { useId, forwardRef, useCallback } from "react";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import { Iconify } from 'src/components/iconify';
+import { Iconify } from "src/components/iconify";
 
 import {
   HelperText,
@@ -17,7 +17,7 @@ import {
   CounterButton,
   InputContainer,
   NumberInputRoot,
-} from './styles';
+} from "./styles";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ type EventHandler =
   | React.MouseEvent<HTMLButtonElement, MouseEvent>
   | React.ChangeEvent<HTMLInputElement>;
 
-export type NumberInputProps = Omit<React.ComponentProps<typeof NumberInputRoot>, 'onChange'> & {
+export type NumberInputProps = Omit<React.ComponentProps<typeof NumberInputRoot>, "onChange"> & {
   min?: number;
   max?: number;
   error?: boolean;
@@ -106,14 +106,14 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
         ref={ref}
         sx={[
           (theme) => ({
-            '--border-color': varAlpha(theme.vars.palette.grey['500Channel'], 0.2),
-            '--vertical-divider-color': hideDivider
-              ? 'transparent'
-              : varAlpha(theme.vars.palette.grey['500Channel'], 0.2),
-            '--input-background':
+            "--border-color": varAlpha(theme.vars.palette.grey["500Channel"], 0.2),
+            "--vertical-divider-color": hideDivider
+              ? "transparent"
+              : varAlpha(theme.vars.palette.grey["500Channel"], 0.2),
+            "--input-background":
               !disabled && error
                 ? varAlpha(theme.vars.palette.error.mainChannel, 0.08)
-                : varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
+                : varAlpha(theme.vars.palette.grey["500Channel"], 0.08),
           }),
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
@@ -169,7 +169,7 @@ export function transformNumberOnChange(
 ): number {
   const { min = 0, max = 9999 } = options ?? {};
 
-  if (!value || value.trim() === '') {
+  if (!value || value.trim() === "") {
     return 0;
   }
 

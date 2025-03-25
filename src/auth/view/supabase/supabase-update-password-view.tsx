@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { z as zod } from 'zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useBoolean } from 'minimal-shared/hooks';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { z as zod } from "zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useBoolean } from "minimal-shared/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import LoadingButton from "@mui/lab/LoadingButton";
+import InputAdornment from "@mui/material/InputAdornment";
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
-import { NewPasswordIcon } from 'src/assets/icons';
+import { NewPasswordIcon } from "src/assets/icons";
 
-import { Iconify } from 'src/components/iconify';
-import { Form, Field } from 'src/components/hook-form';
+import { Iconify } from "src/components/iconify";
+import { Form, Field } from "src/components/hook-form";
 
-import { getErrorMessage } from '../../utils';
-import { FormHead } from '../../components/form-head';
-import { updatePassword } from '../../context/supabase';
+import { getErrorMessage } from "../../utils";
+import { FormHead } from "../../components/form-head";
+import { updatePassword } from "../../context/supabase";
 
 // ----------------------------------------------------------------------
 
@@ -32,13 +32,13 @@ export const UpdatePasswordSchema = zod
   .object({
     password: zod
       .string()
-      .min(1, { message: 'Password is required!' })
-      .min(6, { message: 'Password must be at least 6 characters!' }),
-    confirmPassword: zod.string().min(1, { message: 'Confirm password is required!' }),
+      .min(1, { message: "Password is required!" })
+      .min(6, { message: "Password must be at least 6 characters!" }),
+    confirmPassword: zod.string().min(1, { message: "Confirm password is required!" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match!',
-    path: ['confirmPassword'],
+    message: "Passwords do not match!",
+    path: ["confirmPassword"],
   });
 
 // ----------------------------------------------------------------------
@@ -51,8 +51,8 @@ export function SupabaseUpdatePasswordView() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const defaultValues: UpdatePasswordSchemaType = {
-    password: '',
-    confirmPassword: '',
+    password: "",
+    confirmPassword: "",
   };
 
   const methods = useForm<UpdatePasswordSchemaType>({
@@ -69,7 +69,7 @@ export function SupabaseUpdatePasswordView() {
     try {
       await updatePassword({ password: data.password });
 
-      router.push(paths.dashboard.root);
+      router.push(paths.dashboard.championships.root);
     } catch (error) {
       console.error(error);
       const feedbackMessage = getErrorMessage(error);
@@ -78,19 +78,19 @@ export function SupabaseUpdatePasswordView() {
   });
 
   const renderForm = () => (
-    <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
       <Field.Text
         name="password"
         label="Password"
         placeholder="6+ characters"
-        type={showPassword.value ? 'text' : 'password'}
+        type={showPassword.value ? "text" : "password"}
         slotProps={{
           inputLabel: { shrink: true },
           input: {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={showPassword.onToggle} edge="end">
-                  <Iconify icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                  <Iconify icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"} />
                 </IconButton>
               </InputAdornment>
             ),
@@ -101,14 +101,14 @@ export function SupabaseUpdatePasswordView() {
       <Field.Text
         name="confirmPassword"
         label="Confirm password"
-        type={showPassword.value ? 'text' : 'password'}
+        type={showPassword.value ? "text" : "password"}
         slotProps={{
           inputLabel: { shrink: true },
           input: {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={showPassword.onToggle} edge="end">
-                  <Iconify icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                  <Iconify icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"} />
                 </IconButton>
               </InputAdornment>
             ),

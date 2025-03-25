@@ -2,6 +2,7 @@ import "src/global.css";
 
 import type { Metadata, Viewport } from "next";
 
+import { ptBR } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
@@ -50,7 +51,7 @@ type RootLayoutProps = {
 async function getAppConfig() {
   if (CONFIG.isStaticExport) {
     return {
-      lang: "en",
+      lang: "pt-BR",
       i18nLang: undefined,
       cookieSettings: undefined,
       dir: defaultSettings.direction,
@@ -59,8 +60,8 @@ async function getAppConfig() {
     const [lang, settings] = await Promise.all([detectLanguage(), detectSettings()]);
 
     return {
-      lang: lang ?? "en",
-      i18nLang: lang ?? "en",
+      lang: lang ?? "pt-BR",
+      i18nLang: lang ?? "pt-BR",
       cookieSettings: settings,
       dir: settings.direction,
     };
@@ -80,7 +81,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         />
 
         <I18nProvider lang={appConfig.i18nLang}>
-          <AuthProvider>
+          <AuthProvider localization={ptBR}>
             <SettingsProvider
               cookieSettings={appConfig.cookieSettings}
               defaultSettings={defaultSettings}

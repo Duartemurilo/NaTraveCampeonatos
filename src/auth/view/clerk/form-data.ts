@@ -10,8 +10,11 @@ export const SignInSchema = zod.object({
     .email({ message: "O email deve ser um endereço de email válido!" }),
   password: zod
     .string()
-    .min(1, { message: "A senha é obrigatória!" })
-    .min(6, { message: "A senha deve ter pelo menos 6 caracteres!" }),
+    .min(1, { message: "Senha é obrigatória!" })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
+      message:
+        "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.",
+    }),
 });
 
 export const SignUpSchema = zod.object({
@@ -21,11 +24,13 @@ export const SignUpSchema = zod.object({
     .string()
     .min(1, { message: "Email é obrigatório!" })
     .email({ message: "Email deve ser válido!" }),
-
   password: zod
     .string()
     .min(1, { message: "Senha é obrigatória!" })
-    .min(6, { message: "Senha deve ter no mínimo 6 caracteres!" }),
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
+      message:
+        "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.",
+    }),
 });
 
 export const ResetPasswordStep1Schema = zod.object({
@@ -36,6 +41,12 @@ export const ResetPasswordStep1Schema = zod.object({
 });
 
 export const ResetPasswordStep2Schema = zod.object({
-  password: zod.string().min(6, { message: "A senha deve ter pelo menos 6 caracteres!" }),
+  password: zod
+    .string()
+    .min(1, { message: "Senha é obrigatória!" })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
+      message:
+        "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.",
+    }),
   code: zod.string().min(1, { message: "O código de recuperação é obrigatório!" }),
 });

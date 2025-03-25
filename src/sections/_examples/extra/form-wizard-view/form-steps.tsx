@@ -1,23 +1,26 @@
-import Box from '@mui/material/Box';
-import Step from '@mui/material/Step';
-import Button from '@mui/material/Button';
-import MuiStepper from '@mui/material/Stepper';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
+import type { TabsOrientation } from "src/types/tab.types";
 
-import { Iconify } from 'src/components/iconify';
-import { Field } from 'src/components/hook-form';
+import Box from "@mui/material/Box";
+import Step from "@mui/material/Step";
+import Button from "@mui/material/Button";
+import MuiStepper from "@mui/material/Stepper";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+
+import { Iconify } from "src/components/iconify";
+import { Field } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 type StepperProps = {
   steps: string[];
   activeStep: number;
+  orientation: TabsOrientation;
 };
 
-export function Stepper({ steps, activeStep }: StepperProps) {
+export function Stepper({ steps, activeStep, orientation }: StepperProps) {
   return (
-    <MuiStepper activeStep={activeStep} alternativeLabel sx={{ mb: 5 }}>
+    <MuiStepper activeStep={activeStep} orientation={orientation} alternativeLabel sx={{ mb: 5 }}>
       {steps.map((label, index) => (
         <Step key={label}>
           <StepLabel
@@ -27,21 +30,21 @@ export function Stepper({ steps, activeStep }: StepperProps) {
                   sx={{
                     width: 24,
                     height: 24,
-                    display: 'flex',
-                    borderRadius: '50%',
-                    alignItems: 'center',
-                    color: 'text.disabled',
-                    typography: 'subtitle2',
-                    justifyContent: 'center',
-                    bgcolor: 'action.disabledBackground',
-                    ...(active && { bgcolor: 'primary.main', color: 'primary.contrastText' }),
-                    ...(completed && { bgcolor: 'primary.main', color: 'primary.contrastText' }),
+                    display: "flex",
+                    borderRadius: "50%",
+                    alignItems: "center",
+                    color: "text.disabled",
+                    typography: "subtitle2",
+                    justifyContent: "center",
+                    bgcolor: "action.disabledBackground",
+                    ...(active && { bgcolor: "primary.main", color: "primary.contrastText" }),
+                    ...(completed && { bgcolor: "primary.main", color: "primary.contrastText" }),
                   }}
                 >
                   {completed ? (
                     <Iconify width={14} icon="mingcute:check-fill" />
                   ) : (
-                    <Box sx={{ typography: 'subtitle2' }}>{index + 1}</Box>
+                    <Box sx={{ typography: "subtitle2" }}>{index + 1}</Box>
                   )}
                 </Box>
               ),
@@ -105,13 +108,13 @@ export function StepCompleted({ onReset }: { onReset: () => void }) {
     <Box
       sx={{
         gap: 3,
-        display: 'flex',
-        flex: '1 1 auto',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        borderRadius: 'inherit',
-        bgcolor: 'background.neutral',
+        display: "flex",
+        flex: "1 1 auto",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        borderRadius: "inherit",
+        bgcolor: "background.neutral",
       }}
     >
       <Typography variant="subtitle1">All steps completed - you&apos;re finished</Typography>

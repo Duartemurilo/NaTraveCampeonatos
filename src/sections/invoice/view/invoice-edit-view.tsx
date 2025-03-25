@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import type { IInvoice } from 'src/types/invoice';
+import type { IInvoice } from "src/types/invoice";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { InvoiceNewEditForm } from '../invoice-new-edit-form';
+import { InvoiceNewEditForm } from "../invoice-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -23,8 +23,8 @@ export function InvoiceEditView({ invoice }: Props) {
         heading="Edit"
         backHref={paths.dashboard.invoice.root}
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Invoice', href: paths.dashboard.invoice.root },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "Invoice", href: paths.dashboard.invoice.root },
           { name: invoice?.invoiceNumber },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}

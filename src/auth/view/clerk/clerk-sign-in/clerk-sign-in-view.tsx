@@ -21,6 +21,9 @@ import { RouterLink } from "src/routes/components";
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
+import { FormDivider } from "src/auth/components/form-divider";
+import { FormSocials } from "src/auth/components/form-socials";
+
 import { SignInSchema } from "../form-data";
 import { defaultValues } from "../constants";
 import { getErrorMessage } from "../../../utils";
@@ -44,6 +47,34 @@ export function ClerkSignInView() {
     formState: { isSubmitting },
   } = methods;
 
+  const signInWithGoogle = async () => {
+    if (!signIn) return;
+
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/auth/callback",
+        redirectUrlComplete: paths.dashboard.championships.root,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const signInWithApple = async () => {
+    if (!signIn) return;
+
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_apple",
+        redirectUrl: "/auth/callback",
+        redirectUrlComplete: paths.dashboard.championships.root,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     if (!signIn || !setActive) {
       console.error("Clerk não está devidamente inicializado.");
@@ -58,7 +89,7 @@ export function ClerkSignInView() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.root);
+        router.push(paths.dashboard.championships.root);
       } else {
         setErrorMessage("A autenticação requer etapas adicionais. Verifique seu email ou 2FA.");
       }
@@ -91,7 +122,7 @@ export function ClerkSignInView() {
         <Field.Text
           name="password"
           label="Senha"
-          placeholder="6+ caracteres"
+          placeholder="8+ caracteres"
           type={showPassword.value ? "text" : "password"}
           slotProps={{
             inputLabel: { shrink: true },
@@ -148,6 +179,13 @@ export function ClerkSignInView() {
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm()}
       </Form>
+
+      <FormDivider />
+
+      <FormSocials
+        signInWithGoogle={() => signInWithGoogle()}
+        signInWithApple={() => signInWithApple()}
+      />
     </>
   );
 }

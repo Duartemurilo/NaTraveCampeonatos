@@ -4,6 +4,7 @@ import type { Breakpoint } from "@mui/material/styles";
 import type { NavSectionProps } from "src/components/nav-section";
 
 import { merge } from "es-toolkit";
+import { UserButton } from "@clerk/nextjs";
 import { useBoolean } from "minimal-shared/hooks";
 
 import Box from "@mui/material/Box";
@@ -19,12 +20,10 @@ import { VerticalDivider } from "./content";
 import { NavVertical } from "./nav-vertical";
 import { layoutClasses } from "../core/classes";
 import { NavHorizontal } from "./nav-horizontal";
-import { _account } from "../nav-config-account";
 import { MainSection } from "../core/main-section";
 import { MenuButton } from "../components/menu-button";
 import { HeaderSection } from "../core/header-section";
 import { LayoutSection } from "../core/layout-section";
-import { AccountDrawer } from "../components/account-drawer";
 import { SettingsButton } from "../components/settings-button";
 import { navData as dashboardNavData } from "../nav-config-dashboard";
 import { dashboardLayoutVars, dashboardNavColorVars } from "./css-vars";
@@ -59,7 +58,7 @@ export function DashboardLayout({
 
   const settings = useSettingsContext();
 
-  const navVars = dashboardNavColorVars(theme, settings.state.navColor, settings.state.navLayout);
+  const navVars = dashboardNavColorVars(theme, "apparent", settings.state.navLayout);
 
   const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
 
@@ -121,7 +120,7 @@ export function DashboardLayout({
       rightArea: (
         <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0, sm: 0.75 } }}>
           <SettingsButton />
-          <AccountDrawer data={_account} />
+          <UserButton />
         </Box>
       ),
     };

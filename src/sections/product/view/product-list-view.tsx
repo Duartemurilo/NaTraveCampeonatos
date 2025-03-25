@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import type { Theme, SxProps } from '@mui/material/styles';
-import type { UseSetStateReturn } from 'minimal-shared/hooks';
-import type { IProductItem, IProductTableFilters } from 'src/types/product';
+import type { Theme, SxProps } from "@mui/material/styles";
+import type { UseSetStateReturn } from "minimal-shared/hooks";
+import type { IProductItem, IProductTableFilters } from "src/types/product";
 import type {
   GridColDef,
   GridSlotProps,
   GridRowSelectionModel,
   GridActionsCellItemProps,
   GridColumnVisibilityModel,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
 
-import { useBoolean, useSetState } from 'minimal-shared/hooks';
-import { useState, useEffect, forwardRef, useCallback } from 'react';
+import { useBoolean, useSetState } from "minimal-shared/hooks";
+import { useState, useEffect, forwardRef, useCallback } from "react";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import {
   DataGrid,
   gridClasses,
@@ -29,41 +29,41 @@ import {
   GridToolbarQuickFilter,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
-} from '@mui/x-data-grid';
+} from "@mui/x-data-grid";
 
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 
-import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
-import { useGetProducts } from 'src/actions/product';
-import { DashboardContent } from 'src/layouts/dashboard';
+import { PRODUCT_STOCK_OPTIONS } from "src/_mock";
+import { useGetProducts } from "src/actions/product";
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { toast } from 'src/components/snackbar';
-import { Iconify } from 'src/components/iconify';
-import { EmptyContent } from 'src/components/empty-content';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { toast } from "src/components/snackbar";
+import { Iconify } from "src/components/iconify";
+import { EmptyContent } from "src/components/empty-content";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { ProductTableToolbar } from '../product-table-toolbar';
-import { ProductTableFiltersResult } from '../product-table-filters-result';
+import { ProductTableToolbar } from "../product-table-toolbar";
+import { ProductTableFiltersResult } from "../product-table-filters-result";
 import {
   RenderCellStock,
   RenderCellPrice,
   RenderCellPublish,
   RenderCellProduct,
   RenderCellCreatedAt,
-} from '../product-table-row';
+} from "../product-table-row";
 
 // ----------------------------------------------------------------------
 
 const PUBLISH_OPTIONS = [
-  { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' },
+  { value: "published", label: "Published" },
+  { value: "draft", label: "Draft" },
 ];
 
 const HIDE_COLUMNS = { category: false };
 
-const HIDE_COLUMNS_TOGGLABLE = ['category', 'actions'];
+const HIDE_COLUMNS_TOGGLABLE = ["category", "actions"];
 
 // ----------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ export function ProductListView() {
     (id: string) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success("Delete success!");
 
       setTableData(deleteRow);
     },
@@ -109,7 +109,7 @@ export function ProductListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !selectedRowIds.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success("Delete success!");
 
     setTableData(deleteRows);
   }, [selectedRowIds, tableData]);
@@ -130,10 +130,10 @@ export function ProductListView() {
   );
 
   const columns: GridColDef[] = [
-    { field: 'category', headerName: 'Category', filterable: false },
+    { field: "category", headerName: "Category", filterable: false },
     {
-      field: 'name',
-      headerName: 'Product',
+      field: "name",
+      headerName: "Product",
       flex: 1,
       minWidth: 360,
       hideable: false,
@@ -142,41 +142,41 @@ export function ProductListView() {
       ),
     },
     {
-      field: 'createdAt',
-      headerName: 'Create at',
+      field: "createdAt",
+      headerName: "Create at",
       width: 160,
       renderCell: (params) => <RenderCellCreatedAt params={params} />,
     },
     {
-      field: 'inventoryType',
-      headerName: 'Stock',
+      field: "inventoryType",
+      headerName: "Stock",
       width: 160,
-      type: 'singleSelect',
+      type: "singleSelect",
       valueOptions: PRODUCT_STOCK_OPTIONS,
       renderCell: (params) => <RenderCellStock params={params} />,
     },
     {
-      field: 'price',
-      headerName: 'Price',
+      field: "price",
+      headerName: "Price",
       width: 140,
       editable: true,
       renderCell: (params) => <RenderCellPrice params={params} />,
     },
     {
-      field: 'publish',
-      headerName: 'Publish',
+      field: "publish",
+      headerName: "Publish",
       width: 110,
-      type: 'singleSelect',
+      type: "singleSelect",
       editable: true,
       valueOptions: PUBLISH_OPTIONS,
       renderCell: (params) => <RenderCellPublish params={params} />,
     },
     {
-      type: 'actions',
-      field: 'actions',
-      headerName: ' ',
-      align: 'right',
-      headerAlign: 'right',
+      type: "actions",
+      field: "actions",
+      headerName: " ",
+      align: "right",
+      headerAlign: "right",
       width: 80,
       sortable: false,
       filterable: false,
@@ -199,7 +199,7 @@ export function ProductListView() {
           icon={<Iconify icon="solar:trash-bin-trash-bold" />}
           label="Delete"
           onClick={() => handleDeleteRow(params.row.id)}
-          sx={{ color: 'error.main' }}
+          sx={{ color: "error.main" }}
         />,
       ],
     },
@@ -237,13 +237,13 @@ export function ProductListView() {
 
   return (
     <>
-      <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <DashboardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <CustomBreadcrumbs
           heading="List"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Product', href: paths.dashboard.product.root },
-            { name: 'List' },
+            { name: "Dashboard", href: paths.dashboard.championships.root },
+            { name: "Product", href: paths.dashboard.product.root },
+            { name: "List" },
           ]}
           action={
             <Button
@@ -262,9 +262,9 @@ export function ProductListView() {
           sx={{
             minHeight: 640,
             flexGrow: { md: 1 },
-            display: { md: 'flex' },
-            height: { xs: 800, md: '1px' },
-            flexDirection: { md: 'column' },
+            display: { md: "flex" },
+            height: { xs: 800, md: "1px" },
+            flexDirection: { md: "column" },
           }}
         >
           <DataGrid
@@ -273,8 +273,8 @@ export function ProductListView() {
             rows={dataFiltered}
             columns={columns}
             loading={productsLoading}
-            getRowHeight={() => 'auto'}
-            pageSizeOptions={[5, 10, 20, { value: -1, label: 'All' }]}
+            getRowHeight={() => "auto"}
+            pageSizeOptions={[5, 10, 20, { value: -1, label: "All" }]}
             initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
             onRowSelectionModelChange={(newSelectionModel) => setSelectedRowIds(newSelectionModel)}
             columnVisibilityModel={columnVisibilityModel}
@@ -289,7 +289,7 @@ export function ProductListView() {
               panel: { anchorEl: filterButtonEl },
               columnsManagement: { getTogglableColumns },
             }}
-            sx={{ [`& .${gridClasses.cell}`]: { alignItems: 'center', display: 'inline-flex' } }}
+            sx={{ [`& .${gridClasses.cell}`]: { alignItems: "center", display: "inline-flex" } }}
           />
         </Card>
       </DashboardContent>
@@ -301,13 +301,13 @@ export function ProductListView() {
 
 // ----------------------------------------------------------------------
 
-declare module '@mui/x-data-grid' {
+declare module "@mui/x-data-grid" {
   interface ToolbarPropsOverrides {
     setFilterButtonEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
   }
 }
 
-type CustomToolbarProps = GridSlotProps['toolbar'] & {
+type CustomToolbarProps = GridSlotProps["toolbar"] & {
   canReset: boolean;
   filteredResults: number;
   selectedRowIds: GridRowSelectionModel;
@@ -338,9 +338,9 @@ function CustomToolbar({
           sx={{
             gap: 1,
             flexGrow: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
           }}
         >
           {!!selectedRowIds.length && (
@@ -373,7 +373,7 @@ function CustomToolbar({
 
 // ----------------------------------------------------------------------
 
-type GridActionsLinkItemProps = Pick<GridActionsCellItemProps, 'icon' | 'label' | 'showInMenu'> & {
+type GridActionsLinkItemProps = Pick<GridActionsCellItemProps, "icon" | "label" | "showInMenu"> & {
   href: string;
   sx?: SxProps<Theme>;
 };
@@ -389,7 +389,7 @@ export const GridActionsLinkItem = forwardRef<HTMLLIElement, GridActionsLinkItem
           href={href}
           underline="none"
           color="inherit"
-          sx={{ width: 1, display: 'flex', alignItems: 'center' }}
+          sx={{ width: 1, display: "flex", alignItems: "center" }}
         >
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           {label}

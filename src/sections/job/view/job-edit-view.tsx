@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import type { IJobItem } from 'src/types/job';
+import type { IJobItem } from "src/types/job";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { DashboardContent } from "src/layouts/dashboard";
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 
-import { JobNewEditForm } from '../job-new-edit-form';
+import { JobNewEditForm } from "../job-new-edit-form";
 
 // ----------------------------------------------------------------------
 
@@ -23,8 +23,8 @@ export function JobEditView({ job }: Props) {
         heading="Edit"
         backHref={paths.dashboard.job.root}
         links={[
-          { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Job', href: paths.dashboard.job.root },
+          { name: "Dashboard", href: paths.dashboard.championships.root },
+          { name: "Job", href: paths.dashboard.job.root },
           { name: job?.title },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}

@@ -1,25 +1,25 @@
-import type { IconButtonProps } from '@mui/material/IconButton';
+import type { IconButtonProps } from "@mui/material/IconButton";
 
-import { usePopover } from 'minimal-shared/hooks';
+import { usePopover } from "minimal-shared/hooks";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Divider from "@mui/material/Divider";
+import MenuList from "@mui/material/MenuList";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 
-import { paths } from 'src/routes/paths';
-import { usePathname } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { usePathname } from "src/routes/hooks";
+import { RouterLink } from "src/routes/components";
 
-import { Label } from 'src/components/label';
-import { CustomPopover } from 'src/components/custom-popover';
+import { Label } from "src/components/label";
+import { CustomPopover } from "src/components/custom-popover";
 
-import { useMockedUser } from 'src/auth/hooks';
+import { useMockedUser } from "src/auth/hooks";
 
-import { AccountButton } from './account-button';
-import { SignOutButton } from './sign-out-button';
+import { AccountButton } from "./account-button";
+import { SignOutButton } from "./sign-out-button";
 
 // ----------------------------------------------------------------------
 
@@ -51,23 +51,25 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
           {user?.displayName}
         </Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
           {user?.email}
         </Typography>
       </Box>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
-      <MenuList sx={{ p: 1, my: 1, '& li': { p: 0 } }}>
+      <MenuList sx={{ p: 1, my: 1, "& li": { p: 0 } }}>
         {data.map((option) => {
-          const rootLabel = pathname.includes('/dashboard') ? 'Home' : 'Dashboard';
-          const rootHref = pathname.includes('/dashboard') ? '/' : paths.dashboard.root;
+          const rootLabel = pathname.includes("/dashboard") ? "Home" : "Dashboard";
+          const rootHref = pathname.includes("/dashboard")
+            ? "/"
+            : paths.dashboard.championships.root;
 
           return (
             <MenuItem key={option.label}>
               <Link
                 component={RouterLink}
-                href={option.label === 'Home' ? rootHref : option.href}
+                href={option.label === "Home" ? rootHref : option.href}
                 color="inherit"
                 underline="none"
                 onClick={onClose}
@@ -75,18 +77,18 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
                   px: 1,
                   py: 0.75,
                   width: 1,
-                  display: 'flex',
-                  typography: 'body2',
-                  alignItems: 'center',
-                  color: 'text.secondary',
-                  '& svg': { width: 24, height: 24 },
-                  '&:hover': { color: 'text.primary' },
+                  display: "flex",
+                  typography: "body2",
+                  alignItems: "center",
+                  color: "text.secondary",
+                  "& svg": { width: 24, height: 24 },
+                  "&:hover": { color: "text.primary" },
                 }}
               >
                 {option.icon}
 
                 <Box component="span" sx={{ ml: 2 }}>
-                  {option.label === 'Home' ? rootLabel : option.label}
+                  {option.label === "Home" ? rootLabel : option.label}
                 </Box>
 
                 {option.info && (
@@ -100,14 +102,14 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         })}
       </MenuList>
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Divider sx={{ borderStyle: "dashed" }} />
 
       <Box sx={{ p: 1 }}>
         <SignOutButton
           size="medium"
           variant="text"
           onClose={onClose}
-          sx={{ display: 'block', textAlign: 'left' }}
+          sx={{ display: "block", textAlign: "left" }}
         />
       </Box>
     </CustomPopover>

@@ -1,40 +1,40 @@
-'use client';
+"use client";
 
-import type { TableHeadCellProps } from 'src/components/table';
-import type { IInvoice, IInvoiceTableFilters } from 'src/types/invoice';
+import type { TableHeadCellProps } from "src/components/table";
+import type { IInvoice, IInvoiceTableFilters } from "src/types/invoice";
 
-import { sumBy } from 'es-toolkit';
-import { useState, useCallback } from 'react';
-import { varAlpha } from 'minimal-shared/utils';
-import { useBoolean, useSetState } from 'minimal-shared/hooks';
+import { sumBy } from "es-toolkit";
+import { useState, useCallback } from "react";
+import { varAlpha } from "minimal-shared/utils";
+import { useBoolean, useSetState } from "minimal-shared/hooks";
 
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import TableBody from '@mui/material/TableBody';
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Card from "@mui/material/Card";
+import Table from "@mui/material/Table";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import TableBody from "@mui/material/TableBody";
+import { useTheme } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
 
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
+import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+import { fIsAfter, fIsBetween } from "src/utils/format-time";
 
-import { DashboardContent } from 'src/layouts/dashboard';
-import { _invoices, INVOICE_SERVICE_OPTIONS } from 'src/_mock';
+import { DashboardContent } from "src/layouts/dashboard";
+import { _invoices, INVOICE_SERVICE_OPTIONS } from "src/_mock";
 
-import { Label } from 'src/components/label';
-import { toast } from 'src/components/snackbar';
-import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { Label } from "src/components/label";
+import { toast } from "src/components/snackbar";
+import { Iconify } from "src/components/iconify";
+import { Scrollbar } from "src/components/scrollbar";
+import { ConfirmDialog } from "src/components/custom-dialog";
+import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
 import {
   useTable,
   emptyRows,
@@ -45,23 +45,23 @@ import {
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
-} from 'src/components/table';
+} from "src/components/table";
 
-import { InvoiceAnalytic } from '../invoice-analytic';
-import { InvoiceTableRow } from '../invoice-table-row';
-import { InvoiceTableToolbar } from '../invoice-table-toolbar';
-import { InvoiceTableFiltersResult } from '../invoice-table-filters-result';
+import { InvoiceAnalytic } from "../invoice-analytic";
+import { InvoiceTableRow } from "../invoice-table-row";
+import { InvoiceTableToolbar } from "../invoice-table-toolbar";
+import { InvoiceTableFiltersResult } from "../invoice-table-filters-result";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD: TableHeadCellProps[] = [
-  { id: 'invoiceNumber', label: 'Customer' },
-  { id: 'createDate', label: 'Create' },
-  { id: 'dueDate', label: 'Due' },
-  { id: 'price', label: 'Amount' },
-  { id: 'sent', label: 'Sent', align: 'center' },
-  { id: 'status', label: 'Status' },
-  { id: '' },
+  { id: "invoiceNumber", label: "Customer" },
+  { id: "createDate", label: "Create" },
+  { id: "dueDate", label: "Due" },
+  { id: "price", label: "Amount" },
+  { id: "sent", label: "Sent", align: "center" },
+  { id: "status", label: "Status" },
+  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -69,16 +69,16 @@ const TABLE_HEAD: TableHeadCellProps[] = [
 export function InvoiceListView() {
   const theme = useTheme();
 
-  const table = useTable({ defaultOrderBy: 'createDate' });
+  const table = useTable({ defaultOrderBy: "createDate" });
 
   const confirmDialog = useBoolean();
 
   const [tableData, setTableData] = useState<IInvoice[]>(_invoices);
 
   const filters = useSetState<IInvoiceTableFilters>({
-    name: '',
+    name: "",
     service: [],
-    status: 'all',
+    status: "all",
     startDate: null,
     endDate: null,
   });
@@ -98,7 +98,7 @@ export function InvoiceListView() {
   const canReset =
     !!currentFilters.name ||
     currentFilters.service.length > 0 ||
-    currentFilters.status !== 'all' ||
+    currentFilters.status !== "all" ||
     (!!currentFilters.startDate && !!currentFilters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
@@ -117,34 +117,34 @@ export function InvoiceListView() {
 
   const TABS = [
     {
-      value: 'all',
-      label: 'All',
-      color: 'default',
+      value: "all",
+      label: "All",
+      color: "default",
       count: tableData.length,
     },
     {
-      value: 'paid',
-      label: 'Paid',
-      color: 'success',
-      count: getInvoiceLength('paid'),
+      value: "paid",
+      label: "Paid",
+      color: "success",
+      count: getInvoiceLength("paid"),
     },
     {
-      value: 'pending',
-      label: 'Pending',
-      color: 'warning',
-      count: getInvoiceLength('pending'),
+      value: "pending",
+      label: "Pending",
+      color: "warning",
+      count: getInvoiceLength("pending"),
     },
     {
-      value: 'overdue',
-      label: 'Overdue',
-      color: 'error',
-      count: getInvoiceLength('overdue'),
+      value: "overdue",
+      label: "Overdue",
+      color: "error",
+      count: getInvoiceLength("overdue"),
     },
     {
-      value: 'draft',
-      label: 'Draft',
-      color: 'default',
-      count: getInvoiceLength('draft'),
+      value: "draft",
+      label: "Draft",
+      color: "default",
+      count: getInvoiceLength("draft"),
     },
   ] as const;
 
@@ -152,7 +152,7 @@ export function InvoiceListView() {
     (id: string) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success("Delete success!");
 
       setTableData(deleteRow);
 
@@ -164,7 +164,7 @@ export function InvoiceListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success("Delete success!");
 
     setTableData(deleteRows);
 
@@ -210,9 +210,9 @@ export function InvoiceListView() {
         <CustomBreadcrumbs
           heading="List"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'Invoice', href: paths.dashboard.invoice.root },
-            { name: 'List' },
+            { name: "Dashboard", href: paths.dashboard.championships.root },
+            { name: "Invoice", href: paths.dashboard.invoice.root },
+            { name: "List" },
           ]}
           action={
             <Button
@@ -230,8 +230,8 @@ export function InvoiceListView() {
         <Card sx={{ mb: { xs: 3, md: 5 } }}>
           <Scrollbar sx={{ minHeight: 108 }}>
             <Stack
-              divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-              sx={{ py: 2, flexDirection: 'row' }}
+              divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: "dashed" }} />}
+              sx={{ py: 2, flexDirection: "row" }}
             >
               <InvoiceAnalytic
                 title="Total"
@@ -244,36 +244,36 @@ export function InvoiceListView() {
 
               <InvoiceAnalytic
                 title="Paid"
-                total={getInvoiceLength('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalAmount('paid')}
+                total={getInvoiceLength("paid")}
+                percent={getPercentByStatus("paid")}
+                price={getTotalAmount("paid")}
                 icon="solar:file-check-bold-duotone"
                 color={theme.vars.palette.success.main}
               />
 
               <InvoiceAnalytic
                 title="Pending"
-                total={getInvoiceLength('pending')}
-                percent={getPercentByStatus('pending')}
-                price={getTotalAmount('pending')}
+                total={getInvoiceLength("pending")}
+                percent={getPercentByStatus("pending")}
+                price={getTotalAmount("pending")}
                 icon="solar:sort-by-time-bold-duotone"
                 color={theme.vars.palette.warning.main}
               />
 
               <InvoiceAnalytic
                 title="Overdue"
-                total={getInvoiceLength('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalAmount('overdue')}
+                total={getInvoiceLength("overdue")}
+                percent={getPercentByStatus("overdue")}
+                price={getTotalAmount("overdue")}
                 icon="solar:bell-bing-bold-duotone"
                 color={theme.vars.palette.error.main}
               />
 
               <InvoiceAnalytic
                 title="Draft"
-                total={getInvoiceLength('draft')}
-                percent={getPercentByStatus('draft')}
-                price={getTotalAmount('draft')}
+                total={getInvoiceLength("draft")}
+                percent={getPercentByStatus("draft")}
+                price={getTotalAmount("draft")}
                 icon="solar:file-corrupted-bold-duotone"
                 color={theme.vars.palette.text.secondary}
               />
@@ -287,7 +287,7 @@ export function InvoiceListView() {
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
-              boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+              boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey["500Channel"], 0.08)}`,
             }}
           >
             {TABS.map((tab) => (
@@ -299,8 +299,8 @@ export function InvoiceListView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === currentFilters.status) && 'filled') ||
-                      'soft'
+                      ((tab.value === "all" || tab.value === currentFilters.status) && "filled") ||
+                      "soft"
                     }
                     color={tab.color}
                   >
@@ -327,7 +327,7 @@ export function InvoiceListView() {
             />
           )}
 
-          <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: "relative" }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -339,7 +339,7 @@ export function InvoiceListView() {
                 );
               }}
               action={
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: "flex" }}>
                   <Tooltip title="Sent">
                     <IconButton color="primary">
                       <Iconify icon="iconamoon:send-fill" />
@@ -368,7 +368,7 @@ export function InvoiceListView() {
             />
 
             <Scrollbar sx={{ minHeight: 444 }}>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
+              <Table size={table.dense ? "small" : "medium"} sx={{ minWidth: 800 }}>
                 <TableHeadCustom
                   order={table.order}
                   orderBy={table.orderBy}
@@ -460,7 +460,7 @@ function applyFilter({ inputData, comparator, filters, dateError }: ApplyFilterP
     );
   }
 
-  if (status !== 'all') {
+  if (status !== "all") {
     inputData = inputData.filter((invoice) => invoice.status === status);
   }
 

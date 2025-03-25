@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import type {
   AuthError,
@@ -7,18 +7,18 @@ import type {
   AuthTokenResponsePassword,
   SignInWithPasswordCredentials,
   SignUpWithPasswordCredentials,
-} from '@supabase/supabase-js';
+} from "@supabase/supabase-js";
 
-import { paths } from 'src/routes/paths';
+import { paths } from "src/routes/paths";
 
-import { supabase } from 'src/lib/supabase';
+import { supabase } from "src/lib/supabase";
 
 // ----------------------------------------------------------------------
 
 export type SignInParams = {
   email: string;
   password: string;
-  options?: SignInWithPasswordCredentials['options'];
+  options?: SignInWithPasswordCredentials["options"];
 };
 
 export type SignUpParams = {
@@ -26,7 +26,7 @@ export type SignUpParams = {
   password: string;
   firstName: string;
   lastName: string;
-  options?: SignUpWithPasswordCredentials['options'];
+  options?: SignUpWithPasswordCredentials["options"];
 };
 
 export type ResetPasswordParams = {
@@ -74,7 +74,7 @@ export const signUp = async ({
     email,
     password,
     options: {
-      emailRedirectTo: `${window.location.origin}${paths.dashboard.root}`,
+      emailRedirectTo: `${window.location.origin}${paths.dashboard.championships.root}`,
       data: { display_name: `${firstName} ${lastName}` },
     },
   });
@@ -85,7 +85,7 @@ export const signUp = async ({
   }
 
   if (!data?.user?.identities?.length) {
-    throw new Error('This user already exists');
+    throw new Error("This user already exists");
   }
 
   return { data, error };

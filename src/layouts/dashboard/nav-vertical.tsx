@@ -1,28 +1,28 @@
-import type { NavSectionProps } from 'src/components/nav-section';
-import type { Theme, SxProps, CSSObject, Breakpoint } from '@mui/material/styles';
+import type { NavSectionProps } from "src/components/nav-section";
+import type { Theme, SxProps, CSSObject, Breakpoint } from "@mui/material/styles";
 
-import { varAlpha, mergeClasses } from 'minimal-shared/utils';
+import { varAlpha, mergeClasses } from "minimal-shared/utils";
 
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
 
-import { Logo } from 'src/components/logo';
-import { Scrollbar } from 'src/components/scrollbar';
-import { NavSectionMini, NavSectionVertical } from 'src/components/nav-section';
+import { CONFIG } from "src/global-config";
 
-import { layoutClasses } from '../core/classes';
-import { NavUpgrade } from '../components/nav-upgrade';
-import { NavToggleButton } from '../components/nav-toggle-button';
+import { Scrollbar } from "src/components/scrollbar";
+import { NavSectionMini, NavSectionVertical } from "src/components/nav-section";
+
+import { layoutClasses } from "../core/classes";
+import { NavToggleButton } from "../components/nav-toggle-button";
 
 // ----------------------------------------------------------------------
 
-export type NavVerticalProps = React.ComponentProps<'div'> & {
+export type NavVerticalProps = React.ComponentProps<"div"> & {
   isNavMini: boolean;
   sx?: SxProps<Theme>;
   cssVars?: CSSObject;
   layoutQuery?: Breakpoint;
   onToggleNav: () => void;
-  data: NavSectionProps['data'];
+  data: NavSectionProps["data"];
   slots?: {
     topArea?: React.ReactNode;
     bottomArea?: React.ReactNode;
@@ -37,21 +37,24 @@ export function NavVertical({
   className,
   isNavMini,
   onToggleNav,
-  layoutQuery = 'md',
+  layoutQuery = "md",
   ...other
 }: NavVerticalProps) {
   const renderNavVertical = () => (
     <>
       {slots?.topArea ?? (
         <Box sx={{ pl: 3.5, pt: 2.5, pb: 1 }}>
-          <Logo />
+          <img
+            alt="Full logo"
+            src={`${CONFIG.assetsDir}/logo/logo-full.svg`}
+            width="70px"
+            height="70px"
+          />
         </Box>
       )}
 
       <Scrollbar fillContent>
-        <NavSectionVertical data={data} cssVars={cssVars} sx={{ px: 2, flex: '1 1 auto' }} />
-
-        {slots?.bottomArea ?? <NavUpgrade />}
+        <NavSectionVertical data={data} cssVars={cssVars} sx={{ px: 2, flex: "1 1 auto" }} />
       </Scrollbar>
     </>
   );
@@ -59,8 +62,13 @@ export function NavVertical({
   const renderNavMini = () => (
     <>
       {slots?.topArea ?? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 2.5 }}>
-          <Logo />
+        <Box sx={{ display: "flex", justifyContent: "center", py: 2.5 }}>
+          <img
+            alt="Full logo"
+            src={`${CONFIG.assetsDir}/logo/logo-full.svg`}
+            width="60px"
+            height="60px"
+          />
         </Box>
       )}
 
@@ -72,8 +80,8 @@ export function NavVertical({
             ...theme.mixins.hideScrollY,
             pb: 2,
             px: 0.5,
-            flex: '1 1 auto',
-            overflowY: 'auto',
+            flex: "1 1 auto",
+            overflowY: "auto",
           }),
         ]}
       />
@@ -95,8 +103,9 @@ export function NavVertical({
         onClick={onToggleNav}
         sx={[
           (theme) => ({
-            display: 'none',
-            [theme.breakpoints.up(layoutQuery)]: { display: 'inline-flex' },
+            display: "none",
+
+            [theme.breakpoints.up(layoutQuery)]: { display: "inline-flex" },
           }),
         ]}
       />
@@ -107,24 +116,26 @@ export function NavVertical({
 
 // ----------------------------------------------------------------------
 
-const NavRoot = styled('div', {
-  shouldForwardProp: (prop: string) => !['isNavMini', 'layoutQuery', 'sx'].includes(prop),
-})<Pick<NavVerticalProps, 'isNavMini' | 'layoutQuery'>>(
-  ({ isNavMini, layoutQuery = 'md', theme }) => ({
-    top: 0,
-    left: 0,
-    height: '100%',
-    display: 'none',
-    position: 'fixed',
-    flexDirection: 'column',
-    zIndex: 'var(--layout-nav-zIndex)',
-    backgroundColor: 'var(--layout-nav-bg)',
-    width: isNavMini ? 'var(--layout-nav-mini-width)' : 'var(--layout-nav-vertical-width)',
-    borderRight: `1px solid var(--layout-nav-border-color, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)})`,
-    transition: theme.transitions.create(['width'], {
-      easing: 'var(--layout-transition-easing)',
-      duration: 'var(--layout-transition-duration)',
+const NavRoot = styled("div", {
+  shouldForwardProp: (prop: string) => !["isNavMini", "layoutQuery", "sx"].includes(prop),
+})<Pick<NavVerticalProps, "isNavMini" | "layoutQuery">>(
+  ({ isNavMini, layoutQuery = "md", theme }) => ({
+    top: 10,
+    bottom: 0,
+    left: 10,
+    height: "100%",
+    display: "none",
+    position: "fixed",
+    flexDirection: "column",
+    zIndex: "var(--layout-nav-zIndex)",
+    backgroundColor: "var(--layout-nav-bg)",
+    width: isNavMini ? "var(--layout-nav-mini-width)" : "var(--layout-nav-vertical-width)",
+    borderRight: `1px solid var(--layout-nav-border-color, ${varAlpha(theme.vars.palette.grey["500Channel"], 0.12)})`,
+    transition: theme.transitions.create(["width"], {
+      easing: "var(--layout-transition-easing)",
+      duration: "var(--layout-transition-duration)",
     }),
-    [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
+    [theme.breakpoints.up(layoutQuery)]: { display: "flex" },
+    borderRadius: 12,
   })
 );

@@ -1,12 +1,13 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
-import { Logo } from 'src/components/logo';
-import { Iconify } from 'src/components/iconify';
-import { MegaMenuMobile } from 'src/components/mega-menu';
+import { CONFIG } from "src/global-config";
 
-import { MEGA_MENU_ITEMS } from './data';
+import { Iconify } from "src/components/iconify";
+import { MegaMenuMobile } from "src/components/mega-menu";
+
+import { MEGA_MENU_ITEMS } from "./data";
 
 // ----------------------------------------------------------------------
 
@@ -14,21 +15,26 @@ export function DemoMegaMenuMobile() {
   return (
     <MegaMenuMobile
       data={MEGA_MENU_ITEMS}
-      cssVars={{ '--nav-item-gap': '8px' }}
+      cssVars={{ "--nav-item-gap": "8px" }}
       slots={{
         button: (
           <Button
             color="inherit"
             variant="contained"
             startIcon={<Iconify icon="carbon:menu" />}
-            sx={{ mb: 5, alignSelf: 'flex-start' }}
+            sx={{ mb: 5, alignSelf: "flex-start" }}
           >
             Mobile menu
           </Button>
         ),
         topArea: (
           <Box sx={{ px: 2.5, py: 3 }}>
-            <Logo />
+            <img
+              alt="Full logo"
+              src={`${CONFIG.assetsDir}/logo/logo-full.svg`}
+              width="70px"
+              height="70px"
+            />
           </Box>
         ),
         bottomArea: (
@@ -36,9 +42,9 @@ export function DemoMegaMenuMobile() {
             <Box
               sx={{
                 p: 2,
-                textAlign: 'center',
-                color: 'text.secondary',
-                typography: 'subtitle2',
+                textAlign: "center",
+                color: "text.secondary",
+                typography: "subtitle2",
               }}
             >
               Bottom
