@@ -1,20 +1,19 @@
-import { useRef, useCallback } from 'react';
-import { useBoolean } from 'minimal-shared/hooks';
-import { varAlpha, isActiveLink, isExternalLink } from 'minimal-shared/utils';
+import { useRef, useCallback } from "react";
+import { useBoolean } from "minimal-shared/hooks";
+import { varAlpha, isActiveLink, isExternalLink } from "minimal-shared/utils";
 
-import Collapse from '@mui/material/Collapse';
+import Collapse from "@mui/material/Collapse";
 
-import { paths } from 'src/routes/paths';
-import { usePathname } from 'src/routes/hooks';
+import { usePathname } from "src/routes/hooks";
 
-import { CONFIG } from 'src/global-config';
+import { CONFIG } from "src/global-config";
 
-import { navSectionClasses, NavSectionVertical } from 'src/components/nav-section';
+import { navSectionClasses, NavSectionVertical } from "src/components/nav-section";
 
-import { NavLi } from '../components';
-import { NavItem } from './nav-mobile-item';
+import { NavLi } from "../components";
+import { NavItem } from "./nav-mobile-item";
 
-import type { NavListProps } from '../types';
+import type { NavListProps } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -22,9 +21,7 @@ export function NavList({ data, sx, ...other }: NavListProps) {
   const pathname = usePathname();
   const navItemRef = useRef<HTMLButtonElement | null>(null);
 
-  const isNotRootOrDocs = !['/', paths.docs].includes(pathname);
-  const isNotComponentsPath = !pathname.startsWith(paths.components);
-  const isOpenPath = !!data.children && isNotRootOrDocs && isNotComponentsPath;
+  const isOpenPath = !!data.children;
 
   const isActive = isActiveLink(pathname, data.path, !!data.children);
 
@@ -67,15 +64,15 @@ export function NavList({ data, sx, ...other }: NavListProps) {
                   minHeight: 36,
                   '&[aria-label="Dashboard"]': {
                     [`& .${navSectionClasses.item.title}`]: {
-                      display: 'none',
+                      display: "none",
                     },
                     height: 180,
                     borderRadius: 1.5,
-                    backgroundSize: 'auto 88%',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: "auto 88%",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
                     backgroundImage: `url(${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp)`,
-                    border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)}`,
+                    border: `solid 1px ${varAlpha(theme.vars.palette.grey["500Channel"], 0.12)}`,
                   },
                 }),
               ],

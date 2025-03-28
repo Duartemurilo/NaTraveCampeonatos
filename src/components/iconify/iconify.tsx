@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import type { IconProps } from '@iconify/react';
-import type { Theme, SxProps } from '@mui/material/styles';
+import type { IconProps } from "@iconify/react";
+import type { Theme, SxProps } from "@mui/material/styles";
 
-import { forwardRef } from 'react';
-import { Icon, disableCache } from '@iconify/react';
-import { mergeClasses } from 'minimal-shared/utils';
+import { forwardRef } from "react";
+import { Icon, disableCache } from "@iconify/react";
+import { mergeClasses } from "minimal-shared/utils";
 
-import NoSsr from '@mui/material/NoSsr';
-import { styled } from '@mui/material/styles';
+import NoSsr from "@mui/material/NoSsr";
+import { styled } from "@mui/material/styles";
 
-import { iconifyClasses } from './classes';
+import { iconifyClasses } from "./classes";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ export const Iconify = forwardRef<SVGSVGElement, IconifyProps>((props, ref) => {
     width,
     height: width,
     flexShrink: 0,
-    display: 'inline-flex',
+    display: "inline-flex",
   };
 
   const renderFallback = () => (
@@ -47,10 +47,10 @@ export const Iconify = forwardRef<SVGSVGElement, IconifyProps>((props, ref) => {
 });
 
 // https://iconify.design/docs/iconify-icon/disable-cache.html
-disableCache('local');
+disableCache("local");
 
 // ----------------------------------------------------------------------
 
 const IconRoot = styled(Icon)``;
 
-const IconFallback = styled('span')``;
+const IconFallback = styled("span")``;

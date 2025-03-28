@@ -1,28 +1,28 @@
-import type { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from "@mui/material/Box";
 
-import { m } from 'framer-motion';
+import { m } from "framer-motion";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
-import { _socials, _carouselsMembers } from 'src/_mock';
-import { TwitterIcon, FacebookIcon, LinkedinIcon, InstagramIcon } from 'src/assets/icons';
+import { _socials, _carouselsMembers } from "src/_mock";
+import { TwitterIcon, FacebookIcon, LinkedinIcon, InstagramIcon } from "src/assets/icons";
 
-import { Image } from 'src/components/image';
-import { Iconify } from 'src/components/iconify';
-import { varFade, MotionViewport } from 'src/components/animate';
-import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components/carousel';
+import { Image } from "src/components/image";
+import { Iconify } from "src/components/iconify";
+import { varFade, MotionViewport } from "src/components/animate";
+import { Carousel, useCarousel, CarouselArrowFloatButtons } from "src/components/carousel";
 
 // ----------------------------------------------------------------------
 
 export function AboutTeam({ sx, ...other }: BoxProps) {
   const carousel = useCarousel({
-    align: 'start',
-    slideSpacing: '24px',
+    align: "start",
+    slideSpacing: "24px",
     slidesToShow: {
       xs: 1,
       sm: 2,
@@ -34,30 +34,30 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
   return (
     <Box
       component="section"
-      sx={[{ overflow: 'hidden' }, ...(Array.isArray(sx) ? sx : [sx])]}
+      sx={[{ overflow: "hidden" }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
-      <Container component={MotionViewport} sx={{ textAlign: 'center', py: { xs: 10, md: 15 } }}>
-        <m.div variants={varFade('inDown')}>
-          <Typography variant="overline" sx={{ color: 'text.disabled' }}>
+      <Container component={MotionViewport} sx={{ textAlign: "center", py: { xs: 10, md: 15 } }}>
+        <m.div variants={varFade("inDown")}>
+          <Typography variant="overline" sx={{ color: "text.disabled" }}>
             Dream team
           </Typography>
         </m.div>
 
-        <m.div variants={varFade('inUp')}>
+        <m.div variants={varFade("inUp")}>
           <Typography variant="h2" sx={{ my: 3 }}>
             Great team is the key
           </Typography>
         </m.div>
 
-        <m.div variants={varFade('inUp')}>
-          <Typography sx={{ mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
+        <m.div variants={varFade("inUp")}>
+          <Typography sx={{ mx: "auto", maxWidth: 640, color: "text.secondary" }}>
             Minimal will provide you support if you have any problems, our support team will reply
             within a day and we also have detailed documentation.
           </Typography>
         </m.div>
 
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{ position: "relative" }}>
           <CarouselArrowFloatButtons {...carousel.arrows} options={carousel.options} />
 
           <Carousel carousel={carousel} sx={{ px: 0.5 }}>
@@ -65,7 +65,7 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
               <Box
                 key={member.id}
                 component={m.div}
-                variants={varFade('in')}
+                variants={varFade("in")}
                 sx={{ py: { xs: 8, md: 10 } }}
               >
                 <MemberCard member={member} />
@@ -79,7 +79,7 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
           color="inherit"
           variant="outlined"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={24} />}
-          sx={{ mx: 'auto' }}
+          sx={{ mx: "auto" }}
         >
           All members
         </Button>
@@ -101,7 +101,7 @@ function MemberCard({ member }: MemberCardProps) {
         {member.name}
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 2.5, color: 'text.secondary' }}>
+      <Typography variant="body2" sx={{ mb: 2.5, color: "text.secondary" }}>
         {member.role}
       </Typography>
 
@@ -112,17 +112,17 @@ function MemberCard({ member }: MemberCardProps) {
       <Box
         sx={{
           p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {_socials.map((social) => (
           <IconButton key={social.label}>
-            {social.value === 'facebook' && <FacebookIcon />}
-            {social.value === 'instagram' && <InstagramIcon />}
-            {social.value === 'linkedin' && <LinkedinIcon />}
-            {social.value === 'twitter' && <TwitterIcon />}
+            {social.value === "facebook" && <FacebookIcon />}
+            {social.value === "instagram" && <InstagramIcon />}
+            {social.value === "linkedin" && <LinkedinIcon />}
+            {social.value === "twitter" && <TwitterIcon />}
           </IconButton>
         ))}
       </Box>

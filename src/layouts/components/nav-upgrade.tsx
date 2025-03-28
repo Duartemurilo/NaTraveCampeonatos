@@ -10,11 +10,11 @@ import Typography from "@mui/material/Typography";
 
 import { paths } from "src/routes/paths";
 
+import { useMockedUser } from "src/hooks/use-mocked-user";
+
 import { CONFIG } from "src/global-config";
 
 import { Label } from "src/components/label";
-
-import { useMockedUser } from "src/auth/hooks";
 
 // ----------------------------------------------------------------------
 

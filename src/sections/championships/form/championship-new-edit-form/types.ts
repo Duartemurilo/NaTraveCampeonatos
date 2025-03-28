@@ -1,5 +1,7 @@
-import type { IChampionship } from "src/types/championship";
+import type { IChampionship, IChampionshipInput } from "src/types/championship";
 
 export type ChampionshipNewEditFormProps = {
-  championsShip?: IChampionship;
+  championsShip?: IChampionship | null;
 };
+
+export interface ChampionshipFormData extends IChampionshipInput {}

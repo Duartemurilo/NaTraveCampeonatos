@@ -1,3 +1,5 @@
+import { useFormContext } from "react-hook-form";
+
 import { Box } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -6,6 +8,8 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { Field } from "src/components/hook-form";
 
 export function StepInfo() {
+  const { setValue } = useFormContext();
+
   return (
     <Stack spacing={3} sx={{ p: 3 }}>
       <Box>
@@ -44,6 +48,7 @@ export function StepInfo() {
           accept={{ "image/*": [".jpg", ".jpeg", ".png"] }}
           maxSize={3145728}
           helperText="Formatos suportados: JPG, PNG - Tamanho recomendado: 1200x600px"
+          onDelete={() => setValue("championshipBanner", null, { shouldValidate: true })}
         />
       </Stack>
     </Stack>

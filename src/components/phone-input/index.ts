@@ -1,3 +1,3 @@
-export * from './phone-input';
+export * from "./phone-input";
 
-export type * from './types';
+export type * from "./types";

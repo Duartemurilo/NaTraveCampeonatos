@@ -1,30 +1,30 @@
-import type { IUserProfilePost } from 'src/types/user';
+import type { IUserProfilePost } from "src/types/user";
 
-import { varAlpha } from 'minimal-shared/utils';
-import { useRef, useState, useCallback } from 'react';
+import { varAlpha } from "minimal-shared/utils";
+import { useRef, useState, useCallback } from "react";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Checkbox from '@mui/material/Checkbox';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Checkbox from "@mui/material/Checkbox";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import AvatarGroup, { avatarGroupClasses } from "@mui/material/AvatarGroup";
 
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { useMockedUser } from "src/hooks/use-mocked-user";
 
-import { Image } from 'src/components/image';
-import { Iconify } from 'src/components/iconify';
+import { fDate } from "src/utils/format-time";
+import { fShortenNumber } from "src/utils/format-number";
 
-import { useMockedUser } from 'src/auth/hooks';
+import { Image } from "src/components/image";
+import { Iconify } from "src/components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ export function ProfilePostItem({ post }: Props) {
 
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleChangeMessage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -71,7 +71,7 @@ export function ProfilePostItem({ post }: Props) {
         </Link>
       }
       subheader={
-        <Box sx={{ color: 'text.disabled', typography: 'caption', mt: 0.5 }}>
+        <Box sx={{ color: "text.disabled", typography: "caption", mt: 0.5 }}>
           {fDate(post.createdAt)}
         </Box>
       }
@@ -86,27 +86,27 @@ export function ProfilePostItem({ post }: Props) {
   const renderCommentList = () => (
     <Stack spacing={1.5} sx={{ px: 3, pb: 2 }}>
       {post.comments.map((comment) => (
-        <Box key={comment.id} sx={{ gap: 2, display: 'flex' }}>
+        <Box key={comment.id} sx={{ gap: 2, display: "flex" }}>
           <Avatar alt={comment.author.name} src={comment.author.avatarUrl} />
 
-          <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: 'background.neutral' }}>
+          <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
             <Box
               sx={{
                 mb: 0.5,
-                display: 'flex',
-                alignItems: { sm: 'center' },
-                justifyContent: 'space-between',
-                flexDirection: { xs: 'column', sm: 'row' },
+                display: "flex",
+                alignItems: { sm: "center" },
+                justifyContent: "space-between",
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
-              <Box sx={{ typography: 'subtitle2' }}>{comment.author.name}</Box>
+              <Box sx={{ typography: "subtitle2" }}>{comment.author.name}</Box>
 
-              <Box sx={{ typography: 'caption', color: 'text.disabled' }}>
+              <Box sx={{ typography: "caption", color: "text.disabled" }}>
                 {fDate(comment.createdAt)}
               </Box>
             </Box>
 
-            <Box sx={{ typography: 'body2', color: 'text.secondary' }}>{comment.message}</Box>
+            <Box sx={{ typography: "body2", color: "text.secondary" }}>{comment.message}</Box>
           </Paper>
         </Box>
       ))}
@@ -118,8 +118,8 @@ export function ProfilePostItem({ post }: Props) {
       sx={[
         (theme) => ({
           gap: 2,
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           p: theme.spacing(0, 3, 3, 3),
         }),
       ]}
@@ -145,24 +145,24 @@ export function ProfilePostItem({ post }: Props) {
             </IconButton>
           </InputAdornment>
         }
-        inputProps={{ id: `comment-${post.id}-input`, 'aria-label': `Comment ${post.id} input` }}
+        inputProps={{ id: `comment-${post.id}-input`, "aria-label": `Comment ${post.id} input` }}
         sx={[
           (theme) => ({
             pl: 1.5,
             height: 40,
             borderRadius: 1,
-            border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.32)}`,
+            border: `solid 1px ${varAlpha(theme.vars.palette.grey["500Channel"], 0.32)}`,
           }),
         ]}
       />
 
-      <input type="file" ref={fileRef} style={{ display: 'none' }} />
+      <input type="file" ref={fileRef} style={{ display: "none" }} />
     </Box>
   );
 
   const renderActions = () => (
     <Box
-      sx={[(theme) => ({ display: 'flex', alignItems: 'center', p: theme.spacing(2, 3, 3, 3) })]}
+      sx={[(theme) => ({ display: "flex", alignItems: "center", p: theme.spacing(2, 3, 3, 3) })]}
     >
       <FormControlLabel
         control={
@@ -173,7 +173,7 @@ export function ProfilePostItem({ post }: Props) {
             checkedIcon={<Iconify icon="solar:heart-bold" />}
             inputProps={{
               id: `favorite-${post.id}-checkbox`,
-              'aria-label': `Favorite ${post.id} checkbox`,
+              "aria-label": `Favorite ${post.id} checkbox`,
             }}
           />
         }

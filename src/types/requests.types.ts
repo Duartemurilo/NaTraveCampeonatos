@@ -3,6 +3,7 @@ export type RequestsProps = {
   onError?: () => void;
   successMessage?: string;
   errorMessage?: string;
+  endpoint: string;
 };
 
 export type ByIdRequestProps = { _id: number };

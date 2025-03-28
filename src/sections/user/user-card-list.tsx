@@ -1,11 +1,11 @@
-import type { IUserCard } from 'src/types/user';
+import type { IUserCard } from "src/types/user";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
-import Box from '@mui/material/Box';
-import Pagination from '@mui/material/Pagination';
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
 
-import { UserCard } from './user-card';
+import { UserCard } from "./user-card";
 
 // ----------------------------------------------------------------------
 
@@ -27,8 +27,8 @@ export function UserCardList({ users }: Props) {
       <Box
         sx={{
           gap: 3,
-          display: 'grid',
-          gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+          display: "grid",
+          gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
         }}
       >
         {users
@@ -43,7 +43,7 @@ export function UserCardList({ users }: Props) {
         shape="circular"
         count={Math.ceil(users.length / rowsPerPage)}
         onChange={handleChangePage}
-        sx={{ mt: { xs: 5, md: 8 }, mx: 'auto' }}
+        sx={{ mt: { xs: 5, md: 8 }, mx: "auto" }}
       />
     </>
   );

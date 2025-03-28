@@ -1,10 +1,24 @@
+import type { IChampionshipInput } from "src/types/championship";
+
 import dayjs from "dayjs";
 import { z as zod } from "zod";
+import turndown from "turndown";
+import { marked } from "marked";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 import { Category } from "src/types/category";
 import { MatchType } from "src/types/match-type";
 import { MatchDays } from "src/types/match-days";
 import { TournamentFormat } from "src/types/tournament-format";
+
+import type { ChampionshipFormData } from "./types";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const today = dayjs().tz("America/Sao_Paulo").startOf("day");
+const tomorrow = today.add(1, "day");
 
 export const championshipNewEditFormDefaultValues: ChampionshipSchemaType = {
   // Ficha do Campeonato
@@ -12,8 +26,8 @@ export const championshipNewEditFormDefaultValues: ChampionshipSchemaType = {
   championshipDescription: "",
   championshipBanner: null,
 
-  startDate: dayjs().format("YYYY-MM-DD"),
-  endDate: dayjs().format("YYYY-MM-DD"),
+  startDate: today.toISOString(),
+  endDate: tomorrow.toISOString(),
   matchDays: [],
   startTime: "",
   endTime: "",
@@ -107,3 +121,24 @@ export const ChampionshipSchema = zod
   );
 
 export type ChampionshipSchemaType = zod.infer<typeof ChampionshipSchema>;
+
+export function normalizeChampionshipData(data: ChampionshipFormData): IChampionshipInput {
+  const turndownService = new turndown();
+
+  const championshipDescription = data.championshipDescription
+    ? turndownService.turndown(data.championshipDescription)
+    : "";
+
+  return { ...data, championshipDescription };
+}
+
+export function normalizeInitialChampionshipData(data: ChampionshipFormData): IChampionshipInput {
+  const championshipDescription = data.championshipDescription
+    ? (marked.parse(data.championshipDescription) as string)
+    : "";
+
+  const city = data.city ? data.city.toUpperCase() : "";
+  const state = data.state ? data.state.toUpperCase() : "";
+
+  return { ...data, championshipDescription, city, state };
+}

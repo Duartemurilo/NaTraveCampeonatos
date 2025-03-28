@@ -13,10 +13,10 @@ import { paths } from "src/routes/paths";
 import { usePathname } from "src/routes/hooks";
 import { RouterLink } from "src/routes/components";
 
+import { useMockedUser } from "src/hooks/use-mocked-user";
+
 import { Label } from "src/components/label";
 import { CustomPopover } from "src/components/custom-popover";
-
-import { useMockedUser } from "src/auth/hooks";
 
 import { AccountButton } from "./account-button";
 import { SignOutButton } from "./sign-out-button";

@@ -11,7 +11,7 @@ export type IChampionship = IChampionshipInput & {
 export type IChampionshipInput = {
   // Ficha do Campeonato
   championshipName: string;
-  championshipDescription: string;
+  championshipDescription?: string;
   championshipBanner: string | File | null;
 
   // Datas e Localização

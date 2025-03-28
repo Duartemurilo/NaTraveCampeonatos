@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import { CONFIG } from 'src/global-config';
+import { CONFIG } from "src/global-config";
 
-import { UserCardsView } from 'src/sections/user/view';
+import { UserCardsView } from "src/sections/user/view";
 
 // ----------------------------------------------------------------------
 

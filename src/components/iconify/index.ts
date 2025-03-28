@@ -1,3 +1,3 @@
-export * from './classes';
+export * from "./classes";
 
-export * from './iconify';
+export * from "./iconify";

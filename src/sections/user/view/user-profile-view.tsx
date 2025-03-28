@@ -11,13 +11,13 @@ import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 import { usePathname, useSearchParams } from "src/routes/hooks";
 
+import { useMockedUser } from "src/hooks/use-mocked-user";
+
 import { DashboardContent } from "src/layouts/dashboard";
 import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from "src/_mock";
 
 import { Iconify } from "src/components/iconify";
 import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
-
-import { useMockedUser } from "src/auth/hooks";
 
 import { ProfileHome } from "../profile-home";
 import { ProfileCover } from "../profile-cover";
@@ -78,7 +78,7 @@ export function UserProfileView() {
         heading="Profile"
         links={[
           { name: "Dashboard", href: paths.dashboard.championships.root },
-          { name: "User", href: paths.dashboard.user.root },
+          { name: "User", href: paths.dashboard.championships.root },
           { name: user?.displayName },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}

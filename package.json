@@ -90,6 +90,7 @@
     "icons-material": "^1.0.0",
     "lowlight": "^3.3.0",
     "mapbox-gl": "^3.4.0",
+    "marked": "^15.0.7",
     "minimal-shared": "^1.0.5",
     "mui-one-time-password-input": "^3.0.2",
     "next": "^14.2.22",

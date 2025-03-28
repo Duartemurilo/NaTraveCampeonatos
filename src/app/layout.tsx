@@ -19,9 +19,8 @@ import { Snackbar } from "src/components/snackbar";
 import { ProgressBar } from "src/components/progress-bar";
 import { MotionLazy } from "src/components/animate/motion-lazy";
 import { detectSettings } from "src/components/settings/server";
+import { ToastProvider } from "src/components/toast-context/context";
 import { SettingsDrawer, defaultSettings, SettingsProvider } from "src/components/settings";
-
-import { CheckoutProvider } from "src/sections/checkout/context";
 
 // ----------------------------------------------------------------------
 
@@ -93,12 +92,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     modeStorageKey={themeConfig.modeStorageKey}
                   >
                     <MotionLazy>
-                      <CheckoutProvider>
-                        <Snackbar />
-                        <ProgressBar />
-                        <SettingsDrawer defaultSettings={defaultSettings} />
-                        {children}
-                      </CheckoutProvider>
+                      <Snackbar />
+                      <ProgressBar />
+
+                      <SettingsDrawer defaultSettings={defaultSettings} />
+                      <ToastProvider>{children}</ToastProvider>
                     </MotionLazy>
                   </ThemeProvider>
                 </AppRouterCacheProvider>

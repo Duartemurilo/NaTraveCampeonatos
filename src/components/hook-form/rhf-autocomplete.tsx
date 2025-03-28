@@ -1,16 +1,16 @@
-import type { TextFieldProps } from '@mui/material/TextField';
-import type { AutocompleteProps } from '@mui/material/Autocomplete';
+import type { TextFieldProps } from "@mui/material/TextField";
+import type { AutocompleteProps } from "@mui/material/Autocomplete";
 
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from "react-hook-form";
 
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 // ----------------------------------------------------------------------
 
 export type AutocompleteBaseProps = Omit<
   AutocompleteProps<any, boolean, boolean, boolean>,
-  'renderInput'
+  "renderInput"
 >;
 
 export type RHFAutocompleteProps = AutocompleteBaseProps & {
@@ -18,7 +18,7 @@ export type RHFAutocompleteProps = AutocompleteBaseProps & {
   label?: string;
   placeholder?: string;
   helperText?: React.ReactNode;
-  slotProps?: AutocompleteBaseProps['slotProps'] & {
+  slotProps?: AutocompleteBaseProps["slotProps"] & {
     textfield?: TextFieldProps;
   };
 };
@@ -54,9 +54,10 @@ export function RHFAutocomplete({
               helperText={error?.message ?? helperText}
               slotProps={{
                 ...textfield?.slotProps,
+
                 htmlInput: {
                   ...params.inputProps,
-                  autoComplete: 'new-password',
+                  autoComplete: "new-password",
                   ...textfield?.slotProps?.htmlInput,
                 },
               }}

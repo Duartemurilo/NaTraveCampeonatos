@@ -4,9 +4,9 @@ import { useMemo } from "react";
 import { useWatch, Controller } from "react-hook-form";
 
 import Stack from "@mui/material/Stack";
-import { Box, Chip, Divider, MenuItem, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 
-import { useCities, useStates } from "src/actions/brazil-addresses";
+import { useCities, useStates } from "src/hooks/brazil-addresses";
 
 import { Field } from "src/components/hook-form";
 
@@ -131,34 +131,39 @@ export function StepDates() {
 
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">Estado*</Typography>
-          <Field.Select name="state">
-            <Divider sx={{ borderStyle: "dashed" }} />
-            {statesLoading ? (
-              <MenuItem disabled>Carregando estados...</MenuItem>
-            ) : (
-              states.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))
+          <Controller
+            name="state"
+            render={({ field, fieldState }) => (
+              <Field.Autocomplete
+                {...field}
+                value={states.find((option) => option.value === field.value) || null}
+                onChange={(_, newValue) => field.onChange(newValue?.value)}
+                options={states}
+                getOptionLabel={(option) => option.label}
+                noOptionsText={statesLoading ? "Carregando estados..." : "Nenhum estado encontrado"}
+              />
             )}
-          </Field.Select>
+          />
         </Stack>
 
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">Cidade*</Typography>
-          <Field.Select name="city" disabled={!selectedState}>
-            <Divider sx={{ borderStyle: "dashed" }} />
-            {citiesLoading ? (
-              <MenuItem disabled>Carregando cidades...</MenuItem>
-            ) : (
-              cities.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))
+          <Controller
+            name="city"
+            render={({ field, fieldState }) => (
+              <Field.Autocomplete
+                {...field}
+                value={cities.find((option) => option.value === field.value) || null}
+                onChange={(_, newValue) => field.onChange(newValue?.value)}
+                options={cities}
+                getOptionLabel={(option) => option.label}
+                noOptionsText={
+                  citiesLoading ? "Carregando cidades..." : "Nenhuma cidade encontrada"
+                }
+                disabled={!selectedState}
+              />
             )}
-          </Field.Select>
+          />
         </Stack>
       </Stack>
     </Box>

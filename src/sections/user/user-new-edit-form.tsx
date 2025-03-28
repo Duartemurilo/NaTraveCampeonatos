@@ -1,51 +1,51 @@
-import type { IUserItem } from 'src/types/user';
+import type { IUserItem } from "src/types/user";
 
-import { z as zod } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
-import { isValidPhoneNumber } from 'react-phone-number-input/input';
+import { z as zod } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
+import { isValidPhoneNumber } from "react-phone-number-input/input";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid2';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid2";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+import { useRouter } from "src/routes/hooks";
 
-import { fData } from 'src/utils/format-number';
+import { fData } from "src/utils/format-number";
 
-import { Label } from 'src/components/label';
-import { toast } from 'src/components/snackbar';
-import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import { Label } from "src/components/label";
+import { toast } from "src/components/snackbar";
+import { Form, Field, schemaHelper } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 export type NewUserSchemaType = zod.infer<typeof NewUserSchema>;
 
 export const NewUserSchema = zod.object({
-  avatarUrl: schemaHelper.file({ message: 'Avatar is required!' }),
-  name: zod.string().min(1, { message: 'Name is required!' }),
+  avatarUrl: schemaHelper.file({ message: "Avatar is required!" }),
+  name: zod.string().min(1, { message: "Name is required!" }),
   email: zod
     .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
+    .min(1, { message: "Email is required!" })
+    .email({ message: "Email must be a valid email address!" }),
   phoneNumber: schemaHelper.phoneNumber({ isValid: isValidPhoneNumber }),
-  country: schemaHelper.nullableInput(zod.string().min(1, { message: 'Country is required!' }), {
+  country: schemaHelper.nullableInput(zod.string().min(1, { message: "Country is required!" }), {
     // message for null value
-    message: 'Country is required!',
+    message: "Country is required!",
   }),
-  address: zod.string().min(1, { message: 'Address is required!' }),
-  company: zod.string().min(1, { message: 'Company is required!' }),
-  state: zod.string().min(1, { message: 'State is required!' }),
-  city: zod.string().min(1, { message: 'City is required!' }),
-  role: zod.string().min(1, { message: 'Role is required!' }),
-  zipCode: zod.string().min(1, { message: 'Zip code is required!' }),
+  address: zod.string().min(1, { message: "Address is required!" }),
+  company: zod.string().min(1, { message: "Company is required!" }),
+  state: zod.string().min(1, { message: "State is required!" }),
+  city: zod.string().min(1, { message: "City is required!" }),
+  role: zod.string().min(1, { message: "Role is required!" }),
+  zipCode: zod.string().min(1, { message: "Zip code is required!" }),
   // Not required
   status: zod.string(),
   isVerified: zod.boolean(),
@@ -61,23 +61,23 @@ export function UserNewEditForm({ currentUser }: Props) {
   const router = useRouter();
 
   const defaultValues: NewUserSchemaType = {
-    status: '',
+    status: "",
     avatarUrl: null,
     isVerified: true,
-    name: '',
-    email: '',
-    phoneNumber: '',
-    country: '',
-    state: '',
-    city: '',
-    address: '',
-    zipCode: '',
-    company: '',
-    role: '',
+    name: "",
+    email: "",
+    phoneNumber: "",
+    country: "",
+    state: "",
+    city: "",
+    address: "",
+    zipCode: "",
+    company: "",
+    role: "",
   };
 
   const methods = useForm<NewUserSchemaType>({
-    mode: 'onSubmit',
+    mode: "onSubmit",
     resolver: zodResolver(NewUserSchema),
     defaultValues,
     values: currentUser,
@@ -97,9 +97,9 @@ export function UserNewEditForm({ currentUser }: Props) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
-      toast.success(currentUser ? 'Update success!' : 'Create success!');
+      toast.success(currentUser ? "Update success!" : "Create success!");
       router.push(paths.dashboard.user.list);
-      console.info('DATA', data);
+      console.info("DATA", data);
     } catch (error) {
       console.error(error);
     }
@@ -113,11 +113,11 @@ export function UserNewEditForm({ currentUser }: Props) {
             {currentUser && (
               <Label
                 color={
-                  (values.status === 'active' && 'success') ||
-                  (values.status === 'banned' && 'error') ||
-                  'warning'
+                  (values.status === "active" && "success") ||
+                  (values.status === "banned" && "error") ||
+                  "warning"
                 }
-                sx={{ position: 'absolute', top: 24, right: 24 }}
+                sx={{ position: "absolute", top: 24, right: 24 }}
               >
                 {values.status}
               </Label>
@@ -132,10 +132,10 @@ export function UserNewEditForm({ currentUser }: Props) {
                     variant="caption"
                     sx={{
                       mt: 3,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.disabled',
+                      mx: "auto",
+                      display: "block",
+                      textAlign: "center",
+                      color: "text.disabled",
                     }}
                   >
                     Allowed *.jpeg, *.jpg, *.png, *.gif
@@ -155,9 +155,9 @@ export function UserNewEditForm({ currentUser }: Props) {
                     render={({ field }) => (
                       <Switch
                         {...field}
-                        checked={field.value !== 'active'}
+                        checked={field.value !== "active"}
                         onChange={(event) =>
-                          field.onChange(event.target.checked ? 'banned' : 'active')
+                          field.onChange(event.target.checked ? "banned" : "active")
                         }
                       />
                     )}
@@ -168,7 +168,7 @@ export function UserNewEditForm({ currentUser }: Props) {
                     <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
                       Banned
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
                       Apply disable account
                     </Typography>
                   </>
@@ -177,7 +177,7 @@ export function UserNewEditForm({ currentUser }: Props) {
                   mx: 0,
                   mb: 3,
                   width: 1,
-                  justifyContent: 'space-between',
+                  justifyContent: "space-between",
                 }}
               />
             )}
@@ -190,16 +190,16 @@ export function UserNewEditForm({ currentUser }: Props) {
                   <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
                     Email verified
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     Disabling this will automatically send the user a verification email
                   </Typography>
                 </>
               }
-              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              sx={{ mx: 0, width: 1, justifyContent: "space-between" }}
             />
 
             {currentUser && (
-              <Stack sx={{ mt: 3, alignItems: 'center', justifyContent: 'center' }}>
+              <Stack sx={{ mt: 3, alignItems: "center", justifyContent: "center" }}>
                 <Button variant="soft" color="error">
                   Delete user
                 </Button>
@@ -214,8 +214,8 @@ export function UserNewEditForm({ currentUser }: Props) {
               sx={{
                 rowGap: 3,
                 columnGap: 2,
-                display: 'grid',
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+                display: "grid",
+                gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" },
               }}
             >
               <Field.Text name="name" label="Full name" />
@@ -223,7 +223,7 @@ export function UserNewEditForm({ currentUser }: Props) {
               <Field.Phone
                 name="phoneNumber"
                 label="Phone number"
-                country={!currentUser ? 'DE' : undefined}
+                country={!currentUser ? "DE" : undefined}
               />
 
               <Field.CountrySelect
@@ -241,9 +241,9 @@ export function UserNewEditForm({ currentUser }: Props) {
               <Field.Text name="role" label="Role" />
             </Box>
 
-            <Stack sx={{ mt: 3, alignItems: 'flex-end' }}>
+            <Stack sx={{ mt: 3, alignItems: "flex-end" }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!currentUser ? 'Create user' : 'Save changes'}
+                {!currentUser ? "Create user" : "Save changes"}
               </LoadingButton>
             </Stack>
           </Card>

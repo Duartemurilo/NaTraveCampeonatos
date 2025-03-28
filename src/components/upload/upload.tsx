@@ -1,3 +1,4 @@
+// Upload.tsx
 import { useDropzone } from "react-dropzone";
 import { varAlpha, mergeClasses } from "minimal-shared/utils";
 
@@ -13,8 +14,6 @@ import { MultiFilePreview } from "./components/preview-multi-file";
 import { DeleteButton, SingleFilePreview } from "./components/preview-single-file";
 
 import type { UploadProps } from "./types";
-
-// ----------------------------------------------------------------------
 
 export function Upload({
   sx,
@@ -36,19 +35,14 @@ export function Upload({
     disabled,
     ...other,
   });
-
   const isArray = Array.isArray(value) && multiple;
-
   const hasFile = !isArray && !!value;
   const hasFiles = isArray && !!value.length;
-
   const hasError = isDragReject || !!error;
-
   const renderMultiPreview = () =>
     hasFiles && (
       <>
         <MultiFilePreview files={value} thumbnail={thumbnail} onRemove={onRemove} sx={{ my: 3 }} />
-
         {(onRemoveAll || onUpload) && (
           <Box sx={{ gap: 1.5, display: "flex", justifyContent: "flex-end" }}>
             {onRemoveAll && (
@@ -56,7 +50,6 @@ export function Upload({
                 Remover todos
               </Button>
             )}
-
             {onUpload && (
               <Button
                 size="small"
@@ -71,7 +64,6 @@ export function Upload({
         )}
       </>
     );
-
   return (
     <Box
       className={mergeClasses([uploadClasses.upload, className])}
@@ -103,20 +95,15 @@ export function Upload({
         ]}
       >
         <input {...getInputProps()} />
-
-        {hasFile ? <SingleFilePreview file={value as File} /> : <UploadPlaceholder />}
+        {hasFile ? <SingleFilePreview file={value} /> : <UploadPlaceholder />}
       </Box>
-
       {hasFile && <DeleteButton onClick={onDelete} />}
-
       {helperText && (
         <FormHelperText error={!!error} sx={{ mx: 1.75 }}>
           {helperText}
         </FormHelperText>
       )}
-
       {!!fileRejections.length && <RejectionFiles files={fileRejections} />}
-
       {renderMultiPreview()}
     </Box>
   );

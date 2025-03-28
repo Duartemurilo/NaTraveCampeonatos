@@ -37,5 +37,6 @@ export function useStepController<T>(steps: T[]) {
     goBack,
     goToStep,
     reset,
+    setActiveStep,
   };
 }
