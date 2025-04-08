@@ -59,7 +59,7 @@ export const CONFIG: ConfigValue = {
   auth: {
     method: "jwt",
     skip: false,
-    redirectPath: paths.dashboard.championships.root,
+    redirectPath: paths.dashboard.home.root,
   },
   /**
    * Mapbox

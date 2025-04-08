@@ -21,8 +21,8 @@ export function UserCardsView() {
       <CustomBreadcrumbs
         heading="User cards"
         links={[
-          { name: "Dashboard", href: paths.dashboard.championships.root },
-          { name: "Campeonatos", href: paths.dashboard.championships.root },
+          { name: "Dashboard", href: paths.dashboard.home.root },
+          { name: "Campeonatos", href: paths.dashboard.championships.cards },
           { name: "Cards" },
         ]}
         action={

@@ -36,7 +36,7 @@ export function ChampionshipEditView({ championshipId }: Props) {
         heading="Editar campeonato"
         backHref={paths.dashboard.championships.list}
         links={[
-          { name: "Campeonatos", href: paths.dashboard.championships.root },
+          { name: "Campeonatos", href: paths.dashboard.championships.cards },
           { name: data?.championshipName ?? "-" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
