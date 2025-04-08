@@ -15,17 +15,17 @@
     "fm:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "fix:all": "npm run lint:fix && npm run fm:fix",
     "clean": "rm -rf node_modules .next out dist build",
-    "re:dev": "yarn clean && yarn install && yarn dev",
-    "re:build": "yarn clean && yarn install && yarn build",
-    "re:build-npm": "npm run clean && npm install && npm run build",
-    "tsc:dev": "yarn dev & yarn tsc:watch",
+    "re:dev": "npm run clean && npm install && npm run dev",
+    "re:build": "npm run clean && npm install && npm run build",
+    "tsc:dev": "npm run dev & npm run tsc:watch",
     "tsc:watch": "tsc --noEmit --watch",
     "tsc:print": "npx tsc --showConfig"
   },
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "npm": ">=7.0.0"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "npm@9.6.7",
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "@clerk/localizations": "^3.12.0",
@@ -50,9 +50,9 @@
     "@fullcalendar/timeline": "^6.1.15",
     "@hookform/resolvers": "^3.9.1",
     "@iconify/react": "^5.1.0",
-    "@mui/icons-material": "^6.4.8",
+    "@mui/icons-material": "^6.4.10",
     "@mui/lab": "^6.0.0-beta.21",
-    "@mui/material": "^6.3.0",
+    "@mui/material": "^6.4.10",
     "@mui/material-nextjs": "^6.3.0",
     "@mui/x-data-grid": "^7.23.5",
     "@mui/x-date-pickers": "^7.23.3",
