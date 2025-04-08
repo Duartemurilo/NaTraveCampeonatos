@@ -54,7 +54,7 @@ export function ClerkSignInView() {
       await signIn.authenticateWithRedirect({
         strategy: "oauth_google",
         redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.championships.root,
+        redirectUrlComplete: paths.dashboard.home.root,
       });
     } catch (err) {
       console.error(err);
@@ -68,7 +68,7 @@ export function ClerkSignInView() {
       await signIn.authenticateWithRedirect({
         strategy: "oauth_apple",
         redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.championships.root,
+        redirectUrlComplete: paths.dashboard.home.root,
       });
     } catch (err) {
       console.error(err);
@@ -89,7 +89,7 @@ export function ClerkSignInView() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.championships.root);
+        router.push(paths.dashboard.home.root);
       } else {
         setErrorMessage("A autenticação requer etapas adicionais. Verifique seu email ou 2FA.");
       }

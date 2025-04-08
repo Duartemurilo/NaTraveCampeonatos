@@ -78,7 +78,7 @@ export function ClerkSignUpView() {
       await signUp.authenticateWithRedirect({
         strategy: "oauth_google",
         redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.championships.root,
+        redirectUrlComplete: paths.dashboard.home.root,
       });
     } catch (err) {
       console.error(err);
@@ -92,7 +92,7 @@ export function ClerkSignUpView() {
       await signUp.authenticateWithRedirect({
         strategy: "oauth_apple",
         redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.championships.root,
+        redirectUrlComplete: paths.dashboard.home.root,
       });
     } catch (err) {
       console.error(err);
@@ -123,7 +123,7 @@ export function ClerkSignUpView() {
 
       if (result.verifications.emailAddress?.verifiedFromTheSameClient()) {
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.championships.root);
+        router.push(paths.dashboard.home.root);
       } else {
         setInfoMessage(
           "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."

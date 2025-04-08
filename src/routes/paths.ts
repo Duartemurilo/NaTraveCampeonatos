@@ -25,6 +25,10 @@ export const paths = {
   },
 
   dashboard: {
+    home: {
+      root: `${ROOTS.DASHBOARD}/home`,
+    },
+
     championships: {
       root: `${ROOTS.DASHBOARD}/championships/cards`,
       cards: `${ROOTS.DASHBOARD}/championships/cards`,

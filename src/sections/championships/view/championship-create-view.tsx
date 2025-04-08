@@ -16,7 +16,7 @@ export function ChampionshipCreateView() {
       <CustomBreadcrumbs
         heading="Criar novo campeonato"
         links={[
-          { name: "Campeonatos", href: paths.dashboard.championships.root },
+          { name: "Campeonatos", href: paths.dashboard.championships.cards },
           { name: "Novo campeonato" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
