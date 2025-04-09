@@ -3,12 +3,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm install 20
-        - nvm use 20
-        - yarn install --frozen-lockfile
+        - npm ci
     build:
       commands:
-        - yarn build
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:
