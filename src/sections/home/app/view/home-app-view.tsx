@@ -15,14 +15,14 @@ import { AppWelcome } from "../app-welcome";
 import { AppFeatured } from "../app-featured";
 
 export function HomeAppView() {
-  const { isLoaded, user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
 
   return (
     <DashboardContent maxWidth="xl">
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 8 }}>
           <AppWelcome
-            title={`Olá, ${isLoaded && user ? user.firstName : ""}!`}
+            title={`Olá, ${isLoaded && isSignedIn && user ? user.firstName : ""}!`}
             description="Crie e administre seu primeiro campeonato na nossa plataforma!"
             img={`${CONFIG.assetsDir}/logo/logo-full.svg`}
             action={
