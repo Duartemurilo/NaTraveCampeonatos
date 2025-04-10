@@ -5,6 +5,7 @@ const isPublicRoute = createRouteMatcher([
   "/auth/clerk/sign-up(.*)",
   "/auth/clerk/verify-email(.*)",
   "/auth/clerk/reset-password(.*)",
+  "/auth/callback(.*)",
   "/api/webhooks(.*)",
 ]);
 

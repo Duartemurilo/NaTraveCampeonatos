@@ -113,7 +113,7 @@ export function ClerkSignUpView() {
       });
 
       setInfoMessage(
-        "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+        "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
       );
 
       const emailLinkFlow = signUp.createEmailLinkFlow();
@@ -126,7 +126,7 @@ export function ClerkSignUpView() {
         router.push(paths.dashboard.home.root);
       } else {
         setInfoMessage(
-          "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+          "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
         );
       }
     } catch (error: any) {
@@ -195,7 +195,7 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={!isPasswordValid} // Desabilita o botão caso a senha não seja válida
+        disabled={!isPasswordValid}
       >
         Criar conta
       </LoadingButton>
