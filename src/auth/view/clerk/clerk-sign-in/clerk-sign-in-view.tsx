@@ -61,20 +61,6 @@ export function ClerkSignInView() {
     }
   };
 
-  const signInWithApple = async () => {
-    if (!signIn) return;
-
-    try {
-      await signIn.authenticateWithRedirect({
-        strategy: "oauth_apple",
-        redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.home.root,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     if (!signIn || !setActive) {
       console.error("Clerk não está devidamente inicializado.");
@@ -182,10 +168,7 @@ export function ClerkSignInView() {
 
       <FormDivider />
 
-      <FormSocials
-        signInWithGoogle={() => signInWithGoogle()}
-        signInWithApple={() => signInWithApple()}
-      />
+      <FormSocials signInWithGoogle={() => signInWithGoogle()} />
     </>
   );
 }

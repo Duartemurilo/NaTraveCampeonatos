@@ -85,20 +85,6 @@ export function ClerkSignUpView() {
     }
   };
 
-  const signUpWithApple = async () => {
-    if (!signUp) return;
-
-    try {
-      await signUp.authenticateWithRedirect({
-        strategy: "oauth_apple",
-        redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.home.root,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     if (!signUp || !setActive) {
       console.error("Clerk não está devidamente inicializado.");
@@ -234,10 +220,7 @@ export function ClerkSignUpView() {
 
       <FormDivider />
 
-      <FormSocials
-        signInWithGoogle={() => signUpWithGoogle()}
-        signInWithApple={() => signUpWithApple()}
-      />
+      <FormSocials signInWithGoogle={() => signUpWithGoogle()} />
       <SignUpTerms />
     </>
   );
