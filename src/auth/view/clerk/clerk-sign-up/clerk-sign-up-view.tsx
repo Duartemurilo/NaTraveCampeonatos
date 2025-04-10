@@ -85,20 +85,6 @@ export function ClerkSignUpView() {
     }
   };
 
-  const signUpWithApple = async () => {
-    if (!signUp) return;
-
-    try {
-      await signUp.authenticateWithRedirect({
-        strategy: "oauth_apple",
-        redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.home.root,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     if (!signUp || !setActive) {
       console.error("Clerk não está devidamente inicializado.");
@@ -113,7 +99,7 @@ export function ClerkSignUpView() {
       });
 
       setInfoMessage(
-        "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+        "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
       );
 
       const emailLinkFlow = signUp.createEmailLinkFlow();
@@ -126,7 +112,7 @@ export function ClerkSignUpView() {
         router.push(paths.dashboard.home.root);
       } else {
         setInfoMessage(
-          "Um email de verificação foi enviado para o seu endereço. Por favor, verifique sua caixa de entrada e clique no link para confirmar seu cadastro."
+          "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
         );
       }
     } catch (error: any) {
@@ -195,7 +181,7 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={!isPasswordValid} // Desabilita o botão caso a senha não seja válida
+        disabled={!isPasswordValid}
       >
         Criar conta
       </LoadingButton>
@@ -234,10 +220,7 @@ export function ClerkSignUpView() {
 
       <FormDivider />
 
-      <FormSocials
-        signInWithGoogle={() => signUpWithGoogle()}
-        signInWithApple={() => signUpWithApple()}
-      />
+      <FormSocials signInWithGoogle={() => signUpWithGoogle()} />
       <SignUpTerms />
     </>
   );
