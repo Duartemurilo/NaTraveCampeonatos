@@ -1,24 +1,24 @@
-import type { ChipProps } from '@mui/material/Chip';
-import type { SelectProps } from '@mui/material/Select';
-import type { CheckboxProps } from '@mui/material/Checkbox';
-import type { TextFieldProps } from '@mui/material/TextField';
-import type { InputLabelProps } from '@mui/material/InputLabel';
-import type { FormControlProps } from '@mui/material/FormControl';
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
+import type { ChipProps } from "@mui/material/Chip";
+import type { SelectProps } from "@mui/material/Select";
+import type { CheckboxProps } from "@mui/material/Checkbox";
+import type { TextFieldProps } from "@mui/material/TextField";
+import type { InputLabelProps } from "@mui/material/InputLabel";
+import type { FormControlProps } from "@mui/material/FormControl";
+import type { FormHelperTextProps } from "@mui/material/FormHelperText";
 
-import { merge } from 'es-toolkit';
-import { Controller, useFormContext } from 'react-hook-form';
+import { merge } from "es-toolkit";
+import { Controller, useFormContext } from "react-hook-form";
 
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
-import { HelperText } from './help-text';
+import { HelperText } from "./help-text";
 
 // ----------------------------------------------------------------------
 
@@ -38,13 +38,21 @@ export function RHFSelect({
 
   const labelId = `${name}-select`;
 
-  const baseSlotProps: TextFieldProps['slotProps'] = {
+  const baseSlotProps: TextFieldProps["slotProps"] = {
     select: {
-      sx: { textTransform: 'capitalize' },
+      sx: { textTransform: "capitalize" },
       MenuProps: {
         slotProps: {
           paper: {
-            sx: [{ maxHeight: 220 }],
+            sx: [
+              {
+                maxHeight: 220,
+                background: "white",
+                borderRadius: 2,
+                boxShadow: 3,
+                p: 1,
+              },
+            ],
           },
         },
       },
@@ -150,12 +158,12 @@ export function RHFMultiSelect({
                 );
 
                 if (!selectedItems.length && placeholder) {
-                  return <Box sx={{ color: 'text.disabled' }}>{placeholder}</Box>;
+                  return <Box sx={{ color: "text.disabled" }}>{placeholder}</Box>;
                 }
 
                 if (chip) {
                   return (
-                    <Box sx={{ gap: 0.5, display: 'flex', flexWrap: 'wrap' }}>
+                    <Box sx={{ gap: 0.5, display: "flex", flexWrap: "wrap" }}>
                       {selectedItems.map((item) => (
                         <Chip
                           key={item.value}
@@ -169,7 +177,7 @@ export function RHFMultiSelect({
                   );
                 }
 
-                return selectedItems.map((item) => item.label).join(', ');
+                return selectedItems.map((item) => item.label).join(", ");
               }}
               {...slotProps?.select}
               inputProps={{

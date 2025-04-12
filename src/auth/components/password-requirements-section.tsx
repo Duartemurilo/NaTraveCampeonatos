@@ -1,10 +1,11 @@
 import Grid from "@mui/material/Grid2";
-import { Box, Badge, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+
+import { CONFIG } from "src/global-config";
 
 import { PasswordRequirementsContainer } from "./styles";
 
 type Props = {
-  hasSpecialCharacter: boolean;
   hasLowerCase: boolean;
   hasUpperCase: boolean;
   hasNumber: boolean;
@@ -12,53 +13,47 @@ type Props = {
 };
 
 function PasswordRequirementsSection({
-  hasSpecialCharacter,
   hasLowerCase,
   hasUpperCase,
   hasNumber,
   hasMinCharacters,
 }: Props) {
+  const getIcon = (condition: boolean) =>
+    `${CONFIG.assetsDir}/assets/icons/frames/${condition ? "check" : "block"}.svg`;
+
   return (
     <Grid size={12}>
       <Box sx={{ my: 1 }}>
-        <Typography variant="h6">Requisitos de senha</Typography>
-        <Typography variant="subtitle2" fontWeight="light">
-          Siga estes requisitos para ter uma senha forte
+        <Typography variant="subtitle2" fontWeight={600}>
+          Sua senha deve conter:
         </Typography>
       </Box>
 
-      <PasswordRequirementsContainer>
-        <Badge color={hasSpecialCharacter ? "success" : "warning"} variant="dot" />
+      <PasswordRequirementsContainer sx={{ my: 1 }}>
+        <img src={getIcon(hasMinCharacters)} alt="" width={15} height={15} />
         <Typography variant="body2" sx={{ color: "text.secondary", ml: 1.5 }}>
-          Deve conter pelo menos 1 caractere especial (@, $, !, %, *, ?, &)
+          Pelo menos 8 caracteres
         </Typography>
       </PasswordRequirementsContainer>
 
-      <PasswordRequirementsContainer>
-        <Badge color={hasLowerCase ? "success" : "warning"} variant="dot" />
+      <PasswordRequirementsContainer sx={{ my: 1 }}>
+        <img src={getIcon(hasUpperCase)} alt="" width={15} height={15} />
         <Typography variant="body2" sx={{ color: "text.secondary", ml: 1.5 }}>
-          Deve conter pelo menos 1 caractere minúsculo
+          Letras maiúsculas
         </Typography>
       </PasswordRequirementsContainer>
 
-      <PasswordRequirementsContainer>
-        <Badge color={hasUpperCase ? "success" : "warning"} variant="dot" />
+      <PasswordRequirementsContainer sx={{ my: 1 }}>
+        <img src={getIcon(hasLowerCase)} alt="" width={15} height={15} />
         <Typography variant="body2" sx={{ color: "text.secondary", ml: 1.5 }}>
-          Deve conter pelo menos 1 caractere maiúsculo
+          Letras minúsculas
         </Typography>
       </PasswordRequirementsContainer>
 
-      <PasswordRequirementsContainer>
-        <Badge color={hasNumber ? "success" : "warning"} variant="dot" />
+      <PasswordRequirementsContainer sx={{ my: 1 }}>
+        <img src={getIcon(hasNumber)} alt="" width={15} height={15} />
         <Typography variant="body2" sx={{ color: "text.secondary", ml: 1.5 }}>
-          Deve conter pelo menos 1 caractere numérico
-        </Typography>
-      </PasswordRequirementsContainer>
-
-      <PasswordRequirementsContainer>
-        <Badge color={hasMinCharacters ? "success" : "warning"} variant="dot" />
-        <Typography variant="body2" sx={{ color: "text.secondary", ml: 1.5 }}>
-          Deve conter no mínimo 8 caracteres
+          Pelo menos um número
         </Typography>
       </PasswordRequirementsContainer>
     </Grid>

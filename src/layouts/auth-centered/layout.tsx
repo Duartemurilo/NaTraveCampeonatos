@@ -5,11 +5,7 @@ import type { Theme, CSSObject, Breakpoint } from "@mui/material/styles";
 import { merge } from "es-toolkit";
 
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import Alert from "@mui/material/Alert";
-
-import { paths } from "src/routes/paths";
-import { RouterLink } from "src/routes/components";
 
 import { CONFIG } from "src/global-config";
 
@@ -30,6 +26,7 @@ type LayoutBaseProps = Pick<LayoutSectionProps, "sx" | "children" | "cssVars">;
 
 export type AuthCenteredLayoutProps = LayoutBaseProps & {
   layoutQuery?: Breakpoint;
+  ignoreHeader?: boolean; // Propriedade para ignorar o header (padrão false)
   slotProps?: {
     header?: HeaderSectionProps;
     main?: MainSectionProps;
@@ -43,6 +40,7 @@ export function AuthCenteredLayout({
   children,
   slotProps,
   layoutQuery = "md",
+  ignoreHeader = false,
 }: AuthCenteredLayoutProps) {
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps["slotProps"] = { container: { maxWidth: false } };
@@ -66,16 +64,6 @@ export function AuthCenteredLayout({
       ),
       rightArea: (
         <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 1.5 } }}>
-          {/** @slot Help link */}
-          <Link
-            href={paths.faqs}
-            component={RouterLink}
-            color="inherit"
-            sx={{ typography: "subtitle2" }}
-          >
-            Need help?
-          </Link>
-
           {/** @slot Settings button */}
           <SettingsButton />
         </Box>
@@ -107,6 +95,7 @@ export function AuthCenteredLayout({
       sx={[
         (theme) => ({
           alignItems: "center",
+          justifyContent: "center",
           p: theme.spacing(3, 2, 10, 2),
           [theme.breakpoints.up(layoutQuery)]: {
             justifyContent: "center",
@@ -127,7 +116,7 @@ export function AuthCenteredLayout({
       /** **************************************
        * @Header
        *************************************** */
-      headerSection={renderHeader()}
+      headerSection={!ignoreHeader ? renderHeader() : null}
       /** **************************************
        * @Footer
        *************************************** */
@@ -152,12 +141,16 @@ export function AuthCenteredLayout({
 // ----------------------------------------------------------------------
 
 const backgroundStyles = (theme: Theme): CSSObject => ({
-  ...theme.mixins.bgGradient({
-    images: [`url(${CONFIG.assetsDir}/assets/background/background-3-blur.webp)`],
-  }),
   zIndex: 1,
-  opacity: 0.24,
+  ...theme.mixins.bgGradient({
+    images: [
+      `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))`,
+      `url(${CONFIG.assetsDir}/assets/background/background-auth.jpeg)`,
+    ],
+  }),
+  opacity: 1,
   width: "100%",
+  aspectRatio: "1447/1043",
   height: "100%",
   content: "''",
   position: "absolute",
