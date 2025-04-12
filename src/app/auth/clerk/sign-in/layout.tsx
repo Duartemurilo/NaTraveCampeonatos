@@ -1,4 +1,4 @@
-import { AuthSplitLayout } from "src/layouts/auth-split";
+import { AuthCenteredLayout } from "src/layouts/auth-centered";
 
 import { GuestGuard } from "src/auth/guard";
 
@@ -11,14 +11,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <GuestGuard>
-      <AuthSplitLayout
-        authSplitSection
-        slotProps={{
-          section: { title: "Olá, Bem-vindo de volta", subtitle: "Faça login para continuar" },
-        }}
-      >
-        {children}
-      </AuthSplitLayout>
+      <AuthCenteredLayout ignoreHeader>{children}</AuthCenteredLayout>
     </GuestGuard>
   );
 }

@@ -17,7 +17,7 @@ import { FormReturnLink } from "./components/form-return-link";
 
 // ----------------------------------------------------------------------
 
-export function ClerkVerifyView() {
+export function ClerkVerifyEmailView() {
   const [verificationStatus, setVerificationStatus] = React.useState("loading");
 
   const { handleEmailLinkVerification, loaded } = useClerk();

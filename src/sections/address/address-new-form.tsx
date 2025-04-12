@@ -1,35 +1,35 @@
-import type { IAddressItem } from 'src/types/common';
+import type { IAddressItem } from "src/types/common";
 
-import { z as zod } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { isValidPhoneNumber } from 'react-phone-number-input/input';
+import { z as zod } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { isValidPhoneNumber } from "react-phone-number-input/input";
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import LoadingButton from '@mui/lab/LoadingButton';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import LoadingButton from "@mui/lab/LoadingButton";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 
-import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import { Form, Field, schemaHelper } from "src/components/hook-form";
 
 // ----------------------------------------------------------------------
 
 export type NewAddressSchemaType = zod.infer<typeof NewAddressSchema>;
 
 export const NewAddressSchema = zod.object({
-  city: zod.string().min(1, { message: 'City is required!' }),
-  state: zod.string().min(1, { message: 'State is required!' }),
-  name: zod.string().min(1, { message: 'Name is required!' }),
-  address: zod.string().min(1, { message: 'Address is required!' }),
-  zipCode: zod.string().min(1, { message: 'Zip code is required!' }),
+  city: zod.string().min(1, { message: "City is required!" }),
+  state: zod.string().min(1, { message: "State is required!" }),
+  name: zod.string().min(1, { message: "Name is required!" }),
+  address: zod.string().min(1, { message: "Address is required!" }),
+  zipCode: zod.string().min(1, { message: "Zip code is required!" }),
   phoneNumber: schemaHelper.phoneNumber({ isValid: isValidPhoneNumber }),
-  country: schemaHelper.nullableInput(zod.string().min(1, { message: 'Country is required!' }), {
+  country: schemaHelper.nullableInput(zod.string().min(1, { message: "Country is required!" }), {
     // message for null value
-    message: 'Country is required!',
+    message: "Country is required!",
   }),
   // Not required
   primary: zod.boolean(),
@@ -46,19 +46,19 @@ type Props = {
 
 export function AddressNewForm({ open, onClose, onCreate }: Props) {
   const defaultValues: NewAddressSchemaType = {
-    name: '',
-    city: '',
-    state: '',
-    address: '',
-    zipCode: '',
-    country: '',
+    name: "",
+    city: "",
+    state: "",
+    address: "",
+    zipCode: "",
+    country: "",
     primary: true,
-    phoneNumber: '',
-    addressType: 'Home',
+    phoneNumber: "",
+    addressType: "Home",
   };
 
   const methods = useForm<NewAddressSchemaType>({
-    mode: 'all',
+    mode: "all",
     resolver: zodResolver(NewAddressSchema),
     defaultValues,
   });
@@ -94,8 +94,8 @@ export function AddressNewForm({ open, onClose, onCreate }: Props) {
               row
               name="addressType"
               options={[
-                { label: 'Home', value: 'Home' },
-                { label: 'Office', value: 'Office' },
+                { label: "Home", value: "Home" },
+                { label: "Office", value: "Office" },
               ]}
             />
 
@@ -103,8 +103,8 @@ export function AddressNewForm({ open, onClose, onCreate }: Props) {
               sx={{
                 rowGap: 3,
                 columnGap: 2,
-                display: 'grid',
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+                display: "grid",
+                gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" },
               }}
             >
               <Field.Text name="name" label="Full name" />
@@ -118,8 +118,8 @@ export function AddressNewForm({ open, onClose, onCreate }: Props) {
               sx={{
                 rowGap: 3,
                 columnGap: 2,
-                display: 'grid',
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(3, 1fr)' },
+                display: "grid",
+                gridTemplateColumns: { xs: "repeat(1, 1fr)", sm: "repeat(3, 1fr)" },
               }}
             >
               <Field.Text name="city" label="Town/city" />

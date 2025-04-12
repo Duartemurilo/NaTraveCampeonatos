@@ -1,155 +1,164 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSignUp } from "@clerk/clerk-react";
+import { useState, useEffect } from "react";
 import { useBoolean } from "minimal-shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Alert from "@mui/material/Alert";
-import { CircularProgress } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
 import LoadingButton from "@mui/lab/LoadingButton";
-import InputAdornment from "@mui/material/InputAdornment";
+import { IconButton, InputAdornment, CircularProgress } from "@mui/material";
 
 import { paths } from "src/routes/paths";
-import { useRouter } from "src/routes/hooks";
-import { RouterLink } from "src/routes/components";
+
+import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
 
 import {
   checkIfHasNumbers,
   checkIfHasLoweCase,
   checkIfHasUpperCase,
-  checkIfHasSpecialCharacters,
 } from "src/utils/string-helpers";
 
-import { CONFIG } from "src/global-config";
+import EmailInboxIcon from "src/assets/icons/email-inbox-icon";
 
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
-import { FormDivider } from "src/auth/components/form-divider";
-import { FormSocials } from "src/auth/components/form-socials";
+import { isPasswordValid } from "src/auth/utils";
+import { SignUpTerms } from "src/auth/components/sign-up-terms";
+import { FormReturnLink } from "src/auth/components/form-return-link";
 import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
 
-import { SignUpSchema } from "../form-data";
-import { getErrorMessage } from "../../../utils";
-import { signUpdefaultValues } from "../constants";
 import { FormHead } from "../../../components/form-head";
-import { SignUpTerms } from "../../../components/sign-up-terms";
-
-import type { SignUpSchemaType } from "../form-data";
+import { SignUpSchema, normalizeSignUpData } from "../form-data";
+import { ORGANIZATION_TYPE_OPTIONS, signUpdefaultValues as defaultValues } from "../constants";
 
 export function ClerkSignUpView() {
-  const router = useRouter();
+  const { handleSignUp, handleResendEmail, errorMessage, isEmailSent, registeredEmail } =
+    useSignUpLogic();
   const showPassword = useBoolean();
-  const { signUp, setActive } = useSignUp();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
-
-  const methods = useForm<SignUpSchemaType>({
-    resolver: zodResolver(SignUpSchema),
-    defaultValues: signUpdefaultValues,
-  });
-
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-    watch,
-  } = methods;
+  const resolver = zodResolver(SignUpSchema);
+  const methods = useForm({ resolver, defaultValues });
+  const { handleSubmit, formState, watch } = methods;
+  const { isSubmitting } = formState;
 
   const passwordValue = watch("password");
-
-  const isPasswordValid =
-    passwordValue &&
-    passwordValue.length >= 8 &&
-    checkIfHasSpecialCharacters(passwordValue) &&
-    checkIfHasLoweCase(passwordValue) &&
-    checkIfHasUpperCase(passwordValue) &&
-    checkIfHasNumbers(passwordValue);
-
-  const signUpWithGoogle = async () => {
-    if (!signUp) return;
-
-    try {
-      await signUp.authenticateWithRedirect({
-        strategy: "oauth_google",
-        redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.home.root,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const hasOrganizationValue = watch("hasOrganization");
 
   const onSubmit = handleSubmit(async (data) => {
-    if (!signUp || !setActive) {
-      console.error("Clerk não está devidamente inicializado.");
-      return;
-    }
-    try {
-      await signUp.create({
-        emailAddress: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
-
-      setInfoMessage(
-        "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
-      );
-
-      const emailLinkFlow = signUp.createEmailLinkFlow();
-      const result = await emailLinkFlow.startEmailLinkFlow({
-        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
-      });
-
-      if (result.verifications.emailAddress?.verifiedFromTheSameClient()) {
-        await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.home.root);
-      } else {
-        setInfoMessage(
-          "E o juiz apita... só falta você confirmar no e-mail pra entrar em campo! ⚽📬"
-        );
-      }
-    } catch (error: any) {
-      console.error(error);
-      const feedbackMessage = getErrorMessage(error);
-      setErrorMessage(feedbackMessage);
-    }
+    const normalizedData = normalizeSignUpData(data);
+    await handleSignUp(normalizedData);
   });
+
+  const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (cooldown > 0) {
+      timer = setInterval(() => {
+        setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
+  const onResendEmail = async () => {
+    setCooldown(30);
+    await handleResendEmail();
+  };
+
+  if (isEmailSent) {
+    return (
+      <>
+        <FormHead
+          icon={<EmailInboxIcon fontSize="large" />}
+          title="Confirme seu e-mail!"
+          description={
+            <>
+              Enviamos um e-mail para <strong>{registeredEmail}</strong> com um link para você
+              acessar o <strong>Central NaTrave!</strong>
+            </>
+          }
+        />
+
+        <LoadingButton
+          fullWidth
+          color="primary"
+          size="large"
+          type="submit"
+          variant="contained"
+          disabled={cooldown > 0}
+          onClick={onResendEmail}
+        >
+          {cooldown > 0 ? `Reenviar e-mail (${cooldown}s)` : "Reenviar e-mail"}
+        </LoadingButton>
+
+        <FormReturnLink href={paths.auth.clerk.signIn} label="Voltar para Login" />
+      </>
+    );
+  }
 
   const renderForm = () => (
     <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
-      <Box
-        sx={{
-          display: "flex",
-          gap: { xs: 3, sm: 2 },
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <Field.Text name="firstName" label="Nome" slotProps={{ inputLabel: { shrink: true } }} />
-        <Field.Text
-          name="lastName"
-          label="Sobrenome"
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-      </Box>
       <Field.Text
-        name="email"
-        label="Endereço de email"
+        name="firstName"
+        label="Nome"
+        placeholder="Seu nome completo"
         slotProps={{ inputLabel: { shrink: true } }}
       />
+
+      <Field.Phone name="phoneNumber" label="WhatsApp" placeholder="(99) 99999-9999" country="BR" />
+
+      <Field.Text
+        name="email"
+        label="E-mail"
+        placeholder="exemplo@gmail.com"
+        slotProps={{ inputLabel: { shrink: true } }}
+      />
+
+      <Field.Switch
+        name="hasOrganization"
+        labelPlacement="end"
+        label="Faço parte de uma organização"
+      />
+
+      {hasOrganizationValue && (
+        <>
+          <Field.Select
+            name="organizationType"
+            label="Tipo de organização"
+            required
+            slotProps={{ inputLabel: { shrink: true } }}
+          >
+            {ORGANIZATION_TYPE_OPTIONS.map((option) => (
+              <MenuItem key={option.value} value={option.value} sx={{ borderRadius: 1, mb: 0.5 }}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Field.Select>
+
+          <Field.Text
+            name="organizationName"
+            label="Nome da organização"
+            placeholder="Nome da sua organização"
+            slotProps={{ inputLabel: { shrink: true } }}
+          />
+        </>
+      )}
+
       <Field.Text
         name="password"
         label="Senha"
-        placeholder="8+ caracteres"
+        placeholder="Informe sua senha"
         type={showPassword.value ? "text" : "password"}
         onBlur={() => {
-          if (passwordValue) setShowPasswordRequirements(true);
+          if (passwordValue) {
+            setShowPasswordRequirements(true);
+          }
         }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -164,24 +173,25 @@ export function ClerkSignUpView() {
           },
         }}
       />
+
       {showPasswordRequirements && passwordValue && (
         <PasswordRequirementsSection
-          hasSpecialCharacter={checkIfHasSpecialCharacters(passwordValue)}
           hasLowerCase={checkIfHasLoweCase(passwordValue)}
           hasUpperCase={checkIfHasUpperCase(passwordValue)}
           hasNumber={checkIfHasNumbers(passwordValue)}
           hasMinCharacters={passwordValue.length >= 8}
         />
       )}
+
       <LoadingButton
         fullWidth
-        color="inherit"
+        color="primary"
         size="large"
         type="submit"
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={!isPasswordValid}
+        disabled={!isPasswordValid(passwordValue)}
       >
         Criar conta
       </LoadingButton>
@@ -191,16 +201,20 @@ export function ClerkSignUpView() {
   return (
     <>
       <FormHead
-        title="Comece gratuitamente"
+        title="Cadastre-se e crie seu campeonato"
         description={
           <>
-            Já possui uma conta?{" "}
-            <Link component={RouterLink} href={paths.auth.clerk.signIn} variant="subtitle2">
+            Já tem uma conta?{" "}
+            <Link
+              component="a"
+              href={paths.auth.clerk.signIn}
+              variant="subtitle2"
+              color="secondary.main"
+            >
               Entrar
             </Link>
           </>
         }
-        sx={{ textAlign: { xs: "center", md: "left" } }}
       />
 
       {errorMessage && (
@@ -209,18 +223,10 @@ export function ClerkSignUpView() {
         </Alert>
       )}
 
-      {infoMessage && (
-        <Alert severity="info" sx={{ mb: 3 }}>
-          {infoMessage}
-        </Alert>
-      )}
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm()}
       </Form>
 
-      <FormDivider />
-
-      <FormSocials signInWithGoogle={() => signUpWithGoogle()} />
       <SignUpTerms />
     </>
   );

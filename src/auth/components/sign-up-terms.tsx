@@ -1,7 +1,7 @@
-import type { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from "@mui/material/Box";
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
 
 // ----------------------------------------------------------------------
 
@@ -12,24 +12,19 @@ export function SignUpTerms({ sx, ...other }: BoxProps) {
       sx={[
         () => ({
           mt: 3,
-          display: 'block',
-          textAlign: 'center',
-          typography: 'caption',
-          color: 'text.secondary',
+          display: "block",
+          textAlign: "center",
+          typography: "caption",
+          color: "text.secondary",
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
-      {'By signing up, I agree to '}
+      {"Ao se cadastrar, eu concordo com os "}
       <Link underline="always" color="text.primary">
-        Terms of service
+        termos de uso.
       </Link>
-      {' and '}
-      <Link underline="always" color="text.primary">
-        Privacy policy
-      </Link>
-      .
     </Box>
   );
 }
