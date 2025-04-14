@@ -1,25 +1,25 @@
-import type { BoxProps } from '@mui/material/Box';
-import type { SwitchProps } from '@mui/material/Switch';
-import type { FormGroupProps } from '@mui/material/FormGroup';
-import type { FormLabelProps } from '@mui/material/FormLabel';
-import type { FormControlProps } from '@mui/material/FormControl';
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
-import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import type { BoxProps } from "@mui/material/Box";
+import type { SwitchProps } from "@mui/material/Switch";
+import type { FormGroupProps } from "@mui/material/FormGroup";
+import type { FormLabelProps } from "@mui/material/FormLabel";
+import type { FormControlProps } from "@mui/material/FormControl";
+import type { FormHelperTextProps } from "@mui/material/FormHelperText";
+import type { FormControlLabelProps } from "@mui/material/FormControlLabel";
 
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from "react-hook-form";
 
-import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { HelperText } from './help-text';
+import { HelperText } from "./help-text";
 
 // ----------------------------------------------------------------------
 
-export type RHFSwitchProps = Omit<FormControlLabelProps, 'control'> & {
+export type RHFSwitchProps = Omit<FormControlLabelProps, "control"> & {
   name: string;
   helperText?: React.ReactNode;
   slotProps?: {
@@ -43,11 +43,12 @@ export function RHFSwitch({ name, helperText, label, slotProps, sx, ...other }: 
             control={
               <Switch
                 {...field}
+                color={slotProps?.switch?.color ?? "secondary"}
                 checked={field.value}
                 {...slotProps?.switch}
                 inputProps={{
                   id: `${name}-switch`,
-                  ...(!label && { 'aria-label': `${name} switch` }),
+                  ...(!label && { "aria-label": `${name} switch` }),
                   ...slotProps?.switch?.inputProps,
                 }}
               />
@@ -111,7 +112,7 @@ export function RHFMultiSwitch({
               component="legend"
               {...slotProps?.formLabel}
               sx={[
-                { mb: 1, typography: 'body2' },
+                { mb: 1, typography: "body2" },
                 ...(Array.isArray(slotProps?.formLabel?.sx)
                   ? (slotProps?.formLabel?.sx ?? [])
                   : [slotProps?.formLabel?.sx]),
@@ -132,7 +133,7 @@ export function RHFMultiSwitch({
                     {...slotProps?.switch}
                     inputProps={{
                       id: `${option.label}-switch`,
-                      ...(!option.label && { 'aria-label': `${option.label} switch` }),
+                      ...(!option.label && { "aria-label": `${option.label} switch` }),
                       ...slotProps?.switch?.inputProps,
                     }}
                   />

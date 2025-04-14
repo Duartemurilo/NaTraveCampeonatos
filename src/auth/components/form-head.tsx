@@ -1,7 +1,7 @@
-import type { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from "@mui/material/Box";
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ export function FormHead({ sx, icon, title, description, ...other }: FormHeadPro
   return (
     <>
       {icon && (
-        <Box component="span" sx={{ mb: 3, mx: 'auto', display: 'inline-flex' }}>
+        <Box component="span" sx={{ mb: 3, mx: "auto", display: "inline-flex" }}>
           {icon}
         </Box>
       )}
@@ -25,10 +25,10 @@ export function FormHead({ sx, icon, title, description, ...other }: FormHeadPro
           () => ({
             mb: 5,
             gap: 1.5,
-            display: 'flex',
-            textAlign: 'center',
-            whiteSpace: 'pre-line',
-            flexDirection: 'column',
+            display: "flex",
+            textAlign: "center",
+            whiteSpace: "pre-line",
+            flexDirection: "column",
           }),
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
@@ -37,7 +37,7 @@ export function FormHead({ sx, icon, title, description, ...other }: FormHeadPro
         <Typography variant="h5">{title}</Typography>
 
         {description && (
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             {description}
           </Typography>
         )}

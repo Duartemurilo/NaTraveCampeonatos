@@ -82,19 +82,20 @@ export function ClerkResetPasswordView() {
         <Field.Text
           autoFocus
           name="email"
-          label="Endereço de email"
+          label="Seu e-mail"
           placeholder="exemplo@gmail.com"
           slotProps={{ inputLabel: { shrink: true } }}
         />
         <LoadingButton
           fullWidth
           size="large"
+          color="primary"
           type="submit"
           variant="contained"
           loading={methodsStep1.formState.isSubmitting}
-          loadingIndicator="Enviando código..."
+          loadingIndicator={<CircularProgress size={16} />}
         >
-          Enviar código de recuperação
+          Enviar link
         </LoadingButton>
       </Box>
     </Form>
@@ -133,9 +134,10 @@ export function ClerkResetPasswordView() {
           fullWidth
           size="large"
           type="submit"
+          color="primary"
           variant="contained"
           loading={methodsStep2.formState.isSubmitting}
-          loadingIndicator={<CircularProgress />}
+          loadingIndicator={<CircularProgress size={16} />}
         >
           Redefinir senha
         </LoadingButton>
@@ -148,7 +150,7 @@ export function ClerkResetPasswordView() {
       <FormHead
         icon={<PasswordIcon />}
         title="Esqueceu sua senha?"
-        description="Digite o endereço de email associado à sua conta para receber um código de recuperação, depois use o código para redefinir sua senha."
+        description="Vamos te enviar um link de acesso no seu e-mail."
       />
 
       {error && (
@@ -158,7 +160,8 @@ export function ClerkResetPasswordView() {
       )}
 
       {!successfulCreation ? renderStep1Form() : renderStep2Form()}
-      <FormReturnLink href={paths.auth.clerk.signIn} />
+
+      <FormReturnLink href={paths.auth.clerk.signIn} label="Voltar" />
     </>
   );
 }

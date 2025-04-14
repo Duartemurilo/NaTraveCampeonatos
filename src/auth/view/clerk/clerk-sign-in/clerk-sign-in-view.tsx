@@ -21,9 +21,6 @@ import { RouterLink } from "src/routes/components";
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
-import { FormDivider } from "src/auth/components/form-divider";
-import { FormSocials } from "src/auth/components/form-socials";
-
 import { SignInSchema } from "../form-data";
 import { defaultValues } from "../constants";
 import { getErrorMessage } from "../../../utils";
@@ -47,20 +44,6 @@ export function ClerkSignInView() {
     formState: { isSubmitting },
   } = methods;
 
-  const signInWithGoogle = async () => {
-    if (!signIn) return;
-
-    try {
-      await signIn.authenticateWithRedirect({
-        strategy: "oauth_google",
-        redirectUrl: "/auth/callback",
-        redirectUrlComplete: paths.dashboard.home.root,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onSubmit = handleSubmit(async (data) => {
     if (!signIn || !setActive) {
       console.error("Clerk não está devidamente inicializado.");
@@ -77,7 +60,7 @@ export function ClerkSignInView() {
         await setActive({ session: result.createdSessionId });
         router.push(paths.dashboard.home.root);
       } else {
-        setErrorMessage("A autenticação requer etapas adicionais. Verifique seu email ou 2FA.");
+        setErrorMessage("A autenticação requer etapas adicionais. Verifique seu e-mail ou 2FA.");
       }
     } catch (error: any) {
       console.error(error);
@@ -90,7 +73,8 @@ export function ClerkSignInView() {
     <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
       <Field.Text
         name="email"
-        label="Endereço de email"
+        label="Seu e-mail"
+        placeholder="exemplo@gmail.com"
         slotProps={{ inputLabel: { shrink: true } }}
       />
 
@@ -102,13 +86,13 @@ export function ClerkSignInView() {
           color="inherit"
           sx={{ alignSelf: "flex-end" }}
         >
-          Esqueceu a senha?
+          Esqueci minha senha
         </Link>
 
         <Field.Text
           name="password"
           label="Senha"
-          placeholder="8+ caracteres"
+          placeholder="Informe sua senha"
           type={showPassword.value ? "text" : "password"}
           slotProps={{
             inputLabel: { shrink: true },
@@ -129,7 +113,7 @@ export function ClerkSignInView() {
 
       <LoadingButton
         fullWidth
-        color="inherit"
+        color="primary"
         size="large"
         type="submit"
         variant="contained"
@@ -147,13 +131,18 @@ export function ClerkSignInView() {
         title="Entre na sua conta"
         description={
           <>
-            {`Não tem uma conta? `}
-            <Link component={RouterLink} href={paths.auth.clerk.signUp} variant="subtitle2">
+            {`Ainda não tem uma conta? `}
+            <Link
+              component={RouterLink}
+              href={paths.auth.clerk.signUp}
+              variant="subtitle2"
+              color="secondary.main"
+            >
               Cadastre-se
             </Link>
           </>
         }
-        sx={{ textAlign: { xs: "center", md: "left" } }}
+        sx={{ textAlign: "center" }}
       />
 
       {!!errorMessage && (
@@ -165,10 +154,6 @@ export function ClerkSignInView() {
       <Form methods={methods} onSubmit={onSubmit}>
         {renderForm()}
       </Form>
-
-      <FormDivider />
-
-      <FormSocials signInWithGoogle={() => signInWithGoogle()} />
     </>
   );
 }

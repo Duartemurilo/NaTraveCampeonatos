@@ -1,0 +1,6 @@
+export enum OrganizationType {
+  SOCCER_SCHOOL = "SOCCER_SCHOOL",
+  FACILITY = "FACILITY",
+  LEAGUE_FEDERATION = "LEAGUE_FEDERATION",
+  OTHER = "OTHER",
+}
