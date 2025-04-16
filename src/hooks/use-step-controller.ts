@@ -1,8 +1,7 @@
-// hooks/use-step-controller.ts
 import { useState, useCallback } from "react";
 
-export function useStepController<T>(steps: T[]) {
-  const [activeStep, setActiveStep] = useState(0);
+export function useStepController<T>(steps: T[], initialStep = 0) {
+  const [activeStep, setActiveStep] = useState(initialStep);
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;

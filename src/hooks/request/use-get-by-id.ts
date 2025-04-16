@@ -9,7 +9,7 @@ export interface UseGetByIdProps<TData> {
   key: string | any[];
   endpoint: string;
   id: number | string;
-  isPaused?: boolean;
+  enabled?: boolean; // flag para habilitar/desabilitar a requisição; default: true
   swrConfig?: SWRConfiguration;
   transformData?: (rawData: unknown) => TData;
 }
@@ -24,7 +24,7 @@ export function useGetById<TData>({
   key,
   endpoint,
   id,
-  isPaused = false,
+  enabled = true,
   swrConfig,
   transformData,
 }: UseGetByIdProps<TData>): UseGetByIdReturn<TData> {
@@ -40,10 +40,9 @@ export function useGetById<TData>({
     return response as TData;
   };
 
-  const { data, error, isValidating } = useSWR<TData>(isPaused ? null : key, fetcher, {
+  const { data, error, isValidating } = useSWR<TData>(enabled ? key : null, fetcher, {
     revalidateOnFocus: false,
     ...swrConfig,
-    isPaused: () => isPaused,
   });
 
   return {

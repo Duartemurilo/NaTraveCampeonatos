@@ -1,8 +1,9 @@
 // ----------------------------------------------------------------------
 
 const ROOTS = {
-  AUTH: "/auth",
+  AUTH: "",
   DASHBOARD: "/dashboard",
+  CHAMPIONSHIP: "/campeonato",
 };
 
 // ----------------------------------------------------------------------
@@ -17,25 +18,31 @@ export const paths = {
   minimalStore: "/minimal-store",
   auth: {
     clerk: {
-      signIn: `${ROOTS.AUTH}/clerk/sign-in`,
-      signUp: `${ROOTS.AUTH}/clerk/sign-up`,
-      verifyEmail: `${ROOTS.AUTH}/clerk/verify-email`,
-      resetPassword: `${ROOTS.AUTH}/clerk/reset-password`,
+      signIn: `${ROOTS.AUTH}/entrar`,
+      signUp: `${ROOTS.AUTH}/cadastro`,
+      verifyEmail: `${ROOTS.AUTH}/verificar-e-mail`,
+      resetPassword: `${ROOTS.AUTH}/esqueci-minha-senha`,
     },
+  },
+
+  championships: {
+    root: `${ROOTS.CHAMPIONSHIP}/cartoes`,
+    cards: `${ROOTS.CHAMPIONSHIP}/cartoes`,
+    list: `${ROOTS.CHAMPIONSHIP}/lista`,
+    criar: (step: number, id?: string) => {
+      let url = `${ROOTS.CHAMPIONSHIP}/criar/informacoes-do-campeonato?step=${step}`;
+      if (id) {
+        url += `&id=${id}`;
+      }
+      return url;
+    },
+    details: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}`,
+    edit: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}/editar`,
   },
 
   dashboard: {
     home: {
       root: `${ROOTS.DASHBOARD}/home`,
-    },
-
-    championships: {
-      root: `${ROOTS.DASHBOARD}/championships/cards`,
-      cards: `${ROOTS.DASHBOARD}/championships/cards`,
-      list: `${ROOTS.DASHBOARD}/championships/list`,
-      new: `${ROOTS.DASHBOARD}/championships/new`,
-      details: (id: string) => `${ROOTS.DASHBOARD}/championships/${id}`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/championships/${id}/edit`,
     },
 
     user: {

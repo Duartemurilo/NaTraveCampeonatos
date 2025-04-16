@@ -14,13 +14,13 @@ export const signUpdefaultValues: SignUpSchemaType = {
   phoneNumber: "",
   password: "",
   hasOrganization: false,
-  organizationType: OrganizationType.SOCCER_SCHOOL,
-  organizationName: "",
+  organization_type: OrganizationType.SOCCER_SCHOOL,
+  organization_name: "",
 };
 
 export const ORGANIZATION_TYPE_OPTIONS = [
-  { label: "Escola de futebol", value: OrganizationType.SOCCER_SCHOOL },
-  { label: "Quadra de futebol", value: OrganizationType.FACILITY },
+  { label: "Escola De Futebol", value: OrganizationType.SOCCER_SCHOOL },
+  { label: "Quadra De Futebol", value: OrganizationType.FACILITY },
   { label: "Liga/Federação", value: OrganizationType.LEAGUE_FEDERATION },
   { label: "Outros", value: OrganizationType.OTHER },
 ];

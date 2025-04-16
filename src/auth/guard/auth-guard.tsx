@@ -20,8 +20,8 @@ export function AuthGuard({ children }: AuthGuardProps) {
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       const queryString = new URLSearchParams({ returnTo: pathname }).toString();
-      const signInPath = paths.auth.clerk.signIn;
-      const redirectPath = `${signInPath}?${queryString}`;
+      const signUpPath = paths.auth.clerk.signUp;
+      const redirectPath = `${signUpPath}?${queryString}`;
       router.replace(redirectPath);
     }
   }, [isLoaded, isSignedIn, pathname, router]);

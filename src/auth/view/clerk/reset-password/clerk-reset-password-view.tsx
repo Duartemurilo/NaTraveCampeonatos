@@ -1,47 +1,46 @@
 "use client";
 
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { useSignIn } from "@clerk/nextjs";
-import { useBoolean } from "minimal-shared/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState, useEffect } from "react";
 
-import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
-import { CircularProgress } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import LoadingButton from "@mui/lab/LoadingButton";
-import InputAdornment from "@mui/material/InputAdornment";
 
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 
-import { PasswordIcon } from "src/assets/icons";
-
-import { Iconify } from "src/components/iconify";
-import { Form, Field } from "src/components/hook-form";
+import PasswordIcon from "src/assets/icons/password-icon";
 
 import { FormHead } from "src/auth/components/form-head";
 import { FormReturnLink } from "src/auth/components/form-return-link";
 
-import { ResetPasswordStep1Schema, ResetPasswordStep2Schema } from "../form-data";
+import ResetPasswordStep2 from "./compoents/reset-password-step2";
+import ResetPasswordStep1 from "./compoents/reset-password-step1";
 
 export function ClerkResetPasswordView() {
   const router = useRouter();
   const { signIn, setActive } = useSignIn();
   const [successfulCreation, setSuccessfulCreation] = useState(false);
   const [error, setError] = useState("");
-  const showPassword = useBoolean();
 
-  const methodsStep1 = useForm({
-    resolver: zodResolver(ResetPasswordStep1Schema),
-    defaultValues: { email: "" },
-  });
+  const [cooldown, setCooldown] = useState(60);
+  const [isCooldownInitialized, setIsCooldownInitialized] = useState(false);
 
-  const methodsStep2 = useForm({
-    resolver: zodResolver(ResetPasswordStep2Schema),
-    defaultValues: { password: "", code: "" },
-  });
+  useEffect(() => {
+    if (!isCooldownInitialized) {
+      setCooldown(60);
+      setIsCooldownInitialized(true);
+    }
+  }, [isCooldownInitialized]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (cooldown > 0) {
+      timer = setInterval(() => {
+        setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [cooldown]);
 
   async function requestReset(data: { email: string }) {
     try {
@@ -76,81 +75,41 @@ export function ClerkResetPasswordView() {
     }
   }
 
-  const renderStep1Form = () => (
-    <Form methods={methodsStep1} onSubmit={methodsStep1.handleSubmit(requestReset)}>
-      <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
-        <Field.Text
-          autoFocus
-          name="email"
-          label="Seu e-mail"
-          placeholder="exemplo@gmail.com"
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-        <LoadingButton
-          fullWidth
-          size="large"
-          color="primary"
-          type="submit"
-          variant="contained"
-          loading={methodsStep1.formState.isSubmitting}
-          loadingIndicator={<CircularProgress size={16} />}
-        >
-          Enviar link
-        </LoadingButton>
-      </Box>
-    </Form>
-  );
+  async function handleResendEmail(e: React.FormEvent) {
+    e.preventDefault();
+    if (!signIn || !signIn.identifier) return;
+    const emailAddressId = signIn.identifier;
 
-  const renderStep2Form = () => (
-    <Form key="step2" methods={methodsStep2} onSubmit={methodsStep2.handleSubmit(resetPassword)}>
-      <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
-        <Field.Text
-          name="password"
-          label="Nova senha"
-          placeholder="8+ caracteres"
-          type={showPassword.value ? "text" : "password"}
-          slotProps={{
-            inputLabel: { shrink: true },
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={showPassword.onToggle} edge="end">
-                    <Iconify
-                      icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-        <Field.Text
-          name="code"
-          label="Código de recuperação"
-          placeholder="Digite o código enviado para seu email"
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          color="primary"
-          variant="contained"
-          loading={methodsStep2.formState.isSubmitting}
-          loadingIndicator={<CircularProgress size={16} />}
-        >
-          Redefinir senha
-        </LoadingButton>
-      </Box>
-    </Form>
-  );
+    await signIn
+      ?.create({
+        strategy: "reset_password_email_code",
+        identifier: emailAddressId,
+      })
+      .then((_) => {
+        setSuccessfulCreation(true);
+        setError("");
+        setCooldown(60);
+      })
+      .catch((err) => {
+        console.error("error", err.errors[0].longMessage);
+        setError(err.errors[0].longMessage || "Ocorreu um erro ao reenviar o código.");
+      });
+  }
 
   return (
     <>
       <FormHead
         icon={<PasswordIcon />}
-        title="Esqueceu sua senha?"
-        description="Vamos te enviar um link de acesso no seu e-mail."
+        title={!successfulCreation ? "Esqueceu sua senha?" : "Verifique seu e-mail!"}
+        description={
+          !successfulCreation ? (
+            <>Vamos te enviar um código de verificação para você redefinir sua senha.</>
+          ) : (
+            <>
+              Enviamos um código de verificação para <strong>{signIn?.identifier}</strong>.
+            </>
+          )
+        }
       />
 
       {error && (
@@ -159,9 +118,19 @@ export function ClerkResetPasswordView() {
         </Alert>
       )}
 
-      {!successfulCreation ? renderStep1Form() : renderStep2Form()}
+      {!successfulCreation ? (
+        <ResetPasswordStep1 onSubmit={requestReset} />
+      ) : (
+        <ResetPasswordStep2
+          onSubmit={resetPassword}
+          onResendEmail={handleResendEmail}
+          cooldown={cooldown}
+        />
+      )}
 
       <FormReturnLink href={paths.auth.clerk.signIn} label="Voltar" />
     </>
   );
 }
+
+export default ClerkResetPasswordView;

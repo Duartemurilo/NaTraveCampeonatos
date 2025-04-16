@@ -15,6 +15,8 @@ import { RHFSingleCheckboxGroup } from "./rgf-single-checkbox-group";
 import { RHFUpload, RHFUploadBox, RHFUploadAvatar } from "./rhf-upload";
 import { RHFConditionalTimePicker } from "./rhf-conditional-time-picker";
 import { RHFDatePicker, RHFMobileDateTimePicker } from "./rhf-date-picker";
+import { RHFMultiToggleButtonGroup } from "./rhf-multi-toggle-button-group";
+import { RHFSingleToggleButtonGroup } from "./rhf-single-toggle-button-group";
 import { RHFConditionalDateTimePicker } from "./rhf-conditional-date-time-picker";
 
 // ----------------------------------------------------------------------
@@ -44,4 +46,6 @@ export const Field = {
   DateTimePicker: RHFConditionalDateTimePicker,
   TimePicker: RHFConditionalTimePicker,
   SingleCheckboxGroup: RHFSingleCheckboxGroup,
+  MultiToggleButtonGroup: RHFMultiToggleButtonGroup,
+  SingleToggleButtonGroup: RHFSingleToggleButtonGroup,
 };
