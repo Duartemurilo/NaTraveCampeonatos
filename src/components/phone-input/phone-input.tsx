@@ -109,6 +109,7 @@ export const PhoneInput = forwardRef<HTMLDivElement, PhoneInputProps>((props, re
         country={selectedCountry}
         inputComponent={CustomInput}
         placeholder={placeholder ?? "Enter phone number"}
+        maxLength={selectedCountry === "BR" ? 15 : undefined} // passamos diretamente
         slotProps={{
           inputLabel: { shrink: true },
           input: {
@@ -129,9 +130,17 @@ export const PhoneInput = forwardRef<HTMLDivElement, PhoneInputProps>((props, re
 
 // ----------------------------------------------------------------------
 
-const CustomInput = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => (
-  <TextField inputRef={ref} {...props} />
-));
+const CustomInput = forwardRef<HTMLInputElement, TextFieldProps & { maxLength?: number }>(
+  (props, ref) => {
+    // Extraímos maxLength de forma separada
+    const { maxLength, inputProps: inputPropsFromProps, ...other } = props;
+    const inputProps = {
+      ...inputPropsFromProps,
+      maxLength: maxLength ?? inputPropsFromProps?.maxLength,
+    };
+    return <TextField {...other} inputProps={inputProps} inputRef={ref} />;
+  }
+);
 
 // ----------------------------------------------------------------------
 

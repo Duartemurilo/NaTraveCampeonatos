@@ -11,13 +11,7 @@ export const SignInSchema = zod.object({
     .string()
     .min(1, { message: "Por favor, informe o e-mail." })
     .email({ message: "Informe um e-mail válido (ex: exemplo@dominio.com)." }),
-  password: zod
-    .string()
-    .min(1, { message: "Por favor, informe a senha." })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
-      message:
-        "A senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e um caractere especial.",
-    }),
+  password: zod.string().min(1, { message: "Por favor, informe a senha." }),
 });
 
 export const SignUpSchema = zod
@@ -40,22 +34,22 @@ export const SignUpSchema = zod
     password: zod
       .string()
       .min(1, { message: "Por favor, informe a senha." })
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, {
         message:
-          "A senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e um caractere especial.",
+          "A senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números.",
       }),
 
     hasOrganization: zod.boolean().default(false),
-    organizationType: zod.string().optional(),
-    organizationName: zod.string().optional(),
+    organization_type: zod.string().optional(),
+    organization_name: zod.string().optional(),
   })
-  .refine((data) => !data.hasOrganization || !!data.organizationType, {
+  .refine((data) => !data.hasOrganization || !!data.organization_type, {
     message: "Por favor, selecione o tipo de organização.",
-    path: ["organizationType"],
+    path: ["organization_type"],
   })
-  .refine((data) => !data.hasOrganization || !!data.organizationName, {
+  .refine((data) => !data.hasOrganization || !!data.organization_name, {
     message: "Por favor, informe o nome da organização.",
-    path: ["organizationName"],
+    path: ["organization_name"],
   });
 
 export const ResetPasswordStep1Schema = zod.object({
@@ -68,10 +62,10 @@ export const ResetPasswordStep1Schema = zod.object({
 export const ResetPasswordStep2Schema = zod.object({
   password: zod
     .string()
-    .min(1, { message: "Por favor, informe a nova senha." })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, {
+    .min(1, { message: "Por favor, informe a senha." })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, {
       message:
-        "A nova senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e um caractere especial.",
+        "A senha deve conter ao menos 8 caracteres, incluindo letras maiúsculas, minúsculas e números.",
     }),
   code: zod.string().min(1, { message: "O código de recuperação é obrigatório." }),
 });
@@ -86,7 +80,7 @@ export function normalizeSignUpData(data: SignUpSchemaType): SignUpSchemaType {
     ...data,
     firstName,
     lastName,
-    organizationType: data.hasOrganization ? data.organizationType : "",
-    organizationName: data.hasOrganization ? data.organizationName : "",
+    organization_type: data.hasOrganization ? data.organization_type : "",
+    organization_name: data.hasOrganization ? data.organization_name : "",
   };
 }

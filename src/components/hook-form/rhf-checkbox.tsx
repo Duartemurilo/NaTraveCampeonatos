@@ -1,25 +1,25 @@
-import type { BoxProps } from '@mui/material/Box';
-import type { CheckboxProps } from '@mui/material/Checkbox';
-import type { FormGroupProps } from '@mui/material/FormGroup';
-import type { FormLabelProps } from '@mui/material/FormLabel';
-import type { FormControlProps } from '@mui/material/FormControl';
-import type { FormHelperTextProps } from '@mui/material/FormHelperText';
-import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import type { BoxProps } from "@mui/material/Box";
+import type { CheckboxProps } from "@mui/material/Checkbox";
+import type { FormGroupProps } from "@mui/material/FormGroup";
+import type { FormLabelProps } from "@mui/material/FormLabel";
+import type { FormControlProps } from "@mui/material/FormControl";
+import type { FormHelperTextProps } from "@mui/material/FormHelperText";
+import type { FormControlLabelProps } from "@mui/material/FormControlLabel";
 
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from "react-hook-form";
 
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-import { HelperText } from './help-text';
+import { HelperText } from "./help-text";
 
 // ----------------------------------------------------------------------
 
-type RHFCheckboxProps = Omit<FormControlLabelProps, 'control'> & {
+type RHFCheckboxProps = Omit<FormControlLabelProps, "control"> & {
   name: string;
   helperText?: React.ReactNode;
   slotProps?: {
@@ -54,7 +54,7 @@ export function RHFCheckbox({
                 {...slotProps?.checkbox}
                 inputProps={{
                   id: `${name}-checkbox`,
-                  ...(!label && { 'aria-label': `${name} checkbox` }),
+                  ...(!label && { "aria-label": `${name} checkbox` }),
                   ...slotProps?.checkbox?.inputProps,
                 }}
               />
@@ -115,7 +115,7 @@ export function RHFMultiCheckbox({
               component="legend"
               {...slotProps?.formLabel}
               sx={[
-                { mb: 1, typography: 'body2' },
+                { mb: 1, typography: "body2" },
                 ...(Array.isArray(slotProps?.formLabel?.sx)
                   ? (slotProps?.formLabel?.sx ?? [])
                   : [slotProps?.formLabel?.sx]),
@@ -136,7 +136,7 @@ export function RHFMultiCheckbox({
                     {...slotProps?.checkbox}
                     inputProps={{
                       id: `${option.label}-checkbox`,
-                      ...(!option.label && { 'aria-label': `${option.label} checkbox` }),
+                      ...(!option.label && { "aria-label": `${option.label} checkbox` }),
                       ...slotProps?.checkbox?.inputProps,
                     }}
                   />

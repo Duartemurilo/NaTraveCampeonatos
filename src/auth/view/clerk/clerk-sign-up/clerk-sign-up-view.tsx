@@ -1,7 +1,7 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
 import { useBoolean } from "minimal-shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,114 +22,64 @@ import {
   checkIfHasUpperCase,
 } from "src/utils/string-helpers";
 
-import EmailInboxIcon from "src/assets/icons/email-inbox-icon";
-
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
 import { isPasswordValid } from "src/auth/utils";
 import { SignUpTerms } from "src/auth/components/sign-up-terms";
-import { FormReturnLink } from "src/auth/components/form-return-link";
 import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
 
 import { FormHead } from "../../../components/form-head";
 import { SignUpSchema, normalizeSignUpData } from "../form-data";
+import { EmailVerificationView } from "./components/email-code-verification-view";
 import { ORGANIZATION_TYPE_OPTIONS, signUpdefaultValues as defaultValues } from "../constants";
 
+type SignUpFormData = typeof defaultValues;
+
 export function ClerkSignUpView() {
-  const { handleSignUp, handleResendEmail, errorMessage, isEmailSent, registeredEmail } =
-    useSignUpLogic();
+  const signUpMethods = useForm<SignUpFormData>({
+    resolver: zodResolver(SignUpSchema),
+    defaultValues,
+  });
+
+  const { handleSubmit, formState, watch } = signUpMethods;
+  const { isSubmitting } = formState;
+  const { handleSignUp, errorMessage, isEmailSent, registeredEmail } = useSignUpLogic();
   const showPassword = useBoolean();
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
-  const resolver = zodResolver(SignUpSchema);
-  const methods = useForm({ resolver, defaultValues });
-  const { handleSubmit, formState, watch } = methods;
-  const { isSubmitting } = formState;
-
   const passwordValue = watch("password");
   const hasOrganizationValue = watch("hasOrganization");
+  const email = watch("email");
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSignUpSubmit = handleSubmit(async (data) => {
     const normalizedData = normalizeSignUpData(data);
     await handleSignUp(normalizedData);
   });
-
-  const [cooldown, setCooldown] = useState(0);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (cooldown > 0) {
-      timer = setInterval(() => {
-        setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [cooldown]);
-
-  const onResendEmail = async () => {
-    setCooldown(30);
-    await handleResendEmail();
-  };
-
-  if (isEmailSent) {
-    return (
-      <>
-        <FormHead
-          icon={<EmailInboxIcon fontSize="large" />}
-          title="Confirme seu e-mail!"
-          description={
-            <>
-              Enviamos um e-mail para <strong>{registeredEmail}</strong> com um link para você
-              acessar o <strong>Central NaTrave!</strong>
-            </>
-          }
-        />
-
-        <LoadingButton
-          fullWidth
-          color="primary"
-          size="large"
-          type="submit"
-          variant="contained"
-          disabled={cooldown > 0}
-          onClick={onResendEmail}
-        >
-          {cooldown > 0 ? `Reenviar e-mail (${cooldown}s)` : "Reenviar e-mail"}
-        </LoadingButton>
-
-        <FormReturnLink href={paths.auth.clerk.signIn} label="Voltar para Login" />
-      </>
-    );
-  }
 
   const renderForm = () => (
     <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
       <Field.Text
         name="firstName"
-        label="Nome"
+        label="Nome completo"
         placeholder="Seu nome completo"
         slotProps={{ inputLabel: { shrink: true } }}
       />
-
       <Field.Phone name="phoneNumber" label="WhatsApp" placeholder="(99) 99999-9999" country="BR" />
-
       <Field.Text
         name="email"
         label="E-mail"
         placeholder="exemplo@gmail.com"
         slotProps={{ inputLabel: { shrink: true } }}
       />
-
       <Field.Switch
         name="hasOrganization"
         labelPlacement="end"
         label="Faço parte de uma organização"
       />
-
       {hasOrganizationValue && (
         <>
           <Field.Select
-            name="organizationType"
+            name="organization_type"
             label="Tipo de organização"
             required
             slotProps={{ inputLabel: { shrink: true } }}
@@ -140,25 +90,21 @@ export function ClerkSignUpView() {
               </MenuItem>
             ))}
           </Field.Select>
-
           <Field.Text
-            name="organizationName"
+            name="organization_name"
             label="Nome da organização"
             placeholder="Nome da sua organização"
             slotProps={{ inputLabel: { shrink: true } }}
           />
         </>
       )}
-
       <Field.Text
         name="password"
         label="Senha"
         placeholder="Informe sua senha"
         type={showPassword.value ? "text" : "password"}
         onBlur={() => {
-          if (passwordValue) {
-            setShowPasswordRequirements(true);
-          }
+          if (passwordValue) setShowPasswordRequirements(true);
         }}
         slotProps={{
           inputLabel: { shrink: true },
@@ -198,6 +144,8 @@ export function ClerkSignUpView() {
     </Box>
   );
 
+  if (isEmailSent) return <EmailVerificationView registeredEmail={registeredEmail || email} />;
+
   return (
     <>
       <FormHead
@@ -216,17 +164,14 @@ export function ClerkSignUpView() {
           </>
         }
       />
-
       {errorMessage && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {errorMessage}
         </Alert>
       )}
-
-      <Form methods={methods} onSubmit={onSubmit}>
+      <Form methods={signUpMethods} onSubmit={onSignUpSubmit}>
         {renderForm()}
       </Form>
-
       <SignUpTerms />
     </>
   );

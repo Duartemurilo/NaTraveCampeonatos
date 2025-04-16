@@ -1,35 +1,23 @@
-import type { Category } from "./category";
-import type { MatchType } from "./match-type";
-import type { MatchDays } from "./match-days";
-import type { TournamentFormat } from "./tournament-format";
+import type { GENDER } from "./gender";
+import type { ChampionshipModality } from "./championship-modality";
+import type { ChampionshipFormat, ChampionshipFormatConfig } from "./championship-format";
 
-export type IChampionship = IChampionshipInput & {
+export type IChampionship = {
   id: string;
   rowDate: string;
-};
 
-export type IChampionshipInput = {
-  // Ficha do Campeonato
+  //Informações básicas
   championshipName: string;
-  championshipDescription?: string;
-  championshipBanner: string | File | null;
+  gender: GENDER;
+  championshipModality: ChampionshipModality;
 
-  // Datas e Localização
+  //Formato do campeonato
+  championshipFormat: ChampionshipFormat;
+  formatConfig: ChampionshipFormatConfig;
+
+  //Datas e localização
   startDate: string;
   endDate: string;
-  matchDays: MatchDays[];
-  startTime: string;
-  endTime: string;
   state: string;
   city: string;
-
-  // Modelo do Campeonato
-  category: Category;
-  numberOfTeams: number;
-  minAge: number;
-  maxAge: number;
-  minPlayersPerTeam: number;
-  maxPlayersPerTeam: number;
-  matchType: MatchType;
-  tournamentFormat: TournamentFormat;
 };
