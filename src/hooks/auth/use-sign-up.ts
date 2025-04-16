@@ -1,11 +1,8 @@
-// No arquivo do hook useSignUpLogic.ts
 import { useState } from "react";
 import { useSignUp } from "@clerk/clerk-react";
 
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
-
-import { CONFIG } from "src/global-config";
 
 import { getErrorMessage } from "src/auth/utils";
 
@@ -23,30 +20,27 @@ export function useSignUpLogic() {
       return;
     }
 
+    const { organization_type, organization_name, ...rest } = data;
+    const hasOrganization = Boolean(organization_name || organization_type);
+
+    const unsafeMetadata = hasOrganization ? { organization_type, organization_name } : undefined;
+
     try {
       await signUp.create({
-        emailAddress: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber,
-        unsafeMetadata: {
-          hasOrganization: data.hasOrganization,
-          organizationType: data.organizationType,
-          organizationName: data.organizationName,
-        },
+        emailAddress: rest.email,
+        password: rest.password,
+        firstName: rest.firstName,
+        lastName: rest.lastName,
+        phoneNumber: rest.phoneNumber,
+        ...(unsafeMetadata && { unsafeMetadata }),
       });
 
-      setRegisteredEmail(data.email);
+      setRegisteredEmail(rest.email);
       setIsEmailSent(true);
 
-      const emailLinkFlow = signUp.createEmailLinkFlow();
-      const result = await emailLinkFlow.startEmailLinkFlow({
-        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code",
       });
-
-      await setActive({ session: result.createdSessionId });
-      router.push(paths.dashboard.home.root);
     } catch (error: any) {
       console.error(error);
       setErrorMessage(getErrorMessage(error));
@@ -56,9 +50,9 @@ export function useSignUpLogic() {
   const handleResendEmail = async () => {
     try {
       if (!signUp) return;
-      const emailLinkFlow = signUp.createEmailLinkFlow();
-      await emailLinkFlow.startEmailLinkFlow({
-        redirectUrl: `${CONFIG.baseUrl}${paths.auth.clerk.verifyEmail}`,
+
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code",
       });
     } catch (error: any) {
       console.error(error);
@@ -66,5 +60,27 @@ export function useSignUpLogic() {
     }
   };
 
-  return { handleSignUp, handleResendEmail, errorMessage, isEmailSent, registeredEmail };
+  const verifyCode = async (code: string) => {
+    try {
+      if (!signUp || !setActive) return;
+
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({ code });
+      if (signUpAttempt.status === "complete") {
+        await setActive({ session: signUpAttempt.createdSessionId });
+        router.push(paths.championships.criar(0));
+      }
+    } catch (error: any) {
+      console.error(error);
+      setErrorMessage(getErrorMessage(error));
+    }
+  };
+
+  return {
+    handleSignUp,
+    handleResendEmail,
+    verifyCode,
+    errorMessage,
+    isEmailSent,
+    registeredEmail,
+  };
 }

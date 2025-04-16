@@ -22,13 +22,13 @@ export function UserCardsView() {
         heading="User cards"
         links={[
           { name: "Dashboard", href: paths.dashboard.home.root },
-          { name: "Campeonatos", href: paths.dashboard.championships.cards },
+          { name: "Campeonatos", href: paths.championships.cards },
           { name: "Cards" },
         ]}
         action={
           <Button
             component={RouterLink}
-            href={paths.dashboard.championships.new}
+            href={paths.championships.criar(0)}
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
           >

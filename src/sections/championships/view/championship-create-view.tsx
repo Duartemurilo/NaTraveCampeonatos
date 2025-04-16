@@ -1,28 +1,39 @@
 "use client";
 
-import { paths } from "src/routes/paths";
+import type { IChampionship } from "src/types/championship";
 
-import { DashboardContent } from "src/layouts/dashboard";
+import React from "react";
+import { useSearchParams } from "next/navigation";
 
-import { CustomBreadcrumbs } from "src/components/custom-breadcrumbs";
+import { useGetById } from "src/hooks/request/use-get-by-id";
 
-import { ChampionshipNewEditForm } from "../form/championship-new-edit-form";
+import { SplashScreen } from "src/components/loading-screen";
 
-// ----------------------------------------------------------------------
+import { ChampionshipNewEditForm } from "../forms/championship-new-edit-form";
 
-export function ChampionshipCreateView() {
+export default function ChampionshipCreateView({ initialStep }: { initialStep?: number }) {
+  const searchParams = useSearchParams();
+  const step = searchParams.get("step");
+  const id = searchParams.get("id");
+
+  const fetcher = useGetById<IChampionship>({
+    key: ["championship", id],
+    endpoint: "/championships",
+    id: id || "",
+    enabled: Boolean(id),
+  });
+
+  if (!id) {
+    return <ChampionshipNewEditForm initialStep={Number(step) || initialStep} />;
+  }
+
+  const { data: championship, isLoading } = fetcher;
+  if (isLoading) return <SplashScreen />;
+
   return (
-    <DashboardContent>
-      <CustomBreadcrumbs
-        heading="Criar novo campeonato"
-        links={[
-          { name: "Campeonatos", href: paths.dashboard.championships.cards },
-          { name: "Novo campeonato" },
-        ]}
-        sx={{ mb: { xs: 3, md: 5 } }}
-      />
-
-      <ChampionshipNewEditForm />
-    </DashboardContent>
+    <ChampionshipNewEditForm
+      championsShip={championship}
+      initialStep={Number(step) || initialStep}
+    />
   );
 }
