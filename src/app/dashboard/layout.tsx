@@ -1,4 +1,3 @@
-import { CONFIG } from "src/global-config";
 import { DashboardLayout } from "src/layouts/dashboard";
 
 import { AuthGuard } from "src/auth/guard";
@@ -10,9 +9,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  if (CONFIG.auth.skip) {
-    return <DashboardLayout>{children}</DashboardLayout>;
-  }
-
-  return <AuthGuard>{children}</AuthGuard>;
+  return (
+    <AuthGuard>
+      <DashboardLayout>{children}</DashboardLayout>
+    </AuthGuard>
+  );
 }

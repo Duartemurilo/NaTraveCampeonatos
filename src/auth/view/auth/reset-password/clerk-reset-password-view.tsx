@@ -10,6 +10,7 @@ import { useRouter } from "src/routes/hooks";
 
 import PasswordIcon from "src/assets/icons/password-icon";
 
+import { getErrorMessage } from "src/auth/utils";
 import { FormHead } from "src/auth/components/form-head";
 import { FormReturnLink } from "src/auth/components/form-return-link";
 
@@ -51,7 +52,7 @@ export function ClerkResetPasswordView() {
       setSuccessfulCreation(true);
       setError("");
     } catch (err: any) {
-      setError(err.errors?.[0]?.longMessage || "Ocorreu um erro.");
+      setError(getErrorMessage(err));
     }
   }
 
@@ -71,7 +72,7 @@ export function ClerkResetPasswordView() {
         router.push(paths.dashboard.home.root);
       }
     } catch (err: any) {
-      setError(err.errors?.[0]?.longMessage || "Ocorreu um erro.");
+      setError(getErrorMessage(err));
     }
   }
 
@@ -92,7 +93,7 @@ export function ClerkResetPasswordView() {
       })
       .catch((err) => {
         console.error("error", err.errors[0].longMessage);
-        setError(err.errors[0].longMessage || "Ocorreu um erro ao reenviar o código.");
+        setError(getErrorMessage(err));
       });
   }
 
@@ -128,7 +129,17 @@ export function ClerkResetPasswordView() {
         />
       )}
 
-      <FormReturnLink href={paths.auth.clerk.signIn} label="Voltar" />
+      <FormReturnLink
+        href={successfulCreation ? "#step1" : paths.auth.clerk.signIn}
+        onClick={(e) => {
+          if (successfulCreation) {
+            e.preventDefault();
+            setSuccessfulCreation(false);
+            setError("");
+          }
+        }}
+        label="Voltar"
+      />
     </>
   );
 }

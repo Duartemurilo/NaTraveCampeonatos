@@ -151,6 +151,7 @@ const backgroundStyles = (theme: Theme): CSSObject => ({
   opacity: 1,
   width: "100%",
   aspectRatio: "1447/1043",
+  backgroundAttachment: "fixed",
   height: "100%",
   content: "''",
   position: "absolute",

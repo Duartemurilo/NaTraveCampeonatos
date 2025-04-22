@@ -7,6 +7,8 @@ import { Fragment } from "react";
 import Portal from "@mui/material/Portal";
 import { styled } from "@mui/material/styles";
 
+import { AnimateLogoZoom } from "src/components/animate";
+
 // ----------------------------------------------------------------------
 
 export type SplashScreenProps = React.ComponentProps<"div"> & {
@@ -23,7 +25,9 @@ export function SplashScreen({ portal = true, slotProps, sx, ...other }: SplashS
   return (
     <PortalWrapper>
       <LoadingWrapper {...slotProps?.wrapper}>
-        <LoadingContent sx={sx} {...other} />
+        <LoadingContent sx={sx} {...other}>
+          <AnimateLogoZoom />
+        </LoadingContent>
       </LoadingWrapper>
     </PortalWrapper>
   );
