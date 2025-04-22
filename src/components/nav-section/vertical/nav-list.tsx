@@ -1,14 +1,14 @@
-import { useBoolean } from 'minimal-shared/hooks';
-import { useRef, useEffect, useCallback } from 'react';
-import { isActiveLink, isExternalLink } from 'minimal-shared/utils';
+import { useBoolean } from "minimal-shared/hooks";
+import { useRef, useEffect, useCallback } from "react";
+import { isActiveLink, isExternalLink } from "minimal-shared/utils";
 
-import { usePathname } from 'src/routes/hooks';
+import { usePathname } from "src/routes/hooks";
 
-import { NavItem } from './nav-item';
-import { navSectionClasses } from '../styles';
-import { NavUl, NavLi, NavCollapse } from '../components';
+import { NavItem } from "./nav-item";
+import { navSectionClasses } from "../styles";
+import { NavUl, NavLi, NavCollapse } from "../components";
 
-import type { NavListProps, NavSubListProps } from '../types';
+import type { NavListProps, NavSubListProps } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -90,7 +90,7 @@ export function NavList({
       disabled={data.disabled}
       sx={{
         ...(!!data.children && {
-          [`& .${navSectionClasses.li}`]: { '&:first-of-type': { mt: 'var(--nav-item-gap)' } },
+          [`& .${navSectionClasses.li}`]: { "&:first-of-type": { mt: "var(--nav-item-gap)" } },
         }),
       }}
     >
@@ -111,7 +111,7 @@ function NavSubList({
   enabledRootRedirect,
 }: NavSubListProps) {
   return (
-    <NavUl sx={{ gap: 'var(--nav-item-gap)' }}>
+    <NavUl sx={{ gap: "var(--nav-item-gap)" }}>
       {data.map((list) => (
         <NavList
           key={list.title}

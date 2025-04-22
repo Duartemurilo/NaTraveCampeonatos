@@ -24,7 +24,7 @@ export function ChampionshipError() {
         <Button
           variant="contained"
           startIcon={<Iconify icon="eva:arrow-ios-back-fill" />}
-          onClick={() => router.push(paths.championships.cards)}
+          onClick={() => router.push(paths.dashboard.championships.list)}
           sx={{ mt: 3 }}
         >
           Voltar para lista

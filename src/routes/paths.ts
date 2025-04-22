@@ -1,9 +1,8 @@
 // ----------------------------------------------------------------------
 
 const ROOTS = {
-  AUTH: "",
+  AUTH: "/autenticacao",
   DASHBOARD: "/dashboard",
-  CHAMPIONSHIP: "/campeonato",
 };
 
 // ----------------------------------------------------------------------
@@ -25,24 +24,22 @@ export const paths = {
     },
   },
 
-  championships: {
-    root: `${ROOTS.CHAMPIONSHIP}/cartoes`,
-    cards: `${ROOTS.CHAMPIONSHIP}/cartoes`,
-    list: `${ROOTS.CHAMPIONSHIP}/lista`,
-    criar: (step: number, id?: string) => {
-      let url = `${ROOTS.CHAMPIONSHIP}/criar/informacoes-do-campeonato?step=${step}`;
-      if (id) {
-        url += `&id=${id}`;
-      }
-      return url;
-    },
-    details: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}`,
-    edit: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}/editar`,
-  },
-
   dashboard: {
     home: {
       root: `${ROOTS.DASHBOARD}/home`,
+    },
+
+    championships: {
+      list: `${ROOTS.DASHBOARD}/campeonato/lista`,
+      criar: (step: number, id?: string) => {
+        let url = `${ROOTS.DASHBOARD}/campeonato/criar/informacoes-do-campeonato?step=${step}`;
+        if (id) {
+          url += `&id=${id}`;
+        }
+        return url;
+      },
+      details: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}/editar`,
     },
 
     user: {

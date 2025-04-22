@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { CONFIG } from "src/global-config";
 
-import { ClerkResetPasswordView } from "src/auth/view/clerk/reset-password/clerk-reset-password-view";
+import { ClerkResetPasswordView } from "src/auth/view/auth/reset-password/clerk-reset-password-view";
 
 // ----------------------------------------------------------------------
 

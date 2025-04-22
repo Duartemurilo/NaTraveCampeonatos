@@ -10,7 +10,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <GuestGuard>
+    <GuestGuard isSignUp>
       <AuthCenteredLayout ignoreHeader>{children}</AuthCenteredLayout>
     </GuestGuard>
   );

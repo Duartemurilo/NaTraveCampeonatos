@@ -1,14 +1,14 @@
-import { useBoolean } from 'minimal-shared/hooks';
-import { mergeClasses } from 'minimal-shared/utils';
+import { useBoolean } from "minimal-shared/hooks";
+import { mergeClasses } from "minimal-shared/utils";
 
-import Collapse from '@mui/material/Collapse';
-import { useTheme } from '@mui/material/styles';
+import Collapse from "@mui/material/Collapse";
+import { useTheme } from "@mui/material/styles";
 
-import { NavList } from './nav-list';
-import { Nav, NavUl, NavLi, NavSubheader } from '../components';
-import { navSectionClasses, navSectionCssVars } from '../styles';
+import { NavList } from "./nav-list";
+import { Nav, NavUl, NavLi, NavSubheader } from "../components";
+import { navSectionClasses, navSectionCssVars } from "../styles";
 
-import type { NavGroupProps, NavSectionProps } from '../types';
+import type { NavGroupProps, NavSectionProps } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ export function NavSectionVertical({
       sx={[{ ...cssVars }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...other}
     >
-      <NavUl sx={{ flex: '1 1 auto', gap: 'var(--nav-item-gap)' }}>
+      <NavUl sx={{ flex: "1 1 auto", gap: "var(--nav-item-gap)" }}>
         {data.map((group) => (
           <Group
             key={group.subheader ?? group.items[0].title}
@@ -63,7 +63,7 @@ function Group({
   const groupOpen = useBoolean(true);
 
   const renderContent = () => (
-    <NavUl sx={{ gap: 'var(--nav-item-gap)' }}>
+    <NavUl sx={{ gap: "var(--nav-item-gap)" }}>
       {items.map((list) => (
         <NavList
           key={list.title}

@@ -26,7 +26,11 @@ export function HomeAppView() {
             description="Crie e administre seu primeiro campeonato na nossa plataforma!"
             img={`${CONFIG.assetsDir}/logo/logo-full.svg`}
             action={
-              <Button variant="contained" color="primary" href={paths.championships.criar(0)}>
+              <Button
+                variant="contained"
+                color="primary"
+                href={paths.dashboard.championships.criar(0)}
+              >
                 Criar campeonato
               </Button>
             }

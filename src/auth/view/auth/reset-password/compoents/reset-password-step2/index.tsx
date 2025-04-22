@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useBoolean } from "minimal-shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,7 +50,6 @@ function ResetPasswordStep2({ onSubmit, onResendEmail, cooldown }: Props) {
   const { watch, formState } = methods;
   const passwordValue = watch("password");
 
-  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -83,7 +82,6 @@ function ResetPasswordStep2({ onSubmit, onResendEmail, cooldown }: Props) {
           label="Nova senha"
           placeholder="8+ caracteres"
           type={showPassword.value ? "text" : "password"}
-          onBlur={() => passwordValue && setShowPasswordRequirements(true)}
           slotProps={{
             inputLabel: { shrink: true },
             input: {
@@ -100,14 +98,12 @@ function ResetPasswordStep2({ onSubmit, onResendEmail, cooldown }: Props) {
           }}
         />
 
-        {showPasswordRequirements && passwordValue && (
-          <PasswordRequirementsSection
-            hasLowerCase={checkIfHasLoweCase(passwordValue)}
-            hasUpperCase={checkIfHasUpperCase(passwordValue)}
-            hasNumber={checkIfHasNumbers(passwordValue)}
-            hasMinCharacters={passwordValue.length >= 8}
-          />
-        )}
+        <PasswordRequirementsSection
+          hasLowerCase={checkIfHasLoweCase(passwordValue)}
+          hasUpperCase={checkIfHasUpperCase(passwordValue)}
+          hasNumber={checkIfHasNumbers(passwordValue)}
+          hasMinCharacters={passwordValue.length >= 8}
+        />
 
         <Link
           color="inherit"

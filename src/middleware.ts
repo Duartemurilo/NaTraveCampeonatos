@@ -1,10 +1,10 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isPublicRoute = createRouteMatcher([
-  "/entrar(.*)",
-  "/cadastro(.*)",
-  "/verificar-e-mail(.*)",
-  "/esqueci-minha-senha(.*)",
+  "/autenticacao/entrar(.*)",
+  "/autenticacao/cadastro(.*)",
+  "/autenticacao/verificar-e-mail(.*)",
+  "/autenticacao/esqueci-minha-senha(.*)",
   "/callback(.*)",
   "/api/webhooks(.*)",
 ]);
