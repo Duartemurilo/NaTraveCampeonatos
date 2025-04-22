@@ -30,11 +30,11 @@ export const navData: NavSectionProps["data"] = [
       },
       {
         title: "Campeonatos",
-        path: paths.dashboard.championships.list,
+        path: paths.championships.list,
         icon: ICONS.trophy,
         children: [
-          { title: "Lista", path: paths.dashboard.championships.list },
-          { title: "Criar", path: paths.dashboard.championships.criar(0) },
+          { title: "Lista", path: paths.championships.list },
+          { title: "Criar", path: paths.championships.criar(0) },
         ],
       },
     ],

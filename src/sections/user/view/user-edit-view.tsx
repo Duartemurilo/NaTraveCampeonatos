@@ -24,7 +24,7 @@ export function UserEditView({ user: currentUser }: Props) {
         backHref={paths.dashboard.user.list}
         links={[
           { name: "Dashboard", href: paths.dashboard.home.root },
-          { name: "User", href: paths.dashboard.championships.list },
+          { name: "User", href: paths.championships.list },
           { name: currentUser?.name },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
