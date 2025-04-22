@@ -79,11 +79,13 @@ export function ClerkSignUpView() {
         placeholder="exemplo@gmail.com"
         slotProps={{ inputLabel: { shrink: true } }}
       />
+
       <Field.Switch
         name="hasOrganization"
         labelPlacement="end"
         label="Faço parte de uma organização"
       />
+
       {hasOrganizationValue && (
         <>
           <Field.Select
@@ -105,31 +107,38 @@ export function ClerkSignUpView() {
           />
         </>
       )}
-      <Field.Text
-        name="password"
-        label="Senha"
-        placeholder="Informe sua senha"
-        type={showPassword.value ? "text" : "password"}
-        slotProps={{
-          inputLabel: { shrink: true },
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={showPassword.onToggle} edge="end">
-                  <Iconify icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
 
-      <PasswordRequirementsSection
-        hasLowerCase={checkIfHasLoweCase(passwordValue)}
-        hasUpperCase={checkIfHasUpperCase(passwordValue)}
-        hasNumber={checkIfHasNumbers(passwordValue)}
-        hasMinCharacters={passwordValue.length >= 8}
-      />
+      <Box sx={{ mt: hasOrganizationValue ? 2 : 0 }}>
+        <Field.Text
+          name="password"
+          label="Senha"
+          placeholder="Informe sua senha"
+          type={showPassword.value ? "text" : "password"}
+          slotProps={{
+            inputLabel: { shrink: true },
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={showPassword.onToggle} edge="end">
+                    <Iconify
+                      icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"}
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+
+        <Box sx={{ mt: 2 }}>
+          <PasswordRequirementsSection
+            hasLowerCase={checkIfHasLoweCase(passwordValue)}
+            hasUpperCase={checkIfHasUpperCase(passwordValue)}
+            hasNumber={checkIfHasNumbers(passwordValue)}
+            hasMinCharacters={passwordValue.length >= 8}
+          />
+        </Box>
+      </Box>
 
       <LoadingButton
         fullWidth
