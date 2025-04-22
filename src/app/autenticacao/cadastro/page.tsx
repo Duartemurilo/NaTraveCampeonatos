@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { CONFIG } from "src/global-config";
 
-import { ClerkSignUpView } from "src/auth/view/clerk";
+import { ClerkSignUpView } from "src/auth/view/auth";
 
 // ----------------------------------------------------------------------
 

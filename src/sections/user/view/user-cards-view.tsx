@@ -22,7 +22,7 @@ export function UserCardsView() {
         heading="User cards"
         links={[
           { name: "Dashboard", href: paths.dashboard.home.root },
-          { name: "Campeonatos", href: paths.championships.cards },
+          { name: "Campeonatos", href: paths.championships.list },
           { name: "Cards" },
         ]}
         action={

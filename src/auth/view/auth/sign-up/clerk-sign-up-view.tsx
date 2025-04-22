@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useBoolean } from "minimal-shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,6 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { IconButton, InputAdornment, CircularProgress } from "@mui/material";
 
 import { paths } from "src/routes/paths";
+import { RouterLink } from "src/routes/components";
 
 import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
 
@@ -37,6 +39,8 @@ import { ORGANIZATION_TYPE_OPTIONS, signUpdefaultValues as defaultValues } from 
 type SignUpFormData = typeof defaultValues;
 
 export function ClerkSignUpView() {
+  const router = useRouter();
+
   const signUpMethods = useForm<SignUpFormData>({
     resolver: zodResolver(SignUpSchema),
     defaultValues,
@@ -46,10 +50,14 @@ export function ClerkSignUpView() {
   const { isSubmitting } = formState;
   const { handleSignUp, errorMessage, isEmailSent, registeredEmail } = useSignUpLogic();
   const showPassword = useBoolean();
-  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
   const passwordValue = watch("password");
   const hasOrganizationValue = watch("hasOrganization");
   const email = watch("email");
+  const [isPending, startTransition] = useTransition();
+
+  const handleNavigateToSignUp = () => {
+    startTransition(() => router.push(paths.auth.clerk.signIn));
+  };
 
   const onSignUpSubmit = handleSubmit(async (data) => {
     const normalizedData = normalizeSignUpData(data);
@@ -71,17 +79,18 @@ export function ClerkSignUpView() {
         placeholder="exemplo@gmail.com"
         slotProps={{ inputLabel: { shrink: true } }}
       />
+
       <Field.Switch
         name="hasOrganization"
         labelPlacement="end"
         label="Faço parte de uma organização"
       />
+
       {hasOrganizationValue && (
         <>
           <Field.Select
             name="organization_type"
             label="Tipo de organização"
-            required
             slotProps={{ inputLabel: { shrink: true } }}
           >
             {ORGANIZATION_TYPE_OPTIONS.map((option) => (
@@ -98,36 +107,38 @@ export function ClerkSignUpView() {
           />
         </>
       )}
-      <Field.Text
-        name="password"
-        label="Senha"
-        placeholder="Informe sua senha"
-        type={showPassword.value ? "text" : "password"}
-        onBlur={() => {
-          if (passwordValue) setShowPasswordRequirements(true);
-        }}
-        slotProps={{
-          inputLabel: { shrink: true },
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={showPassword.onToggle} edge="end">
-                  <Iconify icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
 
-      {showPasswordRequirements && passwordValue && (
-        <PasswordRequirementsSection
-          hasLowerCase={checkIfHasLoweCase(passwordValue)}
-          hasUpperCase={checkIfHasUpperCase(passwordValue)}
-          hasNumber={checkIfHasNumbers(passwordValue)}
-          hasMinCharacters={passwordValue.length >= 8}
+      <Box sx={{ mt: hasOrganizationValue ? 2 : 0 }}>
+        <Field.Text
+          name="password"
+          label="Senha"
+          placeholder="Informe sua senha"
+          type={showPassword.value ? "text" : "password"}
+          slotProps={{
+            inputLabel: { shrink: true },
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={showPassword.onToggle} edge="end">
+                    <Iconify
+                      icon={showPassword.value ? "solar:eye-bold" : "solar:eye-closed-bold"}
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         />
-      )}
+
+        <Box sx={{ mt: 2 }}>
+          <PasswordRequirementsSection
+            hasLowerCase={checkIfHasLoweCase(passwordValue)}
+            hasUpperCase={checkIfHasUpperCase(passwordValue)}
+            hasNumber={checkIfHasNumbers(passwordValue)}
+            hasMinCharacters={passwordValue.length >= 8}
+          />
+        </Box>
+      </Box>
 
       <LoadingButton
         fullWidth
@@ -154,24 +165,37 @@ export function ClerkSignUpView() {
           <>
             Já tem uma conta?{" "}
             <Link
-              component="a"
+              component={RouterLink}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigateToSignUp();
+              }}
               href={paths.auth.clerk.signIn}
               variant="subtitle2"
               color="secondary.main"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                opacity: isPending ? 0.5 : 1,
+                pointerEvents: isPending ? "none" : "auto",
+              }}
             >
               Entrar
             </Link>
           </>
         }
       />
+
       {errorMessage && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {errorMessage}
         </Alert>
       )}
+
       <Form methods={signUpMethods} onSubmit={onSignUpSubmit}>
         {renderForm()}
       </Form>
+
       <SignUpTerms />
     </>
   );

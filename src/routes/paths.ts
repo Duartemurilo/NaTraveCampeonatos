@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 const ROOTS = {
-  AUTH: "",
+  AUTH: "/autenticacao",
   DASHBOARD: "/dashboard",
   CHAMPIONSHIP: "/campeonato",
 };
@@ -26,8 +26,6 @@ export const paths = {
   },
 
   championships: {
-    root: `${ROOTS.CHAMPIONSHIP}/cartoes`,
-    cards: `${ROOTS.CHAMPIONSHIP}/cartoes`,
     list: `${ROOTS.CHAMPIONSHIP}/lista`,
     criar: (step: number, id?: string) => {
       let url = `${ROOTS.CHAMPIONSHIP}/criar/informacoes-do-campeonato?step=${step}`;
@@ -36,8 +34,8 @@ export const paths = {
       }
       return url;
     },
-    details: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}`,
-    edit: (id: string) => `${ROOTS.DASHBOARD}/campeonatos/${id}/editar`,
+    details: (id: string) => `${ROOTS.CHAMPIONSHIP}/campeonatos/${id}`,
+    edit: (id: string) => `${ROOTS.CHAMPIONSHIP}/campeonatos/${id}/editar`,
   },
 
   dashboard: {

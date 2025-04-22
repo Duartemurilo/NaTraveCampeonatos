@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignIn } from "@clerk/clerk-react";
+import { useState, useTransition } from "react";
 import { useBoolean } from "minimal-shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -33,6 +33,11 @@ export function ClerkSignInView() {
   const showPassword = useBoolean();
   const { signIn, setActive } = useSignIn();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleNavigateToSignUp = () => {
+    startTransition(() => router.push(paths.auth.clerk.signUp));
+  };
 
   const methods = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),
@@ -134,9 +139,19 @@ export function ClerkSignInView() {
             {`Ainda não tem uma conta? `}
             <Link
               component={RouterLink}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigateToSignUp();
+              }}
               href={paths.auth.clerk.signUp}
               variant="subtitle2"
               color="secondary.main"
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                opacity: isPending ? 0.5 : 1,
+                pointerEvents: isPending ? "none" : "auto",
+              }}
             >
               Cadastre-se
             </Link>

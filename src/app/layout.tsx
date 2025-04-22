@@ -94,7 +94,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     <MotionLazy>
                       <Snackbar />
                       <ProgressBar />
-
                       <SettingsDrawer defaultSettings={defaultSettings} />
                       <ToastProvider>{children}</ToastProvider>
                     </MotionLazy>
