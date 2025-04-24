@@ -25,6 +25,7 @@ import { HelperText } from "./help-text";
 type RHFSelectProps = TextFieldProps & {
   name: string;
   children: React.ReactNode;
+  noShowError?: boolean;
 };
 
 export function RHFSelect({
@@ -32,10 +33,10 @@ export function RHFSelect({
   children,
   helperText,
   slotProps = {},
+  noShowError = false,
   ...other
 }: RHFSelectProps) {
   const { control } = useFormContext();
-
   const labelId = `${name}-select`;
 
   const baseSlotProps: TextFieldProps["slotProps"] = {
@@ -65,19 +66,24 @@ export function RHFSelect({
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          select
-          fullWidth
-          error={!!error}
-          helperText={error?.message ?? helperText}
-          slotProps={merge(baseSlotProps, slotProps)}
-          {...other}
-        >
-          {children}
-        </TextField>
-      )}
+      render={({ field, fieldState: { error } }) => {
+        const showError = !noShowError && !!error;
+        const showHelper = !noShowError ? (error?.message ?? helperText) : helperText;
+
+        return (
+          <TextField
+            {...field}
+            select
+            fullWidth
+            error={showError}
+            helperText={showHelper}
+            slotProps={merge(baseSlotProps, slotProps)}
+            {...other}
+          >
+            {children}
+          </TextField>
+        );
+      }}
     />
   );
 }
@@ -92,6 +98,7 @@ type RHFMultiSelectProps = FormControlProps & {
   placeholder?: string;
   helperText?: React.ReactNode;
   options: { label: string; value: string }[];
+  noShowError?: boolean;
   slotProps?: {
     chip?: ChipProps;
     select?: SelectProps;
@@ -110,92 +117,78 @@ export function RHFMultiSelect({
   placeholder,
   slotProps,
   helperText,
+  noShowError = false,
   ...other
 }: RHFMultiSelectProps) {
   const { control } = useFormContext();
-
   const labelId = `${name}-multi-select`;
 
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => {
-        const renderLabel = () => (
-          <InputLabel htmlFor={labelId} {...slotProps?.inputLabel}>
-            {label}
-          </InputLabel>
-        );
-
-        const renderOptions = () =>
-          options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {checkbox && (
-                <Checkbox
-                  size="small"
-                  disableRipple
-                  checked={field.value.includes(option.value)}
-                  {...slotProps?.checkbox}
-                />
-              )}
-
-              {option.label}
-            </MenuItem>
-          ));
-
-        return (
-          <FormControl error={!!error} {...other}>
-            {label && renderLabel()}
-
-            <Select
-              {...field}
-              multiple
-              displayEmpty={!!placeholder}
-              label={label}
-              renderValue={(selected) => {
-                const selectedItems = options.filter((item) =>
-                  (selected as string[]).includes(item.value)
+      render={({ field, fieldState: { error } }) => (
+        <FormControl error={!noShowError && !!error} {...other}>
+          {label && (
+            <InputLabel htmlFor={labelId} {...slotProps?.inputLabel}>
+              {label}
+            </InputLabel>
+          )}
+          <Select
+            {...field}
+            multiple
+            displayEmpty={!!placeholder}
+            label={label}
+            renderValue={(selected) => {
+              const selectedItems = options.filter((item) =>
+                (selected as string[]).includes(item.value)
+              );
+              if (!selectedItems.length && placeholder) {
+                return <Box sx={{ color: "text.disabled" }}>{placeholder}</Box>;
+              }
+              if (chip) {
+                return (
+                  <Box sx={{ gap: 0.5, display: "flex", flexWrap: "wrap" }}>
+                    {selectedItems.map((item) => (
+                      <Chip
+                        key={item.value}
+                        size="small"
+                        variant="soft"
+                        label={item.label}
+                        {...slotProps?.chip}
+                      />
+                    ))}
+                  </Box>
                 );
-
-                if (!selectedItems.length && placeholder) {
-                  return <Box sx={{ color: "text.disabled" }}>{placeholder}</Box>;
-                }
-
-                if (chip) {
-                  return (
-                    <Box sx={{ gap: 0.5, display: "flex", flexWrap: "wrap" }}>
-                      {selectedItems.map((item) => (
-                        <Chip
-                          key={item.value}
-                          size="small"
-                          variant="soft"
-                          label={item.label}
-                          {...slotProps?.chip}
-                        />
-                      ))}
-                    </Box>
-                  );
-                }
-
-                return selectedItems.map((item) => item.label).join(", ");
-              }}
-              {...slotProps?.select}
-              inputProps={{
-                id: labelId,
-                ...slotProps?.select?.inputProps,
-              }}
-            >
-              {renderOptions()}
-            </Select>
-
+              }
+              return selectedItems.map((item) => item.label).join(", ");
+            }}
+            {...slotProps?.select}
+            inputProps={{ id: labelId, ...slotProps?.select?.inputProps }}
+          >
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {checkbox && (
+                  <Checkbox
+                    size="small"
+                    disableRipple
+                    checked={field.value.includes(option.value)}
+                    {...slotProps?.checkbox}
+                  />
+                )}
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+          {!noShowError && (
             <HelperText
               {...slotProps?.helperText}
               errorMessage={error?.message}
               helperText={helperText}
             />
-          </FormControl>
-        );
-      }}
+          )}
+        </FormControl>
+      )}
     />
   );
 }

@@ -4,16 +4,13 @@ import type { Breakpoint } from "@mui/material/styles";
 import type { NavSectionProps } from "src/components/nav-section";
 
 import { merge } from "es-toolkit";
-import { useRouter } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 import { useBoolean } from "minimal-shared/hooks";
 
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@mui/material/styles";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { iconButtonClasses } from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-
-import { paths } from "src/routes/paths";
 
 import { CONFIG } from "src/global-config";
 
@@ -26,6 +23,8 @@ import { HeaderSection } from "./header-section";
 import { NavHorizontal } from "./nav-horizontal";
 import { MenuButton } from "../components/menu-button";
 import { LayoutSection } from "../core/layout-section";
+import { _tournaments } from "../nav-config-tournament";
+import { TournamentPopover } from "../components/tournament-popover";
 import { navData as dashboardNavData } from "../nav-config-dashboard";
 import { dashboardLayoutVars, dashboardNavColorVars } from "./css-vars";
 import { MainSection, type MainSectionProps } from "../core/main-section";
@@ -56,7 +55,6 @@ export function DashboardOrganizerLayout({
   layoutQuery = "lg",
 }: Props) {
   const theme = useTheme();
-  const router = useRouter();
 
   const settings = useSettingsContext();
 
@@ -92,27 +90,23 @@ export function DashboardOrganizerLayout({
         </Alert>
       ),
       centerArea: (
-        <Typography
-          sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "none" } }}
-          variant="subtitle1"
-          color="primary.contrastText"
-        >
-          ÁREA DO ORGANIZADOR
-        </Typography>
+        <Box sx={{ display: { xs: "flex", [layoutQuery]: "none" } }}>
+          <TournamentPopover
+            data={_tournaments}
+            sx={{ color: "var(--layout-nav-text-primary-color)" }}
+          />
+        </Box>
       ),
       bottomArea: isNavHorizontal ? (
         <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
       ) : null,
       leftArea: (
-        <>
-          {/** @slot Nav mobile */}
+        <Box display="flex" gap={1.5} alignItems="center">
           <MenuButton
             onClick={onOpen}
             sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: "none" } }}
           />
           <NavMobile data={navData} open={open} onClose={onClose} cssVars={navVars.section} />
-
-          {/** @slot Logo */}
 
           <Box sx={{ [theme.breakpoints.down(layoutQuery)]: { display: "none" } }}>
             <img
@@ -124,38 +118,34 @@ export function DashboardOrganizerLayout({
             />
           </Box>
 
-          {/** @slot Divider */}
+          <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
+
+          {/* TournamentPopover - visível somente em desktop */}
+          <Box sx={{ display: { xs: "none", [layoutQuery]: "flex" } }}>
+            <TournamentPopover
+              data={_tournaments}
+              sx={{ color: "var(--layout-nav-text-primary-color)" }}
+            />
+          </Box>
 
           <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
 
-          <Typography
-            sx={{ [theme.breakpoints.down(layoutQuery)]: { display: "none" } }}
-            variant="subtitle1"
-            color="primary.contrastText"
-          >
-            ÁREA DO ORGANIZADOR
-          </Typography>
-        </>
+          <Box display="flex" gap={1.5} ml={2} alignItems="center">
+            <Typography
+              sx={{ display: { xs: "none", [layoutQuery]: "inline-flex" } }}
+              variant="subtitle2"
+              color="info.contrastText"
+              fontWeight="regular"
+            >
+              Campeonatos
+            </Typography>
+          </Box>
+        </Box>
       ),
       rightArea: (
-        <Link
-          color="inherit"
-          variant="body2"
-          fontWeight="regular"
-          onClick={() => router.push(paths.dashboard.home.root)}
-          sx={{
-            gap: 0.5,
-
-            alignItems: "center",
-            display: "inline-flex",
-            cursor: "pointer",
-            pointerEvents: "auto",
-            color: "primary.contrastText",
-          }}
-        >
-          <ChevronLeftIcon sx={{ color: "primary.contrastText" }} />
-          Sair
-        </Link>
+        <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0, sm: 0.75 } }}>
+          <UserButton />
+        </Box>
       ),
     };
 

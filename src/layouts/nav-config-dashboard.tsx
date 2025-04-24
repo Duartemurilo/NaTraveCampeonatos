@@ -24,17 +24,12 @@ export const navData: NavSectionProps["data"] = [
     subheader: "Campeonatos",
     items: [
       {
-        title: "Home",
-        path: paths.dashboard.home.root,
-        icon: ICONS.home,
-      },
-      {
         title: "Campeonatos",
-        path: paths.championships.list,
+        path: paths.dashboard.tournaments.list,
         icon: ICONS.trophy,
         children: [
-          { title: "Lista", path: paths.championships.list },
-          { title: "Criar", path: paths.championships.criar(0) },
+          { title: "Lista", path: paths.dashboard.tournaments.list },
+          { title: "Criar", path: paths.dashboard.tournaments.criar(0) },
         ],
       },
     ],

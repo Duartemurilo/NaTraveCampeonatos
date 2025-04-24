@@ -3,7 +3,7 @@
 const ROOTS = {
   AUTH: "/autenticacao",
   DASHBOARD: "/dashboard",
-  CHAMPIONSHIP: "/campeonato",
+  TOURNAMENT: "/campeonato",
 };
 
 // ----------------------------------------------------------------------
@@ -25,22 +25,20 @@ export const paths = {
     },
   },
 
-  championships: {
-    list: `${ROOTS.CHAMPIONSHIP}/lista`,
-    criar: (step: number, id?: string) => {
-      let url = `${ROOTS.CHAMPIONSHIP}/criar/informacoes-do-campeonato?step=${step}`;
-      if (id) {
-        url += `&id=${id}`;
-      }
-      return url;
-    },
-    details: (id: string) => `${ROOTS.CHAMPIONSHIP}/campeonatos/${id}`,
-    edit: (id: string) => `${ROOTS.CHAMPIONSHIP}/campeonatos/${id}/editar`,
-  },
-
   dashboard: {
     home: {
       root: `${ROOTS.DASHBOARD}/home`,
+    },
+
+    tournaments: {
+      list: `${ROOTS.DASHBOARD}${ROOTS.TOURNAMENT}/lista`,
+      criar: (step: number, id?: string) => {
+        let url = `${ROOTS.DASHBOARD}${ROOTS.TOURNAMENT}/criar/informacoes-do-campeonato?step=${step}`;
+        if (id) {
+          url += `&id=${id}`;
+        }
+        return url;
+      },
     },
 
     user: {

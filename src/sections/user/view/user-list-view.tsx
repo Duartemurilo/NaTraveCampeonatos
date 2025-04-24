@@ -145,8 +145,8 @@ export function UserListView() {
         <CustomBreadcrumbs
           heading="List"
           links={[
-            { name: "Dashboard", href: paths.championships.list },
-            { name: "User", href: paths.championships.list },
+            { name: "Dashboard", href: paths.dashboard.tournaments.list },
+            { name: "User", href: paths.dashboard.tournaments.list },
             { name: "List" },
           ]}
           action={

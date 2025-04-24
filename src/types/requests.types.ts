@@ -1,9 +1,9 @@
 export type RequestsProps = {
-  onSuccess?: () => void;
+  endpoint: string;
+  onSuccess?: (data: any) => void;
   onError?: () => void;
   successMessage?: string;
   errorMessage?: string;
-  endpoint: string;
 };
 
 export type ByIdRequestProps = { _id: number };

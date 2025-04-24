@@ -54,7 +54,7 @@ export function useUpdate<TInput extends TRequestData, TOutput = void>(): UseUpd
       const endpointWithId = `${endpoint}/${id}`;
       const response = await httpRequest.put<TOutput>(endpointWithId, formData, config);
 
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(response);
       if (successMessage) showToast({ text: successMessage, type: "success" });
       return response;
     } catch (err) {

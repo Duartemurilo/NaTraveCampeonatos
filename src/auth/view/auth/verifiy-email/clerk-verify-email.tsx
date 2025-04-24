@@ -25,7 +25,7 @@ export function ClerkVerifyEmailView() {
   async function verify() {
     try {
       await handleEmailLinkVerification({
-        redirectUrl: `${CONFIG.baseUrl}${paths.dashboard.home.root}`,
+        redirectUrl: `${CONFIG.baseUrl}${paths.dashboard.tournaments.criar(0)}`,
       });
 
       setVerificationStatus("verified");
