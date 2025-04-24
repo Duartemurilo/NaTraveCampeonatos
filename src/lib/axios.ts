@@ -49,11 +49,11 @@ export const endpoints = {
     details: "/api/product/details",
     search: "/api/product/search",
   },
-  championship: {
-    list: "/api/championship/list",
-    details: "/api/championship/details",
-    create: "/api/championship/create",
-    update: "/api/championship/update",
-    delete: "/api/championship/delete",
+  tournament: {
+    list: "/api/tournament/list",
+    details: "/api/tournament/details",
+    create: "/api/tournament/create",
+    update: "/api/tournament/update",
+    delete: "/api/tournament/delete",
   },
 };

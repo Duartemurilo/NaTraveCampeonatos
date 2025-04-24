@@ -32,6 +32,7 @@ export function useSignUpLogic() {
         firstName: rest.firstName,
         lastName: rest.lastName,
         phoneNumber: rest.phoneNumber,
+
         ...(unsafeMetadata && { unsafeMetadata }),
       });
 
@@ -67,7 +68,7 @@ export function useSignUpLogic() {
       const signUpAttempt = await signUp.attemptEmailAddressVerification({ code });
       if (signUpAttempt.status === "complete") {
         await setActive({ session: signUpAttempt.createdSessionId });
-        router.push(paths.championships.criar(0));
+        router.push(paths.dashboard.tournaments.criar(0));
       }
     } catch (error: any) {
       console.error(error);

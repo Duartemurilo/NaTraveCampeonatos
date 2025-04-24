@@ -81,7 +81,7 @@ export function RHFSingleToggleButtonGroup({
                 field.onChange(newValue);
               }
             }}
-            sx={{ gap: 2, border: "none" }}
+            sx={{ gap: 4, border: "none" }}
             {...other}
           >
             {options.map((option) => {

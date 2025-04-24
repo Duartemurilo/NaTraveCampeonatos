@@ -69,7 +69,7 @@ export function ClerkResetPasswordView() {
           return;
         }
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.home.root);
+        router.push(paths.dashboard.tournaments.criar(0));
       }
     } catch (err: any) {
       setError(getErrorMessage(err));

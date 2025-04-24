@@ -36,7 +36,7 @@ export const themeConfig: ThemeConfig = {
    * Typography
    *************************************** */
   fontFamily: {
-    primary: "Public Sans Variable",
+    primary: "MadaniArabic-Bold",
     secondary: "Barlow",
   },
   /** **************************************
@@ -65,7 +65,7 @@ export const themeConfig: ThemeConfig = {
       main: "#00BFA5",
       dark: "#006C9C",
       darker: "#003768",
-      contrastText: "#FFFFFF",
+      contrastText: "#8D9297",
     },
     success: {
       lighter: "#D3FCD2",

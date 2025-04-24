@@ -20,8 +20,17 @@ export function MainSection({ children, className, sx, ...other }: MainSectionPr
 
 // ----------------------------------------------------------------------
 
-const MainRoot = styled("main")({
+const MainRoot = styled("main")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   flexDirection: "column",
-});
+  backgroundColor: theme.palette.primary.dark,
+  padding: theme.spacing(2, 2.5),
+  boxSizing: "border-box",
+  overflow: "hidden", // evita scroll externo
+
+  "& .scrollable-content": {
+    flex: 1,
+    overflow: "auto",
+  },
+}));

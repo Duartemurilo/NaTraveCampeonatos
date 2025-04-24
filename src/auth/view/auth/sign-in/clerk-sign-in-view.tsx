@@ -63,7 +63,7 @@ export function ClerkSignInView() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push(paths.dashboard.home.root);
+        router.push(paths.dashboard.tournaments.criar(0));
       } else {
         setErrorMessage("A autenticação requer etapas adicionais. Verifique seu e-mail ou 2FA.");
       }

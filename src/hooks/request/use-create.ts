@@ -46,8 +46,8 @@ export function useCreate<TInput extends TRequestData, TOutput = void>(): UseCre
 
       const response = await httpRequest.post<TOutput>(endpoint, formData, config);
 
-      if (onSuccess) onSuccess();
       if (successMessage) showToast({ text: successMessage, type: "success" });
+      if (onSuccess) onSuccess(response);
       return response;
     } catch (err) {
       setError(err);
