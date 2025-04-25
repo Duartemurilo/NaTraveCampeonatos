@@ -24,14 +24,11 @@ export function StepDates() {
         textAlign={{ xs: "center", md: "center", lg: "left" }}
         py={{ xs: 2, md: 0 }}
       >
+        <Typography component="span" variant="inherit" color="primary" />
         <Typography component="span" variant="inherit" color="primary">
-          Onde{" "}
+          Passo 2 de 3{" "}
         </Typography>
-        e{" "}
-        <Typography component="span" variant="inherit" color="primary">
-          quando{" "}
-        </Typography>
-        será o campeonato?
+        - Cidade e Período{" "}
       </Typography>
 
       <Stack spacing={2}>

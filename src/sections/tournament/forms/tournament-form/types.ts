@@ -12,18 +12,12 @@ export type TournamentFormatSchemaType = zod.infer<typeof TournamentFormatSchema
 export type TournamentDatesSchemaType = zod.infer<typeof TournamentDatesSchema>;
 
 // DTOs de envio
-export type ITournamentFormatCreationDto = TournamentFormatSchemaType & {
-  tournamentId: number;
-};
+
 export type ITournamentFinalizeDto = TournamentDatesSchemaType & {
   tournamentId: number;
 };
 
 // Respostas (pós envio de cada etapa)
-export type ITournamentFormatCreationResponse = {
-  tournamentId: number;
-  status: TournamentStatus;
-};
 
 export type ITournamentFinalizeResponse = {
   tournamentId: number;
@@ -34,8 +28,8 @@ export type ReturnTypeOfUseTournamentFormHandler = ReturnType<typeof useTourname
 
 export type StepSchemas = {
   0: TournamentDraftSchemaType;
-  1: TournamentFormatSchemaType;
-  2: TournamentDatesSchemaType;
+  1: TournamentDatesSchemaType;
+  2: TournamentFormatSchemaType;
 };
 
 export type TournamentStep = 0 | 1 | 2;

@@ -2,6 +2,7 @@ import type { useRouter } from "next/navigation";
 import type {
   ITournamentDraftUpdateDto,
   ITournamentDraftCreationDto,
+  ITournamentFormatCreationDto,
   ITournamentDraftUpdateResponse,
   ITournamentDraftCreationResponse,
 } from "@natrave/tournaments-service-types";
@@ -16,9 +17,9 @@ import { endpoints } from "src/auth/constants";
 import { getRoute } from "../routes/tournament-routes";
 import {
   normalizeTournamentDates,
-  normalizeTournamentFormat,
   normalizeEditTournamentDraft,
   normalizeCreateTournamentDraft,
+  normalizeTournamentFormatForCreate,
 } from "../normalizers/tournament-normalizers";
 
 import type {
@@ -27,12 +28,9 @@ import type {
   TournamentDatesSchemaType,
   TournamentFormatSchemaType,
   ITournamentFinalizeResponse,
-  ITournamentFormatCreationDto,
-  ITournamentFormatCreationResponse,
 } from "../types";
 
 export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
-  //Draft ------------------------------------------------------------------
   const { create: createDraft, isLoading: isCreatingDraft } = useCreate<
     ITournamentDraftCreationDto,
     ITournamentDraftCreationResponse
@@ -42,20 +40,16 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
     ITournamentDraftUpdateResponse
   >();
 
-  //Format ------------------------------------------------------------------
-
   const { create: createFormat, isLoading: isCreatingFormat } = useCreate<
     ITournamentFormatCreationDto,
-    ITournamentFormatCreationResponse
-  >();
-  const { update: updateFormat, isLoading: isUpdatingFormat } = useUpdate<
-    ITournamentFormatCreationDto,
-    ITournamentFormatCreationResponse
+    void
   >();
 
-  //Finalize ------------------------------------------------------------------
-
-  const { create: finalizeTournament, isLoading: isFinalizing } = useCreate<
+  const { create: finalizeTournament, isLoading: isCreatingFinalizing } = useCreate<
+    ITournamentFinalizeDto,
+    ITournamentFinalizeResponse
+  >();
+  const { update: updateFinalizeTournament, isLoading: isUpdatingFinalize } = useUpdate<
     ITournamentFinalizeDto,
     ITournamentFinalizeResponse
   >();
@@ -83,46 +77,45 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
     }
   };
 
-  const handleFormatStepSubmit = async (
-    data: TournamentFormatSchemaType,
+  const handleDatesStepSubmit = async (
+    data: TournamentDatesSchemaType,
     tournamentId: string,
     isEditing: boolean
   ) => {
-    console.log(isEditing);
     if (isEditing) {
-      await updateFormat({
+      await updateFinalizeTournament({
         id: tournamentId,
-        formData: normalizeTournamentFormat(data, tournamentId),
-        endpoint: endpoints.tournament.updateFormat,
-        successMessage: "Formato do torneio atualizado com sucesso!",
-        errorMessage: "Erro ao atualizar o formato do torneio.",
+        formData: normalizeTournamentDates(data, tournamentId),
+        endpoint: endpoints.tournament.updateFinalize,
+        successMessage: "Torneio atualizado com sucesso!",
+        errorMessage: "Erro ao atualizar o torneio.",
         onSuccess: () => router.push(getRoute(2, tournamentId)),
       });
     } else {
-      console.log(normalizeTournamentFormat(data, tournamentId));
-      await createFormat({
-        formData: normalizeTournamentFormat(data, tournamentId),
-        endpoint: endpoints.tournament.createFormat,
-        successMessage: "Formato do torneio criado com sucesso!",
-        errorMessage: "Erro ao criar o formato do torneio.",
+      await finalizeTournament({
+        formData: normalizeTournamentDates(data, tournamentId),
+        endpoint: endpoints.tournament.createFinalize,
+        successMessage: "Torneio criado com sucesso!",
+        errorMessage: "Erro ao finalizar o torneio.",
         onSuccess: () => router.push(getRoute(2, tournamentId)),
       });
     }
   };
 
-  const handleDatesStepSubmit = async (data: TournamentDatesSchemaType, tournamentId: string) => {
-    if (!tournamentId) return;
-    await finalizeTournament({
-      formData: normalizeTournamentDates(data, tournamentId),
-      endpoint: endpoints.tournament.finalize,
-      successMessage: "Torneio criado com sucesso!",
-      errorMessage: "Erro ao finalizar o torneio.",
+  const handleFormatStepSubmit = async (data: TournamentFormatSchemaType, tournamentId: string) => {
+    await createFormat({
+      formData: normalizeTournamentFormatForCreate(data, tournamentId),
+      endpoint: endpoints.tournament.createFormat,
+      successMessage: "Formato do torneio criado com sucesso!",
+      errorMessage: "Erro ao criar o formato do torneio.",
       onSuccess: () => router.push(paths.dashboard.tournaments.list),
     });
   };
 
-  const isLoading =
-    isCreatingDraft || isUpdatingDraft || isCreatingFormat || isUpdatingFormat || isFinalizing;
+  const isUpdating = isUpdatingDraft || isUpdatingFinalize;
+  const isCreating = isCreatingDraft || isCreatingFormat || isCreatingFinalizing;
+
+  const isLoading = isUpdating || isCreating;
 
   return { handleDraftStep, handleFormatStepSubmit, handleDatesStepSubmit, isLoading };
 }

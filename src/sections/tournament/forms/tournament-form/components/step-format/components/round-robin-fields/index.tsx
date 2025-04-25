@@ -14,8 +14,8 @@ export default function RoundRobinFields() {
         alignItems="center"
         textAlign={mdDown ? "center" : "left"}
       >
-        <Typography> Número de times no campeonato: </Typography>
-        <Field.NumberInput name="formatConfig.numberOfTeams" sx={{ maxWidth: 120 }} />
+        <Typography>Número de times no campeonato:</Typography>
+        <Field.NumberInput name="teamCount" sx={{ maxWidth: 120 }} />
       </Stack>
 
       <Stack
@@ -25,11 +25,11 @@ export default function RoundRobinFields() {
         textAlign={mdDown ? "center" : "left"}
       >
         <Field.Checkbox
-          name="formatConfig.hasHomeAndAway"
+          name="knockoutMatchMode"
           sx={{ ml: -1.5 }}
           label={
             <>
-              Partidas de <strong>Ida</strong> e <strong>Volta</strong>
+              Partidas de <strong>ida</strong> e <strong>volta</strong>
             </>
           }
         />

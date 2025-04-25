@@ -23,30 +23,39 @@ export const tournamentDraftDefaultValues: TournamentDraftSchemaType = {
 
 //-------------------------------------------------------------------------------
 
-export const formatDefaults: Record<TournamentFormat, TournamentFormatSchemaType["formatConfig"]> =
-  {
-    [TournamentFormat.ROUND_ROBIN]: {
-      numberOfTeams: 16,
-      hasHomeAndAway: true,
-    },
-    [TournamentFormat.KNOCKOUT]: {
-      numberOfTeams: 8,
-      hasHomeAndAway: false,
-    },
-    [TournamentFormat.GROUPS_AND_KNOCKOUT]: {
-      numberOfTeams: 16,
-      numberOfGroups: 4,
-      qualifiedPerGroup: 2,
-      hasHomeAndAwayGroup: false,
-      hasHomeAndAwayKnockout: false,
-    },
-    [TournamentFormat.ROUND_ROBIN_AND_KNOCKOUT]: {
-      numberOfTeams: 16,
-      qualifiedToKnockout: 4,
-      hasHomeAndAwayRoundRobin: true,
-      hasHomeAndAwayKnockout: false,
-    },
-  };
+export const formatDefaults: Record<
+  TournamentFormat,
+  Omit<TournamentFormatSchemaType, "format">
+> = {
+  [TournamentFormat.ROUND_ROBIN]: {
+    teamCount: 16,
+    initialPhaseMatchMode: true,
+    knockoutMatchMode: null,
+    numberOfGroups: null,
+    teamsAdvancing: null,
+  },
+  [TournamentFormat.KNOCKOUT]: {
+    teamCount: 8,
+    initialPhaseMatchMode: null,
+    knockoutMatchMode: false,
+    numberOfGroups: null,
+    teamsAdvancing: null,
+  },
+  [TournamentFormat.GROUPS_AND_KNOCKOUT]: {
+    teamCount: 16,
+    initialPhaseMatchMode: null,
+    knockoutMatchMode: false,
+    numberOfGroups: 4,
+    teamsAdvancing: 2,
+  },
+  [TournamentFormat.ROUND_ROBIN_AND_KNOCKOUT]: {
+    teamCount: 16,
+    initialPhaseMatchMode: true,
+    knockoutMatchMode: false,
+    numberOfGroups: null,
+    teamsAdvancing: 4,
+  },
+};
 
 //-------------------------------------------------------------------------------
 

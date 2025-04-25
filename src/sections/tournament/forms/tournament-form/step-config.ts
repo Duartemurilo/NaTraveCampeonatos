@@ -8,11 +8,11 @@ export const tournamentSteps = [
     Component: StepInfo,
   },
   {
-    label: "Formato do Campeonato",
-    Component: StepFormat,
-  },
-  {
     label: "Cidade e Período",
     Component: StepDates,
+  },
+  {
+    label: "Formato do Campeonato",
+    Component: StepFormat,
   },
 ];

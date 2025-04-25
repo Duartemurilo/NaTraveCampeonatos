@@ -1,15 +1,22 @@
-import {
-  type ITournamentDraftUpdateDto,
-  type ITournamentDraftCreationDto,
+import type {
+  ITournamentDraftUpdateDto,
+  ITournamentDraftCreationDto,
+  ITournamentFormatCreationDto,
 } from "@natrave/tournaments-service-types";
+
+import { MatchLegMode } from "@natrave/tournaments-service-types";
 
 import type {
   ITournamentFinalizeDto,
   TournamentDatesSchemaType,
   TournamentDraftSchemaType,
   TournamentFormatSchemaType,
-  ITournamentFormatCreationDto,
 } from "../types";
+
+function convertBooleanToMatchLegMode(value: boolean | null | undefined): MatchLegMode | null {
+  if (value === undefined || value === null) return null;
+  return value ? MatchLegMode.HOME_AND_AWAY : MatchLegMode.SINGLE;
+}
 
 export function normalizeCreateTournamentDraft(
   data: TournamentDraftSchemaType
@@ -25,13 +32,18 @@ export function normalizeEditTournamentDraft(
   return { ...data, tournamentId };
 }
 
-export function normalizeTournamentFormat(
+export function normalizeTournamentFormatForCreate(
   data: TournamentFormatSchemaType,
   _tournamentId: string
 ): ITournamentFormatCreationDto {
   const tournamentId = Number(_tournamentId);
 
-  return { ...data, tournamentId };
+  return {
+    ...data,
+    tournamentId,
+    initialPhaseMatchMode: convertBooleanToMatchLegMode(data.initialPhaseMatchMode),
+    knockoutMatchMode: convertBooleanToMatchLegMode(data.knockoutMatchMode),
+  };
 }
 
 export function normalizeTournamentDates(

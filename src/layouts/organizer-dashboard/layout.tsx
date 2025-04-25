@@ -23,8 +23,7 @@ import { HeaderSection } from "./header-section";
 import { NavHorizontal } from "./nav-horizontal";
 import { MenuButton } from "../components/menu-button";
 import { LayoutSection } from "../core/layout-section";
-import { _tournaments } from "../nav-config-tournament";
-import { TournamentPopover } from "../components/tournament-popover";
+import { TournamentLabel } from "../components/tournament-label";
 import { navData as dashboardNavData } from "../nav-config-dashboard";
 import { dashboardLayoutVars, dashboardNavColorVars } from "./css-vars";
 import { MainSection, type MainSectionProps } from "../core/main-section";
@@ -91,8 +90,9 @@ export function DashboardOrganizerLayout({
       ),
       centerArea: (
         <Box sx={{ display: { xs: "flex", [layoutQuery]: "none" } }}>
-          <TournamentPopover
-            data={_tournaments}
+          <TournamentLabel
+            name="Novo Campeonato"
+            logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
             sx={{ color: "var(--layout-nav-text-primary-color)" }}
           />
         </Box>
@@ -120,10 +120,10 @@ export function DashboardOrganizerLayout({
 
           <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
 
-          {/* TournamentPopover - visível somente em desktop */}
           <Box sx={{ display: { xs: "none", [layoutQuery]: "flex" } }}>
-            <TournamentPopover
-              data={_tournaments}
+            <TournamentLabel
+              name="Novo Campeonato"
+              logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
               sx={{ color: "var(--layout-nav-text-primary-color)" }}
             />
           </Box>
