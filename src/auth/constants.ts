@@ -1,17 +1,15 @@
 export const endpoints = {
-  championship: {
-    get: "/api/championship/get",
-    getById: "/api/championship/details",
-    create: "/api/championship/create",
-    update: "/api/championship/update",
-    delete: "/api/championship/delete",
+  tournament: {
+    get: "/api/tournament/get",
+    getById: "/api/tournament/details",
 
-    createDraft: "/api/championship/draft/create",
-    updateDraft: "/api/championship/draft/update",
-    createFormat: "/api/championship/format/create",
-    updateFormat: "/api/championship/format/update",
+    createDraft: "/tournament-creation/draft/create",
+    updateDraft: "/tournament-creation/draft/update",
 
-    createFinalize: "/api/championship/finalize/create",
-    finalize: "/api/championship/finalize",
+    createFormat: "/api/tournament/format/create",
+    updateFormat: "/api/tournament/format/update",
+
+    createFinalize: "/tournament-creationfinalize/reate",
+    updateFinalize: "/tournament-creationfinalize/update",
   },
 };

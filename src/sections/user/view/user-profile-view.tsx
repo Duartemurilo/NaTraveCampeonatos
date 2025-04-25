@@ -77,8 +77,8 @@ export function UserProfileView() {
       <CustomBreadcrumbs
         heading="Profile"
         links={[
-          { name: "Dashboard", href: paths.championships.list },
-          { name: "User", href: paths.championships.list },
+          { name: "Dashboard", href: paths.dashboard.tournaments.list },
+          { name: "User", href: paths.dashboard.tournaments.list },
           { name: user?.displayName },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
