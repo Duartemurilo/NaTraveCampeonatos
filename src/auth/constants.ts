@@ -9,7 +9,7 @@ export const endpoints = {
     createFormat: "/api/tournament/format/create",
     updateFormat: "/api/tournament/format/update",
 
-    createFinalize: "/api/tournament/finalize/create",
-    finalize: "/api/tournament/finalize",
+    createFinalize: "/tournament-creationfinalize/reate",
+    updateFinalize: "/tournament-creationfinalize/update",
   },
 };

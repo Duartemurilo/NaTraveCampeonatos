@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useWatch, useFormContext } from "react-hook-form";
 
 import Grid from "@mui/material/Grid2";
@@ -16,6 +17,8 @@ import { Field } from "src/components/hook-form";
 
 import { TEAM_OPTIONS, QUALIFIED_OPTIONS } from "../../../../constants";
 
+import type { TournamentFormatSchemaType } from "../../../../types";
+
 const generateGroupOptions = (teams: number) => {
   if (!teams) return [];
   const options: { label: string; value: number }[] = [];
@@ -28,18 +31,19 @@ const generateGroupOptions = (teams: number) => {
 };
 
 export default function GroupAndKnockoutFields() {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
-  const numberOfTeams = useWatch({ control, name: "formatConfig.numberOfTeams" });
-  const groupOptions = generateGroupOptions(numberOfTeams);
+  const { control, formState } = useFormContext<TournamentFormatSchemaType>();
+  const { errors } = formState;
+
+  const teamCount = useWatch({ control, name: "teamCount" });
+
+  const groupOptions = generateGroupOptions(teamCount);
+
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
-  const numberOfTeamsError = (errors.formatConfig as any)?.numberOfTeams;
-  const numberOfGroupsError = (errors.formatConfig as any)?.numberOfGroups;
-  const qualifiedError = (errors.formatConfig as any)?.qualifiedPerGroup;
+  const teamCountError = (errors as any).teamCount;
+  const groupsError = (errors as any).numberOfGroups;
+  const advancingError = (errors as any).teamsAdvancing;
 
   return (
     <Grid container spacing={3}>
@@ -48,7 +52,6 @@ export default function GroupAndKnockoutFields() {
           <Typography variant="h6" fontWeight="bold" textAlign={mdDown ? "center" : "left"}>
             1ª fase (Grupos)
           </Typography>
-
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
@@ -57,7 +60,7 @@ export default function GroupAndKnockoutFields() {
           >
             <Typography>Número de times:</Typography>
             <Field.Select
-              name="formatConfig.numberOfTeams"
+              name="teamCount"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
@@ -72,12 +75,11 @@ export default function GroupAndKnockoutFields() {
               ))}
             </Field.Select>
           </Stack>
-          {numberOfTeamsError && (
+          {teamCountError && (
             <FormHelperText error sx={{ mt: -2 }}>
-              {numberOfTeamsError.message}
+              {teamCountError.message}
             </FormHelperText>
           )}
-
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
@@ -86,7 +88,7 @@ export default function GroupAndKnockoutFields() {
           >
             <Typography>Número de grupos:</Typography>
             <Field.Select
-              name="formatConfig.numberOfGroups"
+              name="numberOfGroups"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
@@ -101,9 +103,9 @@ export default function GroupAndKnockoutFields() {
               ))}
             </Field.Select>
           </Stack>
-          {numberOfGroupsError && (
+          {groupsError && (
             <FormHelperText error sx={{ mt: -2 }}>
-              {numberOfGroupsError.message}
+              {groupsError.message}
             </FormHelperText>
           )}
 
@@ -114,7 +116,7 @@ export default function GroupAndKnockoutFields() {
             textAlign={mdDown ? "center" : "left"}
           >
             <Field.Checkbox
-              name="formatConfig.hasHomeAndAwayGroup"
+              name="initialPhaseMatchMode"
               sx={{ ml: -1.5 }}
               label={
                 <>
@@ -131,16 +133,15 @@ export default function GroupAndKnockoutFields() {
           <Typography variant="h6" fontWeight="bold" textAlign={mdDown ? "center" : "left"}>
             2ª fase (Mata-Mata)
           </Typography>
-
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
             alignItems="center"
             textAlign={mdDown ? "center" : "left"}
           >
-            <Typography>Números de times por grupo que passam para a 2ª fase:</Typography>
+            <Typography>Times por grupo que passam para a 2ª fase:</Typography>
             <Field.Select
-              name="formatConfig.qualifiedPerGroup"
+              name="teamsAdvancing"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
@@ -156,9 +157,9 @@ export default function GroupAndKnockoutFields() {
             </Field.Select>
           </Stack>
 
-          {qualifiedError && (
+          {advancingError && (
             <FormHelperText error sx={{ mt: -2 }}>
-              {qualifiedError.message}
+              {advancingError.message}
             </FormHelperText>
           )}
 
@@ -169,11 +170,11 @@ export default function GroupAndKnockoutFields() {
             textAlign={mdDown ? "center" : "left"}
           >
             <Field.Checkbox
-              name="formatConfig.hasHomeAndAwayKnockout"
+              name="knockoutMatchMode"
               sx={{ ml: -1.5 }}
               label={
                 <>
-                  Partidas de <strong>Ida</strong> e <strong>Volta</strong>
+                  Partidas de <strong>ida</strong> e <strong>volta</strong>
                 </>
               }
             />

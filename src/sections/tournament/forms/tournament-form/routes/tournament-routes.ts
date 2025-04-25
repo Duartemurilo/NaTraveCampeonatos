@@ -16,7 +16,7 @@ import {
 import type {
   StepSchemas,
   TournamentStep,
-  TournamentFormatSchemaType,
+  TournamentDatesSchemaType,
   ReturnTypeOfUseTournamentFormHandler,
 } from "../types";
 
@@ -47,24 +47,6 @@ export function getFormConfigByStep(
       const isEditingFormat = Boolean(tournament?.format);
 
       return {
-        schema: TournamentFormatSchema,
-        defaultValues: isEditingFormat
-          ? {
-              format: tournament!.format,
-              formatConfig: tournament!.formatConfig,
-            }
-          : {
-              format: TournamentFormat.ROUND_ROBIN,
-              formatConfig: formatDefaults[TournamentFormat.ROUND_ROBIN],
-            },
-        stepSubmit: (data: TournamentFormatSchemaType, id: string) =>
-          handler.handleFormatStepSubmit(data, id!, isEditingFormat),
-      } as any;
-    }
-
-    case 2:
-    default:
-      return {
         schema: TournamentDatesSchema,
         defaultValues: tournament
           ? {
@@ -74,7 +56,25 @@ export function getFormConfigByStep(
               city: tournament.city,
             }
           : tournamentDatesDefaultValues,
-        stepSubmit: handler.handleDatesStepSubmit,
+        stepSubmit: (data: TournamentDatesSchemaType, id: string) =>
+          handler.handleDatesStepSubmit(data, id!, isEditingFormat),
+      } as any;
+    }
+
+    case 2:
+    default:
+      return {
+        schema: TournamentFormatSchema,
+        defaultValues: tournament
+          ? {
+              format: tournament!.format,
+              formatConfig: tournament!.formatConfig,
+            }
+          : {
+              format: TournamentFormat.ROUND_ROBIN,
+              formatConfig: formatDefaults[TournamentFormat.ROUND_ROBIN],
+            },
+        stepSubmit: handler.handleFormatStepSubmit,
       } as any;
   }
 }

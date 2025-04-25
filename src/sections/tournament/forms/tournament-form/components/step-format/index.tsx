@@ -18,13 +18,25 @@ export function StepFormat() {
   const isMdOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
 
   const { setValue } = useFormContext<TournamentFormatSchemaType>();
-
-  const format = useWatch<TournamentFormatSchemaType, "format">({
-    name: "format",
-  });
+  const format = useWatch<TournamentFormatSchemaType, "format">({ name: "format" });
 
   useEffect(() => {
-    setValue("formatConfig", formatDefaults[format], {
+    const d = formatDefaults[format];
+    setValue("teamCount", d.teamCount, { shouldValidate: true, shouldDirty: true });
+
+    setValue("initialPhaseMatchMode", d.initialPhaseMatchMode, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("knockoutMatchMode", d.knockoutMatchMode, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("numberOfGroups", d.numberOfGroups, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    setValue("teamsAdvancing", d.teamsAdvancing, {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -39,7 +51,7 @@ export function StepFormat() {
         py={{ xs: 2, md: 0 }}
       >
         <Typography component="span" variant="inherit" color="primary">
-          Passo 2 de 3{" "}
+          Passo 3 de 3{" "}
         </Typography>
         – Formato do campeonato
       </Typography>

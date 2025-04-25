@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useFormContext } from "react-hook-form";
 
 import Grid from "@mui/material/Grid2";
@@ -16,13 +17,14 @@ import { Field } from "src/components/hook-form";
 
 import { TEAM_OPTIONS, QUALIFIED_OPTIONS } from "../../../../constants";
 
-export default function RoundRobinAndKnockoutFields() {
-  const {
-    formState: { errors },
-  } = useFormContext();
+import type { TournamentFormatSchemaType } from "../../../../types";
 
-  const numberOfTeamsError = (errors.formatConfig as any)?.numberOfTeams;
-  const qualifiedToKnockoutError = (errors.formatConfig as any)?.qualifiedToKnockout;
+export default function RoundRobinAndKnockoutFields() {
+  const { formState } = useFormContext<TournamentFormatSchemaType>();
+  const { errors } = formState;
+
+  const numberOfTeamsError = (errors as any).teamCount;
+  const advancingError = (errors as any).teamsAdvancing;
 
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -43,7 +45,7 @@ export default function RoundRobinAndKnockoutFields() {
           >
             <Typography>Número de times:</Typography>
             <Field.Select
-              name="formatConfig.numberOfTeams"
+              name="teamCount"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
@@ -58,7 +60,6 @@ export default function RoundRobinAndKnockoutFields() {
               ))}
             </Field.Select>
           </Stack>
-
           {numberOfTeamsError && (
             <FormHelperText error sx={{ mt: -2 }}>
               {numberOfTeamsError.message}
@@ -72,11 +73,11 @@ export default function RoundRobinAndKnockoutFields() {
             textAlign={mdDown ? "center" : "left"}
           >
             <Field.Checkbox
-              name="formatConfig.hasHomeAndAwayRoundRobin"
+              name="initialPhaseMatchMode"
               sx={{ ml: -1.5 }}
               label={
                 <>
-                  Partidas de <strong>Ida</strong> e <strong>Volta</strong>
+                  Partidas de <strong>ida</strong> e <strong>volta</strong>
                 </>
               }
             />
@@ -98,7 +99,7 @@ export default function RoundRobinAndKnockoutFields() {
           >
             <Typography>Número total de times que passam para a 2ª fase:</Typography>
             <Field.Select
-              name="formatConfig.qualifiedToKnockout"
+              name="teamsAdvancing"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
@@ -113,9 +114,9 @@ export default function RoundRobinAndKnockoutFields() {
               ))}
             </Field.Select>
           </Stack>
-          {qualifiedToKnockoutError && (
+          {advancingError && (
             <FormHelperText error sx={{ mt: -2 }}>
-              {qualifiedToKnockoutError.message}
+              {advancingError.message}
             </FormHelperText>
           )}
 
@@ -126,11 +127,11 @@ export default function RoundRobinAndKnockoutFields() {
             textAlign={mdDown ? "center" : "left"}
           >
             <Field.Checkbox
-              name="formatConfig.hasHomeAndAwayKnockout"
+              name="knockoutMatchMode"
               sx={{ ml: -1.5 }}
               label={
                 <>
-                  Partidas de <strong>Ida</strong> e <strong>Volta</strong>
+                  Partidas de <strong>ida</strong> e <strong>volta</strong>
                 </>
               }
             />

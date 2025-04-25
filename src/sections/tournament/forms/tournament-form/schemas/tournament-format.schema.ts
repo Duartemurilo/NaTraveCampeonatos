@@ -1,98 +1,81 @@
-import { z as zod } from "zod";
+import { z } from "zod";
 import { TournamentFormat } from "@natrave/tournaments-service-types";
 
-export const TournamentFormatSchema = zod.discriminatedUnion("format", [
-  zod.object({
-    format: zod.literal(TournamentFormat.ROUND_ROBIN, {
-      errorMap: () => ({ message: "O formato Round Robin é obrigatório." }),
+export const TournamentFormatSchema = z.discriminatedUnion("format", [
+  // TODOS CONTRA TODOS
+  z.object({
+    format: z.literal(TournamentFormat.ROUND_ROBIN, {
+      errorMap: () => ({ message: "Selecione o formato 'Todos contra todos' para continuar." }),
     }),
-    formatConfig: zod.object({
-      numberOfTeams: zod.number({
-        required_error: "Informe o número de times para o Round Robin.",
-        invalid_type_error: "O número de times deve ser um valor numérico.",
+    teamCount: z.number({
+      required_error: "Informe a quantidade de times no formato 'Todos contra todos'.",
+      invalid_type_error: "O número de times deve ser um valor numérico.",
+    }),
+    initialPhaseMatchMode: z.boolean().nullable().default(null),
+    knockoutMatchMode: z.boolean().nullable().default(null),
+    numberOfGroups: z.number().nullable().default(null),
+    teamsAdvancing: z.number().nullable().default(null),
+  }),
+
+  // ELIMINATÓRIO
+  z.object({
+    format: z.literal(TournamentFormat.KNOCKOUT, {
+      errorMap: () => ({ message: "Selecione o formato 'Eliminatório' para continuar." }),
+    }),
+    teamCount: z.number({
+      required_error: "Informe a quantidade de times no formato eliminatório.",
+      invalid_type_error: "O número de times deve ser um valor numérico.",
+    }),
+    initialPhaseMatchMode: z.boolean().nullable().default(null),
+
+    knockoutMatchMode: z.boolean().nullable().default(null),
+    numberOfGroups: z.number().nullable().default(null),
+    teamsAdvancing: z.number().nullable().default(null),
+  }),
+
+  // FASE DE GRUPOS + ELIMINATÓRIA
+  z.object({
+    format: z.literal(TournamentFormat.GROUPS_AND_KNOCKOUT, {
+      errorMap: () => ({
+        message: "Selecione o formato 'Fase de grupos + Eliminatória' para continuar.",
       }),
-      hasHomeAndAway: zod.boolean({
-        required_error: "Indique se há sistema de ida e volta para o Round Robin.",
-        invalid_type_error: "O valor para ida e volta deve ser verdadeiro ou falso.",
-      }),
+    }),
+    teamCount: z.number({
+      required_error: "Informe a quantidade de times no formato com grupos e eliminatória.",
+      invalid_type_error: "O número de times deve ser um valor numérico.",
+    }),
+    initialPhaseMatchMode: z.boolean().nullable().default(null),
+
+    knockoutMatchMode: z.boolean().nullable().default(null),
+    numberOfGroups: z.number({
+      required_error: "Informe o número de grupos da fase inicial.",
+      invalid_type_error: "O número de grupos deve ser um valor numérico.",
+    }),
+    teamsAdvancing: z.number({
+      required_error: "Informe quantos times avançam de cada grupo.",
+      invalid_type_error: "Esse valor deve ser um número.",
     }),
   }),
 
-  zod.object({
-    format: zod.literal(TournamentFormat.KNOCKOUT, {
-      errorMap: () => ({ message: "O formato Knockout é obrigatório." }),
-    }),
-    formatConfig: zod.object({
-      numberOfTeams: zod.number({
-        required_error: "Informe o número de times para o Knockout.",
-        invalid_type_error: "O número de times deve ser um valor numérico.",
-      }),
-      hasHomeAndAway: zod.boolean({
-        required_error: "Indique se há sistema de ida e volta para o Knockout.",
-        invalid_type_error: "O valor para ida e volta deve ser verdadeiro ou falso.",
+  // TODOS CONTRA TODOS + ELIMINATÓRIA
+  z.object({
+    format: z.literal(TournamentFormat.ROUND_ROBIN_AND_KNOCKOUT, {
+      errorMap: () => ({
+        message: "Selecione o formato 'Todos contra todos + Eliminatória' para continuar.",
       }),
     }),
-  }),
-
-  zod.object({
-    format: zod.literal(TournamentFormat.GROUPS_AND_KNOCKOUT, {
-      errorMap: () => ({ message: "O formato Grupo e Knockout é obrigatório." }),
+    teamCount: z.number({
+      required_error: "Informe a quantidade de times para o formato combinado.",
+      invalid_type_error: "O número de times deve ser um valor numérico.",
     }),
-    formatConfig: zod.object({
-      numberOfTeams: zod.number({
-        required_error: "Informe o número de times para o Grupo e Knockout.",
-        invalid_type_error: "O número de times deve ser um valor numérico.",
-      }),
-      numberOfGroups: zod.number({
-        required_error: "Informe o número de grupos.",
-        invalid_type_error: "O número de grupos deve ser um valor numérico.",
-      }),
-      qualifiedPerGroup: zod.number({
-        required_error: "Informe a quantidade de classificados por grupo.",
-        invalid_type_error: "A quantidade de classificados deve ser um valor numérico.",
-      }),
-      hasHomeAndAwayGroup: zod
-        .boolean({
-          invalid_type_error: "O valor de ida e volta para grupos deve ser verdadeiro ou falso.",
-        })
-        .optional()
-        .default(false),
-      hasHomeAndAwayKnockout: zod
-        .boolean({
-          invalid_type_error: "O valor de ida e volta para knockout deve ser verdadeiro ou falso.",
-        })
-        .optional()
-        .default(false),
-    }),
-  }),
-
-  zod.object({
-    format: zod.literal(TournamentFormat.ROUND_ROBIN_AND_KNOCKOUT, {
-      errorMap: () => ({ message: "O formato Round Robin e Knockout é obrigatório." }),
-    }),
-    formatConfig: zod.object({
-      numberOfTeams: zod.number({
-        required_error: "Informe o número de times para o Round Robin e Knockout.",
-        invalid_type_error: "O número de times deve ser um valor numérico.",
-      }),
-      qualifiedToKnockout: zod.number({
-        required_error: "Informe quantos times se classificam para a fase de knockout.",
-        invalid_type_error: "A quantidade de classificados deve ser um valor numérico.",
-      }),
-      hasHomeAndAwayRoundRobin: zod
-        .boolean({
-          invalid_type_error:
-            "O valor de ida e volta na fase round robin deve ser verdadeiro ou falso.",
-        })
-        .optional()
-        .default(false),
-      hasHomeAndAwayKnockout: zod
-        .boolean({
-          invalid_type_error:
-            "O valor de ida e volta na fase knockout deve ser verdadeiro ou falso.",
-        })
-        .optional()
-        .default(false),
+    initialPhaseMatchMode: z.boolean().nullable().default(null),
+    knockoutMatchMode: z.boolean().nullable().default(null),
+    numberOfGroups: z.number().nullable().default(null),
+    teamsAdvancing: z.number({
+      required_error: "Informe quantos times se classificam para a fase eliminatória.",
+      invalid_type_error: "Esse valor deve ser um número.",
     }),
   }),
 ]);
+
+export type TournamentFormatSchemaType = z.infer<typeof TournamentFormatSchema>;

@@ -14,8 +14,8 @@ export default function KnockoutFields() {
         alignItems="center"
         textAlign={mdDown ? "center" : "left"}
       >
-        <Typography> Número de times no campeonato: </Typography>
-        <Field.NumberInput name="formatConfig.numberOfTeams" sx={{ maxWidth: 120 }} />
+        <Typography>Número de times no campeonato:</Typography>
+        <Field.NumberInput name="teamCount" sx={{ maxWidth: 120 }} />
       </Stack>
 
       <Stack
@@ -25,11 +25,11 @@ export default function KnockoutFields() {
         textAlign={mdDown ? "center" : "left"}
       >
         <Field.Checkbox
+          name="knockoutMatchMode"
           sx={{ ml: -1.5 }}
-          name="formatConfig.hasHomeAndAway"
           label={
             <>
-              Partidas de <strong>Ida</strong> e <strong>Volta</strong>
+              Partidas de <strong>ida</strong> e <strong>volta</strong>
             </>
           }
         />

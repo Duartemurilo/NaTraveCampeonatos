@@ -2,7 +2,7 @@
 
 import type { ITournament } from "src/types/tournament";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -44,17 +44,19 @@ export function TournamentForm({ tournament, currentStep, tournamentId }: Props)
     defaultValues,
   });
 
+  useEffect(() => {
+    methods.reset(defaultValues);
+  }, [defaultValues, methods]);
+
   const { handleSubmit, formState } = methods;
   const { isSubmitting } = formState;
 
   const onSubmit = handleSubmit((data) => stepSubmit(data, tournamentId));
 
   const handleGoBack = () => {
-    if (currentStep > 0 && tournamentId) {
+    if (currentStep > 0) {
       router.push(getRoute(currentStep - 1, tournamentId));
     }
-
-    router.push(getRoute(currentStep - 1, tournamentId));
   };
 
   const stepConfig = tournamentSteps[currentStep];
