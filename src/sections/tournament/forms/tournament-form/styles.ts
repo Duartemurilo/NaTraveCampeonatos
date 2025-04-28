@@ -45,7 +45,13 @@ export const VerticalStepper = styled(Stepper)(({ theme }) => ({
 
 // -----------------------------------------------------------------------z
 
-export const ContentWrapper = styled(Card)(({ theme }) => ({
+type ContentWrapperProps = {
+  isLoading?: boolean;
+};
+
+export const ContentWrapper = styled(Card, {
+  shouldForwardProp: (prop) => prop !== "isLoading",
+})<ContentWrapperProps>(({ theme, isLoading }) => ({
   display: "flex",
   flex: "1 1 auto",
   height: "100%",
@@ -55,4 +61,7 @@ export const ContentWrapper = styled(Card)(({ theme }) => ({
   border: "1px solid #F0F0F0",
   boxShadow: "0px 4px 16px rgba(255, 255, 255, 0.102)",
   padding: theme.spacing(10, 2, 10, 2),
+  ...(isLoading && {
+    justifyContent: "center",
+  }),
 }));

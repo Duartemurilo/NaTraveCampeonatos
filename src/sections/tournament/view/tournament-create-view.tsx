@@ -1,11 +1,7 @@
 "use client";
 
-import type { ITournament } from "src/types/tournament";
-
 import React from "react";
 import { useSearchParams } from "next/navigation";
-
-import { useGetById } from "src/hooks/request/use-get-by-id";
 
 import { TournamentForm } from "../forms/tournament-form";
 
@@ -19,20 +15,5 @@ export default function TournamentCreateView() {
   const tournamentId = idParam || "";
   const initialStep = Number(stepParam) || 0;
 
-  const fetcher = useGetById<ITournament>({
-    key: ["tournament", tournamentId],
-    endpoint: "/tournaments",
-    id: tournamentId,
-    enabled: Boolean(tournamentId),
-  });
-
-  const { data: tournament } = fetcher;
-
-  return (
-    <TournamentForm
-      tournament={tournament}
-      currentStep={initialStep as TournamentStep}
-      tournamentId={tournamentId}
-    />
-  );
+  return <TournamentForm tournamentId={tournamentId} currentStep={initialStep as TournamentStep} />;
 }
