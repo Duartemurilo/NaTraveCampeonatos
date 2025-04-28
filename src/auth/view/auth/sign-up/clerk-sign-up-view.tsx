@@ -58,8 +58,6 @@ export function ClerkSignUpView() {
   const phone = watch("phoneNumber");
   const { data: phoneData } = useCheckPhoneNumber(phone);
 
-  console.log("phoneData", phoneData);
-
   const handleNavigateToSignUp = () => {
     startTransition(() => router.push(paths.auth.clerk.signIn));
   };
@@ -77,7 +75,18 @@ export function ClerkSignUpView() {
         placeholder="Seu nome completo"
         slotProps={{ inputLabel: { shrink: true } }}
       />
-      <Field.Phone name="phoneNumber" label="WhatsApp" placeholder="(99) 99999-9999" country="BR" />
+
+      <Field.Phone
+        name="phoneNumber"
+        label="WhatsApp"
+        placeholder="(99) 99999-9999"
+        country="BR"
+        error={!!phoneData?.exists}
+        helperText={
+          phoneData?.exists ? "Este número de WhatsApp já está vinculado a outra conta." : undefined
+        }
+      />
+
       <Field.Text
         name="email"
         label="E-mail"

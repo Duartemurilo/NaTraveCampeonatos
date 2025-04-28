@@ -12,7 +12,7 @@ import { paths } from "src/routes/paths";
 import { useCreate } from "src/hooks/request/use-create";
 import { useUpdate } from "src/hooks/request/use-update";
 
-import { endpoints } from "src/auth/constants";
+import { endpoints } from "src/lib/axios";
 
 import { getRoute } from "../routes/tournament-routes";
 import {

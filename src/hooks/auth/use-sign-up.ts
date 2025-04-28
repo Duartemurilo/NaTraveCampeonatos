@@ -1,39 +1,77 @@
 import { useState } from "react";
 import { useSignUp } from "@clerk/clerk-react";
+import {
+  OrganizationStatus,
+  OrganizationUserStatus,
+  type IRegisterOrganizationDto,
+} from "@natrave/auth-service-types";
 
 import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
+
+import { useCreate } from "src/hooks/request/use-create";
+
+import { endpoints } from "src/lib/axios";
 
 import { getErrorMessage } from "src/auth/utils";
 
 export function useSignUpLogic() {
   const router = useRouter();
   const { signUp, setActive } = useSignUp();
+  const { create } = useCreate<IRegisterOrganizationDto, { userExternalId: string }>();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState<string>("");
 
   const handleSignUp = async (data: any) => {
-    if (!signUp || !setActive) {
-      console.error("Clerk não está devidamente inicializado.");
-      return;
-    }
+    if (!signUp || !setActive) return;
 
     const { organization_type, organization_name, ...rest } = data;
     const hasOrganization = Boolean(organization_name || organization_type);
 
-    const unsafeMetadata = hasOrganization ? { organization_type, organization_name } : undefined;
-
     try {
+      const registerPayload: IRegisterOrganizationDto = {
+        organization: {
+          name: organization_name || "",
+          document: "",
+          email: rest.email,
+          phone: rest.phoneNumber,
+          externalId: "",
+          type: organization_type || "FACILITY",
+          status: OrganizationStatus.ACTIVE,
+        },
+        user: {
+          firstName: rest.firstName,
+          lastName: rest.lastName,
+          document: "",
+          email: rest.email,
+          phone: rest.phoneNumber,
+          externalId: "",
+          status: OrganizationUserStatus.ACTIVE,
+        },
+      };
+
+      const response = await create({
+        endpoint: endpoints.auth.organizationRegister,
+        formData: registerPayload,
+      });
+
+      const { userExternalId } = response;
+
       await signUp.create({
         emailAddress: rest.email,
         password: rest.password,
         firstName: rest.firstName,
         lastName: rest.lastName,
         phoneNumber: rest.phoneNumber,
-
-        ...(unsafeMetadata && { unsafeMetadata }),
+        unsafeMetadata: {
+          externalId: userExternalId,
+          ...(hasOrganization && {
+            organization_type,
+            organization_name,
+          }),
+        },
       });
 
       setRegisteredEmail(rest.email);
@@ -51,7 +89,6 @@ export function useSignUpLogic() {
   const handleResendEmail = async () => {
     try {
       if (!signUp) return;
-
       await signUp.prepareEmailAddressVerification({
         strategy: "email_code",
       });

@@ -21,7 +21,7 @@ export const MATCH_DAYS_OPTIONS: SelectOption<MatchDays>[] = [
 export const GENDER_OPTIONS = [
   { label: "Masculino", value: TournamentGender.MALE },
   { label: "Feminino", value: TournamentGender.FEMALE },
-  { label: "Misto", value: TournamentGender.OTHER },
+  { label: "Misto", value: TournamentGender.MIXED },
 ];
 
 export const MODALITY_OPTIONS = [
