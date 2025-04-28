@@ -17,6 +17,7 @@ import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 
 import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
+import { useCheckPhoneNumber } from "src/hooks/use-check-phone-number";
 
 import {
   checkIfHasNumbers,
@@ -54,6 +55,10 @@ export function ClerkSignUpView() {
   const hasOrganizationValue = watch("hasOrganization");
   const email = watch("email");
   const [isPending, startTransition] = useTransition();
+  const phone = watch("phoneNumber");
+  const { data: phoneData } = useCheckPhoneNumber(phone);
+
+  console.log("phoneData", phoneData);
 
   const handleNavigateToSignUp = () => {
     startTransition(() => router.push(paths.auth.clerk.signIn));
