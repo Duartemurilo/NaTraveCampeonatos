@@ -33,27 +33,17 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  chat: "/api/chat",
-  kanban: "/api/kanban",
-  calendar: "/api/calendar",
-  auth: { me: "/api/auth/me", signIn: "/api/auth/sign-in", signUp: "/api/auth/sign-up" },
-  mail: { list: "/api/mail/list", details: "/api/mail/details", labels: "/api/mail/labels" },
-  post: {
-    list: "/api/post/list",
-    details: "/api/post/details",
-    latest: "/api/post/latest",
-    search: "/api/post/search",
-  },
-  product: {
-    list: "/api/product/list",
-    details: "/api/product/details",
-    search: "/api/product/search",
-  },
   tournament: {
-    list: "/api/tournament/list",
-    details: "/api/tournament/details",
-    create: "/api/tournament/create",
-    update: "/api/tournament/update",
-    delete: "/api/tournament/delete",
+    get: "/tournaments/get",
+    getById: "/tournaments/details",
+
+    createDraft: "/tournaments/tournament-creation/draft/create",
+    updateDraft: "/tournaments/tournament-creation/draft/update",
+
+    createFormat: "/tournaments/tournament-creation/format/create",
+    updateFormat: "/tournaments/tournament-creation/format/update",
+
+    createFinalize: "/tournaments/tournament-creation/finalize/create",
+    updateFinalize: "/tournaments/tournament-creation/finalize/update",
   },
 };

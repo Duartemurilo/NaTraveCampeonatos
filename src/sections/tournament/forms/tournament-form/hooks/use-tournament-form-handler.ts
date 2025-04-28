@@ -9,10 +9,10 @@ import type {
 
 import { paths } from "src/routes/paths";
 
+import { usePatch } from "src/hooks/request/use-patch";
 import { useCreate } from "src/hooks/request/use-create";
-import { useUpdate } from "src/hooks/request/use-update";
 
-import { endpoints } from "src/auth/constants";
+import { endpoints } from "src/lib/axios";
 
 import { getRoute } from "../routes/tournament-routes";
 import {
@@ -35,7 +35,7 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
     ITournamentDraftCreationDto,
     ITournamentDraftCreationResponse
   >();
-  const { update: updateDraft, isLoading: isUpdatingDraft } = useUpdate<
+  const { patch: updateDraft, isLoading: isUpdatingDraft } = usePatch<
     ITournamentDraftUpdateDto,
     ITournamentDraftUpdateResponse
   >();
@@ -49,7 +49,7 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
     ITournamentFinalizeDto,
     ITournamentFinalizeResponse
   >();
-  const { update: updateFinalizeTournament, isLoading: isUpdatingFinalize } = useUpdate<
+  const { patch: updateFinalizeTournament, isLoading: isUpdatingFinalize } = usePatch<
     ITournamentFinalizeDto,
     ITournamentFinalizeResponse
   >();
