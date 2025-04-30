@@ -54,6 +54,14 @@ export class HttpClient {
     return this.request<T>("put", path, body, config);
   }
 
+  async patch<T = never>(
+    path: string,
+    body?: TRequestData,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
+    return this.request<T>("patch", path, body, config);
+  }
+
   async get<T = never>(path: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>("get", path, undefined, config);
   }

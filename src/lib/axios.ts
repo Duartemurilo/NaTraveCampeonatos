@@ -49,5 +49,17 @@ export const endpoints = {
 
   auth: {
     organizationRegister: "/auth/organization-registration/register",
+    get: "/tournaments/get",
+    getById: "/tournaments/details",
+
+    createDraft: "/tournaments/tournament-creation/draft/create",
+    updateDraft: "/tournaments/tournament-creation/draft/update",
+
+    createFormat: "/tournaments/tournament-creation/format/create",
+    updateFormat: "/tournaments/tournament-creation/format/update",
+
+    createFinalize: "/tournaments/tournament-creation/finalize/create",
+    updateFinalize: "/tournaments/tournament-creation/finalize/update",
   },
 };
+
