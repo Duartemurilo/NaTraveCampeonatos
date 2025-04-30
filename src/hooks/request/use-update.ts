@@ -47,7 +47,7 @@ export function useUpdate<TInput extends TRequestData, TOutput = void>(): UseUpd
 
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       };
 

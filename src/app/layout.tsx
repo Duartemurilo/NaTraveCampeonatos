@@ -2,9 +2,6 @@ import "src/global.css";
 
 import type { Metadata, Viewport } from "next";
 
-import { ptBR } from "@clerk/localizations";
-import { ClerkProvider } from "@clerk/nextjs";
-
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
@@ -14,6 +11,7 @@ import { LocalizationProvider } from "src/locales";
 import { detectLanguage } from "src/locales/server";
 import { themeConfig, ThemeProvider } from "src/theme";
 import { I18nProvider } from "src/locales/i18n-provider";
+import { ClerkProviderWrapper } from "src/layouts/clerk-wrapper";
 
 import { Snackbar } from "src/components/snackbar";
 import { ProgressBar } from "src/components/progress-bar";
@@ -24,7 +22,7 @@ import { SettingsDrawer, defaultSettings, SettingsProvider } from "src/component
 
 // ----------------------------------------------------------------------
 
-const AuthProvider = ClerkProvider;
+const AuthProvider = ClerkProviderWrapper;
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -80,7 +78,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         />
 
         <I18nProvider lang={appConfig.i18nLang}>
-          <AuthProvider localization={ptBR}>
+          <AuthProvider>
             <SettingsProvider
               cookieSettings={appConfig.cookieSettings}
               defaultSettings={defaultSettings}

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useSignUp } from "@clerk/clerk-react";
 import {
-  OrganizationStatus,
-  OrganizationUserStatus,
+  OrganizationType,
   type IRegisterOrganizationDto,
+  type IRegisterOrganizationResponse,
 } from "@natrave/auth-service-types";
 
 import { paths } from "src/routes/paths";
@@ -18,7 +18,7 @@ import { getErrorMessage } from "src/auth/utils";
 export function useSignUpLogic() {
   const router = useRouter();
   const { signUp, setActive } = useSignUp();
-  const { create } = useCreate<IRegisterOrganizationDto, { userExternalId: string }>();
+  const { create } = useCreate<IRegisterOrganizationDto, IRegisterOrganizationResponse>();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -33,22 +33,16 @@ export function useSignUpLogic() {
     try {
       const registerPayload: IRegisterOrganizationDto = {
         organization: {
-          name: organization_name || "",
-          document: "",
+          name: organization_name || rest.firstName + " " + rest.lastName,
           email: rest.email,
           phone: rest.phoneNumber,
-          externalId: "",
-          type: organization_type || "FACILITY",
-          status: OrganizationStatus.ACTIVE,
+          type: organization_type || OrganizationType.FACILITY,
         },
         user: {
           firstName: rest.firstName,
           lastName: rest.lastName,
-          document: "",
           email: rest.email,
           phone: rest.phoneNumber,
-          externalId: "",
-          status: OrganizationUserStatus.ACTIVE,
         },
       };
 
@@ -57,7 +51,7 @@ export function useSignUpLogic() {
         formData: registerPayload,
       });
 
-      const { userExternalId } = response;
+      const { userId } = response;
 
       await signUp.create({
         emailAddress: rest.email,
@@ -65,8 +59,9 @@ export function useSignUpLogic() {
         firstName: rest.firstName,
         lastName: rest.lastName,
         phoneNumber: rest.phoneNumber,
+
         unsafeMetadata: {
-          externalId: userExternalId,
+          internalId: userId,
           ...(hasOrganization && {
             organization_type,
             organization_name,

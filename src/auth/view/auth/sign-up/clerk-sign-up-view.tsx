@@ -48,7 +48,7 @@ export function ClerkSignUpView() {
   });
 
   const { handleSubmit, formState, watch } = signUpMethods;
-  const { isSubmitting } = formState;
+  const { isSubmitting, isValid } = formState;
   const { handleSignUp, errorMessage, isEmailSent, registeredEmail } = useSignUpLogic();
   const showPassword = useBoolean();
   const passwordValue = watch("password");
@@ -56,7 +56,7 @@ export function ClerkSignUpView() {
   const email = watch("email");
   const [isPending, startTransition] = useTransition();
   const phone = watch("phoneNumber");
-  const { data: phoneData } = useCheckPhoneNumber(phone);
+  const { data: phoneData, isLoading: isPhoneLoading } = useCheckPhoneNumber(phone);
 
   const handleNavigateToSignUp = () => {
     startTransition(() => router.push(paths.auth.clerk.signIn));
@@ -162,7 +162,12 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={!isPasswordValid(passwordValue)}
+        disabled={
+          !isValid ||
+          !isPasswordValid(passwordValue) ||
+          isPhoneLoading ||
+          phoneData?.exists === true
+        }
       >
         Criar conta
       </LoadingButton>

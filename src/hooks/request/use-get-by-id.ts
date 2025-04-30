@@ -33,8 +33,11 @@ export function useGetById<TData>({
   const fetcher = async (): Promise<TData> => {
     const token = await getToken();
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     };
+
     const response = await httpRequest.get<unknown>(`${endpoint}/${id}`, config);
     if (transformData) return transformData(response);
     return response as TData;

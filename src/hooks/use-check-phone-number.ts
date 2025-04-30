@@ -9,11 +9,7 @@ export function useCheckPhoneNumber(phone: string | null) {
 
   const isValidPhone = debouncedPhone && debouncedPhone.replace(/\D/g, "").length >= 13;
   const encodedPhone = isValidPhone ? encodeURIComponent(debouncedPhone) : "";
-  const endpoint = isValidPhone ? `/organization-user/check-phone?phone=${encodedPhone}` : "";
-
-  console.log("debouncedPhone:", debouncedPhone);
-  console.log("isValidPhone:", isValidPhone);
-  console.log("endpoint:", endpoint);
+  const endpoint = isValidPhone ? `/auth/organization-user/check-phone?phone=${encodedPhone}` : "";
 
   return useGet<ICheckOrganizationUserPhoneResponse>({
     key: ["check-phone", debouncedPhone],
