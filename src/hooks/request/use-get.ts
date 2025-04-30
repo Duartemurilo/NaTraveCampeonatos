@@ -30,9 +30,10 @@ export function useGet<TData = unknown>({
 
   const fetcher = async (): Promise<TData> => {
     const token = await getToken();
+
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     };
 
@@ -47,13 +48,9 @@ export function useGet<TData = unknown>({
 
   const { data, error, isValidating } = useSWR<TData>(isPaused ? null : key, fetcher, {
     revalidateOnFocus: false,
+    shouldRetryOnError: false,
     ...swrConfig,
-    isPaused: () => isPaused,
   });
 
-  return {
-    data: data ?? null,
-    error,
-    isLoading: isValidating,
-  };
+  return { data: data ?? null, error, isLoading: isValidating };
 }

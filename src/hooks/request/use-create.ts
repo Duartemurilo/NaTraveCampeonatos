@@ -40,7 +40,7 @@ export function useCreate<TInput extends TRequestData, TOutput = void>(): UseCre
 
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       };
 

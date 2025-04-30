@@ -40,9 +40,13 @@ export function useRemove(): UseRemoveReturn {
     startLoading();
     try {
       const token = await getToken();
+
       const config = {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
       };
+
       await httpRequest.delete(`${endpoint}/${id}`, config);
       if (onSuccess) onSuccess();
       if (successMessage) showToast({ text: successMessage, type: "success" });

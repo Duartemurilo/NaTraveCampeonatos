@@ -17,6 +17,7 @@ import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 
 import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
+import { useCheckPhoneNumber } from "src/hooks/use-check-phone-number";
 
 import {
   checkIfHasNumbers,
@@ -47,13 +48,15 @@ export function ClerkSignUpView() {
   });
 
   const { handleSubmit, formState, watch } = signUpMethods;
-  const { isSubmitting } = formState;
+  const { isSubmitting, isValid } = formState;
   const { handleSignUp, errorMessage, isEmailSent, registeredEmail } = useSignUpLogic();
   const showPassword = useBoolean();
   const passwordValue = watch("password");
   const hasOrganizationValue = watch("hasOrganization");
   const email = watch("email");
   const [isPending, startTransition] = useTransition();
+  const phone = watch("phoneNumber");
+  const { data: phoneData, isLoading: isPhoneLoading } = useCheckPhoneNumber(phone);
 
   const handleNavigateToSignUp = () => {
     startTransition(() => router.push(paths.auth.clerk.signIn));
@@ -72,7 +75,18 @@ export function ClerkSignUpView() {
         placeholder="Seu nome completo"
         slotProps={{ inputLabel: { shrink: true } }}
       />
-      <Field.Phone name="phoneNumber" label="WhatsApp" placeholder="(99) 99999-9999" country="BR" />
+
+      <Field.Phone
+        name="phoneNumber"
+        label="WhatsApp"
+        placeholder="(99) 99999-9999"
+        country="BR"
+        error={!!phoneData?.exists}
+        helperText={
+          phoneData?.exists ? "Este número de WhatsApp já está vinculado a outra conta." : undefined
+        }
+      />
+
       <Field.Text
         name="email"
         label="E-mail"
@@ -148,7 +162,12 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={!isPasswordValid(passwordValue)}
+        disabled={
+          !isValid ||
+          !isPasswordValid(passwordValue) ||
+          isPhoneLoading ||
+          phoneData?.exists === true
+        }
       >
         Criar conta
       </LoadingButton>
