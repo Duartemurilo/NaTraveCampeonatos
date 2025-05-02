@@ -7,7 +7,7 @@ import { useCities, useStates } from "src/hooks/brazil-addresses";
 
 import { Field } from "src/components/hook-form";
 
-export function StepDates() {
+export function StepPeriodAndLocation() {
   const theme = useTheme();
   const isMdOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -90,7 +90,7 @@ export function StepDates() {
 
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <Stack spacing={1.5} sx={{ flex: 1, maxWidth: { xs: "100%", md: "100%", lg: "20%" } }}>
-            <Field.DatePicker name="startDate" />
+            <Field.DatePicker name="initialDate" />
           </Stack>
 
           <Stack spacing={1.5} sx={{ flex: 1, maxWidth: { xs: "100%", md: "100%", lg: "20%" } }}>

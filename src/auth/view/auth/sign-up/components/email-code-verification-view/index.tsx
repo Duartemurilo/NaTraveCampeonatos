@@ -10,7 +10,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useTheme, useMediaQuery, CircularProgress } from "@mui/material";
 
-import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
+import { useSignUpLogic } from "src/auth/hooks/use-sign-up";
 
 import EmailInboxIcon from "src/assets/icons/email-inbox-icon";
 

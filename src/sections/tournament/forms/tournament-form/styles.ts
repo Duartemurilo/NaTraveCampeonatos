@@ -10,8 +10,8 @@ export const SidebarContainer = styled(Card)(({ theme }) => ({
 
   width: "100%",
   position: "relative",
-  padding: theme.spacing(10, 2, 10, 2),
-  height: "100%",
+  padding: theme.spacing(8, 3, 8, 3),
+  height: "95%",
   background: "linear-gradient(180deg, #FFFFFF 0%, #F2F2F2 100%)",
   border: "1px solid #F0F0F0",
   boxShadow: "0px 4px 16px rgba(255, 255, 255, 0.102)",
@@ -40,7 +40,7 @@ export const SidebarSubtitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const VerticalStepper = styled(Stepper)(({ theme }) => ({
-  gap: 40,
+  gap: 30,
 }));
 
 // -----------------------------------------------------------------------z
@@ -54,13 +54,13 @@ export const ContentWrapper = styled(Card, {
 })<ContentWrapperProps>(({ theme, isLoading }) => ({
   display: "flex",
   flex: "1 1 auto",
-  height: "100%",
+  height: "95%",
   flexDirection: "column",
   position: "relative",
   background: "linear-gradient(180deg, #FFFFFF 0%, #F2F2F2 100%)",
   border: "1px solid #F0F0F0",
   boxShadow: "0px 4px 16px rgba(255, 255, 255, 0.102)",
-  padding: theme.spacing(10, 2, 10, 2),
+  padding: theme.spacing(8, 3, 8, 3),
   ...(isLoading && {
     justifyContent: "center",
   }),

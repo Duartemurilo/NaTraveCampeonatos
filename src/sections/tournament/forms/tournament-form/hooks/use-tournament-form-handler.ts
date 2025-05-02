@@ -5,117 +5,98 @@ import type {
   ITournamentFormatCreationDto,
   ITournamentDraftUpdateResponse,
   ITournamentDraftCreationResponse,
+  ITournamentPeriodAndLocationSetDto,
 } from "@natrave/tournaments-service-types";
 
 import { paths } from "src/routes/paths";
 
+import useMutate from "src/hooks/use-mutate";
 import { usePatch } from "src/hooks/request/use-patch";
 import { useCreate } from "src/hooks/request/use-create";
 
 import { endpoints } from "src/lib/axios";
+import { SWR_KEYS } from "src/constants/swr-keys";
 
 import { getRoute } from "../routes/tournament-routes";
 import {
-  normalizeTournamentDates,
   normalizeEditTournamentDraft,
   normalizeCreateTournamentDraft,
   normalizeTournamentFormatForCreate,
+  normalizeUpdateTournamentPeriodAndLocation,
 } from "../normalizers/tournament-normalizers";
 
 import type {
-  ITournamentFinalizeDto,
   TournamentDraftSchemaType,
-  TournamentDatesSchemaType,
   TournamentFormatSchemaType,
-  ITournamentFinalizeResponse,
+  TournamentPeriodAndLocationSchemaType,
 } from "../types";
 
 export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
-  const { create: createDraft, isLoading: isCreatingDraft } = useCreate<
-    ITournamentDraftCreationDto,
-    ITournamentDraftCreationResponse
-  >();
-  const { patch: updateDraft, isLoading: isUpdatingDraft } = usePatch<
-    ITournamentDraftUpdateDto,
-    ITournamentDraftUpdateResponse
-  >();
+  const draftCreate = useCreate<ITournamentDraftCreationDto, ITournamentDraftCreationResponse>();
+  const draftUpdate = usePatch<ITournamentDraftUpdateDto, ITournamentDraftUpdateResponse>();
 
-  const { create: createFormat, isLoading: isCreatingFormat } = useCreate<
-    ITournamentFormatCreationDto,
-    void
-  >();
+  const periodAndLocationUpdate = usePatch<ITournamentPeriodAndLocationSetDto>();
+  const formatCreate = useCreate<ITournamentFormatCreationDto>();
 
-  const { create: finalizeTournament, isLoading: isCreatingFinalizing } = useCreate<
-    ITournamentFinalizeDto,
-    ITournamentFinalizeResponse
-  >();
-  const { patch: updateFinalizeTournament, isLoading: isUpdatingFinalize } = usePatch<
-    ITournamentFinalizeDto,
-    ITournamentFinalizeResponse
-  >();
+  const { create: createDraft, isLoading: isCreatingDraft } = draftCreate;
+  const { patch: updateDraft, isLoading: isUpdatingDraft } = draftUpdate;
+  const { patch: setPeriodLocation, isLoading: isSetPerAndLoc } = periodAndLocationUpdate;
+  const { create: createFormat, isLoading: isCreatingFormat } = formatCreate;
+
+  const { mutate } = useMutate();
 
   const handleDraftStep = async (data: TournamentDraftSchemaType, tournamentId: string) => {
     if (tournamentId) {
       await updateDraft({
-        id: tournamentId,
         formData: normalizeEditTournamentDraft(data, tournamentId),
         endpoint: endpoints.tournament.updateDraft,
         successMessage: "Informações atualizadas com sucesso!",
         errorMessage: "Erro ao atualizar as informações.",
-        onSuccess: () => router.push(getRoute(1, tournamentId)),
+        onSuccess: () => {
+          mutate(SWR_KEYS.getTournamentDraft);
+          router.push(getRoute(1, tournamentId));
+        },
       });
     } else {
       await createDraft({
         formData: normalizeCreateTournamentDraft(data),
         endpoint: endpoints.tournament.createDraft,
-        successMessage: "Rascunho do torneio criado com sucesso!",
         errorMessage: "Erro ao criar o rascunho do torneio.",
         onSuccess: (res: ITournamentDraftCreationResponse) => {
-          router.push(getRoute(2, res.tournamentId.toString()));
+          router.push(getRoute(1, res.tournamentId.toString()));
         },
       });
     }
   };
 
-  const handleDatesStepSubmit = async (
-    data: TournamentDatesSchemaType,
+  const handlePeriodAndLocationStepSubmit = async (
+    data: TournamentPeriodAndLocationSchemaType,
     tournamentId: string,
     isEditing: boolean
   ) => {
-    if (isEditing) {
-      await updateFinalizeTournament({
-        id: tournamentId,
-        formData: normalizeTournamentDates(data, tournamentId),
-        endpoint: endpoints.tournament.updateFinalize,
-        successMessage: "Torneio atualizado com sucesso!",
-        errorMessage: "Erro ao atualizar o torneio.",
-        onSuccess: () => router.push(getRoute(2, tournamentId)),
-      });
-    } else {
-      await finalizeTournament({
-        formData: normalizeTournamentDates(data, tournamentId),
-        endpoint: endpoints.tournament.createFinalize,
-        successMessage: "Torneio criado com sucesso!",
-        errorMessage: "Erro ao finalizar o torneio.",
-        onSuccess: () => router.push(getRoute(2, tournamentId)),
-      });
-    }
+    await setPeriodLocation({
+      formData: normalizeUpdateTournamentPeriodAndLocation(data, tournamentId),
+      endpoint: endpoints.tournament.setPeriodLocation,
+      successMessage: isEditing ? "Torneio atualizado com sucesso!" : "",
+      errorMessage: "Erro ao atualizar o torneio.",
+      onSuccess: () => router.push(getRoute(2, tournamentId)),
+    });
   };
 
   const handleFormatStepSubmit = async (data: TournamentFormatSchemaType, tournamentId: string) => {
     await createFormat({
       formData: normalizeTournamentFormatForCreate(data, tournamentId),
       endpoint: endpoints.tournament.createFormat,
-      successMessage: "Formato do torneio criado com sucesso!",
+      successMessage: "Torneio criado com sucesso!",
       errorMessage: "Erro ao criar o formato do torneio.",
       onSuccess: () => router.push(paths.dashboard.tournaments.list),
     });
   };
 
-  const isUpdating = isUpdatingDraft || isUpdatingFinalize;
-  const isCreating = isCreatingDraft || isCreatingFormat || isCreatingFinalizing;
+  const isUpdating = isUpdatingDraft || isSetPerAndLoc;
+  const isCreating = isCreatingDraft || isCreatingFormat;
 
   const isLoading = isUpdating || isCreating;
 
-  return { handleDraftStep, handleFormatStepSubmit, handleDatesStepSubmit, isLoading };
+  return { handleDraftStep, handleFormatStepSubmit, handlePeriodAndLocationStepSubmit, isLoading };
 }

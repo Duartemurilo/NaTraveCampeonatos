@@ -25,9 +25,9 @@ const MainRoot = styled("main")(({ theme }) => ({
   flex: "1 1 auto",
   flexDirection: "column",
   backgroundColor: theme.palette.primary.dark,
-  padding: theme.spacing(2, 2.5),
+  padding: theme.spacing(2.5, 2, 1, 2.5),
   boxSizing: "border-box",
-  overflow: "hidden", // evita scroll externo
+  overflow: "hidden",
 
   "& .scrollable-content": {
     flex: 1,

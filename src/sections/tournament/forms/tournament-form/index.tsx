@@ -1,5 +1,7 @@
 "use client";
 
+import type { ITournamentDraftCreationDto } from "@natrave/tournaments-service-types";
+
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,19 +15,20 @@ import { useGetById } from "src/hooks/request/use-get-by-id";
 
 import { endpoints } from "src/lib/axios";
 import { MainSection } from "src/layouts/core";
+import { SWR_KEYS } from "src/constants/swr-keys";
 
 import { Form } from "src/components/hook-form";
 import { LoadingScreen } from "src/components/loading-screen";
 
 import { ContentWrapper } from "./styles";
-import { tournamentSteps } from "./step-config";
+import { getRoute } from "./routes/tournament-routes";
 import { FormActions } from "./components/tournament-form-actions";
-import { getRoute, getFormConfigByStep } from "./routes/tournament-routes";
+import { tournamentSteps, getFormConfigByStep } from "./step-config";
 import { TournamentFormSidebar } from "./components/tournament-form-sidebar";
 import { useTournamentFormHandler } from "./hooks/use-tournament-form-handler";
 import { useValidateTournamentStep } from "./hooks/use-validate-tournament-step";
 
-import type { TournamentStep, TournamentDraftSchemaType, TournamentDatesSchemaType } from "./types";
+import type { TournamentStep } from "./types";
 
 export type Props = {
   currentStep: TournamentStep;
@@ -33,29 +36,21 @@ export type Props = {
 };
 
 export function TournamentForm({ currentStep, tournamentId }: Props) {
-  useValidateTournamentStep(currentStep, tournamentId);
-
   const router = useRouter();
   const handler = useTournamentFormHandler(router);
 
-  const { data: draftData, isLoading: isDraftLoading } = useGetById<TournamentDraftSchemaType>({
-    key: ["tournament", "draft", tournamentId],
-    endpoint: endpoints.tournament.getById,
-    id: tournamentId ?? "",
-    enabled: currentStep === 0 && Boolean(tournamentId),
-  });
+  const { data: tournament, isLoading: isLoadingTOurnament } =
+    useGetById<ITournamentDraftCreationDto>({
+      key: [SWR_KEYS.getTournamentDraft, tournamentId],
+      endpoint: endpoints.tournament.getDraft,
+      id: tournamentId ?? "",
+      enabled: currentStep === 0 || (currentStep === 1 && Boolean(tournamentId)),
+      swrConfig: { revalidateOnMount: true },
+    });
 
-  const { data: datesData, isLoading: isDatesLoading } = useGetById<TournamentDatesSchemaType>({
-    key: ["tournament", "dates", tournamentId],
-    endpoint: endpoints.tournament.get,
-    id: tournamentId ?? "",
-    enabled: currentStep === 1 && Boolean(tournamentId),
-  });
+  const config = getFormConfigByStep(currentStep, handler, { tournament });
 
-  const config = getFormConfigByStep(currentStep, handler, {
-    draft: draftData,
-    dates: datesData,
-  });
+  const isValidStep = useValidateTournamentStep(currentStep, tournamentId);
 
   const { schema, defaultValues, stepSubmit } = config;
 
@@ -66,8 +61,10 @@ export function TournamentForm({ currentStep, tournamentId }: Props) {
   });
 
   useEffect(() => {
-    methods.reset(defaultValues);
-  }, [defaultValues, methods]);
+    if (isValidStep) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, methods, isValidStep]);
 
   const { handleSubmit, formState } = methods;
   const { isSubmitting } = formState;
@@ -85,9 +82,8 @@ export function TournamentForm({ currentStep, tournamentId }: Props) {
 
   const { Component } = stepConfig;
 
-  const isLoadingData =
-    ((currentStep === 0 && isDraftLoading) || (currentStep === 1 && isDatesLoading)) &&
-    !isSubmitting;
+  const isStep0Loading = currentStep === 0 && isLoadingTOurnament;
+  const isLoadingData = isStep0Loading && !isSubmitting;
 
   return (
     <MainSection>

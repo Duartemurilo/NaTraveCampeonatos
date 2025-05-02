@@ -59,7 +59,7 @@ export function TournamentFormSidebar({ steps, activeStep }: Props) {
                   sx: {
                     "&.Mui-active": { color: "secondary.main" },
                     "&.Mui-completed": { color: "secondary.main" },
-                    marginTop: 2,
+                    marginTop: 1,
                     width: 30,
                     height: 30,
                   },

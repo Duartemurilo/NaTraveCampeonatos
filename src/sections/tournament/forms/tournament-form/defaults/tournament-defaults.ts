@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import {
+  BrazilianState,
   TournamentFormat,
   TournamentGender,
   TournamentModality,
@@ -9,8 +10,8 @@ import {
 
 import type {
   TournamentDraftSchemaType,
-  TournamentDatesSchemaType,
   TournamentFormatSchemaType,
+  TournamentPeriodAndLocationSchemaType,
 } from "../types";
 
 //-------------------------------------------------------------------------------
@@ -65,9 +66,10 @@ dayjs.extend(timezone);
 const today = dayjs().tz("America/Sao_Paulo").startOf("day");
 const tomorrow = today.add(1, "day");
 
-export const tournamentDatesDefaultValues: TournamentDatesSchemaType = {
-  startDate: today.toISOString(),
+export const tournamentDatesDefaultValues: TournamentPeriodAndLocationSchemaType = {
+  initialDate: today.toISOString(),
   endDate: tomorrow.toISOString(),
-  state: "SP",
+  state: BrazilianState.SAO_PAULO,
   city: "",
+  tournamentId: undefined,
 };

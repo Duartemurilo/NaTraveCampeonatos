@@ -34,32 +34,18 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 
 export const endpoints = {
   tournament: {
-    get: "/api/tournament/get",
-    getById: "/api/tournament/details",
+    createDraft: "/tournaments/tournament/draft/create",
+    updateDraft: "/tournaments/tournament/draft/update",
+    getDraft: "/tournaments/tournament/draft",
 
-    createDraft: "/tournament-creation/draft/create",
-    updateDraft: "/tournament-creation/draft/update",
+    setPeriodLocation: "/tournaments/tournament/period-location/set",
+    getPeriodLocation: "/tournaments/tournament/period-location",
 
-    createFormat: "/api/tournament/format/create",
-    updateFormat: "/api/tournament/format/update",
-
-    createFinalize: "/tournament-creationfinalize/reate",
-    updateFinalize: "/tournament-creationfinalize/update",
+    createFormat: "/tournament-creation/format/create",
   },
 
   auth: {
+    checkPhone: "/auth/organization-user/check-phone",
     organizationRegister: "/auth/organization-registration/register",
-    get: "/tournaments/get",
-    getById: "/tournaments/details",
-
-    createDraft: "/tournaments/tournament-creation/draft/create",
-    updateDraft: "/tournaments/tournament-creation/draft/update",
-
-    createFormat: "/tournaments/tournament-creation/format/create",
-    updateFormat: "/tournaments/tournament-creation/format/update",
-
-    createFinalize: "/tournaments/tournament-creation/finalize/create",
-    updateFinalize: "/tournaments/tournament-creation/finalize/update",
   },
 };
-

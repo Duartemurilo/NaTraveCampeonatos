@@ -14,9 +14,7 @@ import useLoading from "../use-loading";
 import type { UseLoadingReturn } from "../use-loading";
 
 export type UsePatchReturn<TInput, TOutput = void> = {
-  patch: (
-    props: { id: number | string; formData: TInput; endpoint: string } & RequestsProps
-  ) => Promise<TOutput>;
+  patch: (props: { formData: TInput; endpoint: string } & RequestsProps) => Promise<TOutput>;
   error: unknown;
 } & UseLoadingReturn;
 
@@ -30,14 +28,12 @@ export function usePatch<TInput extends TRequestData, TOutput = void>(): UsePatc
   const [error, setError] = useState<unknown>(null);
 
   const patch = async ({
-    id,
     formData,
     endpoint,
     onSuccess,
     onError,
     successMessage = "",
   }: {
-    id: number | string;
     formData: TInput;
     endpoint: string;
   } & RequestsProps): Promise<TOutput> => {
@@ -51,11 +47,13 @@ export function usePatch<TInput extends TRequestData, TOutput = void>(): UsePatc
         },
       };
 
-      const endpointWithId = `${endpoint}/${id}`;
-      const response = await httpRequest.patch<TOutput>(endpointWithId, formData, config);
+      const response = await httpRequest.patch<TOutput>(endpoint, formData, config);
 
       if (onSuccess) onSuccess(response);
-      if (successMessage) showToast({ text: successMessage, type: "success" });
+      if (successMessage && successMessage !== "") {
+        showToast({ text: successMessage, type: "success" });
+      }
+
       return response;
     } catch (err) {
       setError(err);

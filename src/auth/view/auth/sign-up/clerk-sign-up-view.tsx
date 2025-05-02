@@ -16,9 +16,6 @@ import { IconButton, InputAdornment, CircularProgress } from "@mui/material";
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 
-import { useSignUpLogic } from "src/hooks/auth/use-sign-up";
-import { useCheckPhoneNumber } from "src/hooks/use-check-phone-number";
-
 import {
   checkIfHasNumbers,
   checkIfHasLoweCase,
@@ -29,7 +26,9 @@ import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
 import { isPasswordValid } from "src/auth/utils";
+import { useSignUpLogic } from "src/auth/hooks/use-sign-up";
 import { SignUpTerms } from "src/auth/components/sign-up-terms";
+import { useCheckPhoneNumber } from "src/auth/hooks/use-check-phone-number";
 import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
 
 import { FormHead } from "../../../components/form-head";

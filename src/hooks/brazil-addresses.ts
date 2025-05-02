@@ -16,7 +16,7 @@ export type CityOption = {
 };
 
 export function useStates() {
-  const url = `${CONFIG.brasilapiUrl}/api/ibge/uf/v1`;
+  const url = `${CONFIG.brasilapiUrl}api/ibge/uf/v1`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   const states: StateOption[] = useMemo(
@@ -33,7 +33,7 @@ export function useStates() {
 
 export function useCities(selectedState?: string) {
   const url = selectedState
-    ? `${CONFIG.brasilapiUrl}/api/ibge/municipios/v1/${selectedState}`
+    ? `${CONFIG.brasilapiUrl}api/ibge/municipios/v1/${selectedState}`
     : null;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
