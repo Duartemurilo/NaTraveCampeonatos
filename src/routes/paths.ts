@@ -33,7 +33,7 @@ export const paths = {
     tournaments: {
       list: `${ROOTS.DASHBOARD}${ROOTS.TOURNAMENT}/lista`,
       criar: (step: number, id?: string) => {
-        let url = `${ROOTS.DASHBOARD}${ROOTS.TOURNAMENT}/criar/informacoes-do-campeonato?step=${step}`;
+        let url = `${ROOTS.DASHBOARD}${ROOTS.TOURNAMENT}/criar/?step=${step}`;
         if (id) {
           url += `&id=${id}`;
         }
