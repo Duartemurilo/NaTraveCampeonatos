@@ -46,12 +46,12 @@ export const formatDefaults: Record<
     teamCount: 16,
     initialPhaseMatchMode: null,
     knockoutMatchMode: false,
-    numberOfGroups: 4,
+    numberOfGroups: 2,
     teamsAdvancing: 2,
   },
   [TournamentFormat.ROUND_ROBIN_AND_KNOCKOUT]: {
     teamCount: 16,
-    initialPhaseMatchMode: true,
+    initialPhaseMatchMode: false,
     knockoutMatchMode: false,
     numberOfGroups: null,
     teamsAdvancing: 4,
@@ -63,12 +63,12 @@ export const formatDefaults: Record<
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const today = dayjs().tz("America/Sao_Paulo").startOf("day");
-const tomorrow = today.add(1, "day");
+const today = dayjs().tz("America/Sao_Paulo").startOf("day").toISOString();
+const tomorrow = dayjs().add(1, "day").toISOString();
 
 export const tournamentDatesDefaultValues: TournamentPeriodAndLocationSchemaType = {
-  initialDate: today.toISOString(),
-  endDate: tomorrow.toISOString(),
+  initialDate: today,
+  endDate: tomorrow,
   state: BrazilianState.SAO_PAULO,
   city: "",
   tournamentId: undefined,

@@ -19,8 +19,6 @@ import {
   NumberInputRoot,
 } from "./styles";
 
-// ----------------------------------------------------------------------
-
 type NumberInputSlotProps = {
   wrapper?: BoxProps;
   input?: InputBaseProps;
@@ -37,12 +35,14 @@ type EventHandler =
 export type NumberInputProps = Omit<React.ComponentProps<typeof NumberInputRoot>, "onChange"> & {
   min?: number;
   max?: number;
+  step?: number;
   error?: boolean;
   disabled?: boolean;
   value?: number | null;
   hideDivider?: boolean;
   hideButtons?: boolean;
   disableInput?: boolean;
+  readOnly?: boolean;
   helperText?: React.ReactNode;
   captionText?: React.ReactNode;
   slotProps?: NumberInputSlotProps;
@@ -56,6 +56,7 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
     value,
     onChange,
     disabled,
+    readOnly = false,
     slotProps,
     helperText,
     captionText,
@@ -64,32 +65,32 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
     disableInput,
     min = 0,
     max = 9999,
+    step = 1,
     ...other
   } = props;
 
   const id = useId();
-
   const currentValue = value ?? 0;
 
-  const isDecrementDisabled = currentValue <= min || disabled;
-  const isIncrementDisabled = currentValue >= max || disabled;
+  const isDecrementDisabled = currentValue - step < min || disabled;
+  const isIncrementDisabled = currentValue + step > max || disabled;
 
   const handleDecrement = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       if (!isDecrementDisabled) {
-        onChange?.(event, currentValue - 1);
+        onChange?.(event, currentValue - step);
       }
     },
-    [isDecrementDisabled, onChange, currentValue]
+    [isDecrementDisabled, onChange, currentValue, step]
   );
 
   const handleIncrement = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       if (!isIncrementDisabled) {
-        onChange?.(event, currentValue + 1);
+        onChange?.(event, currentValue + step);
       }
     },
-    [isIncrementDisabled, onChange, currentValue]
+    [isIncrementDisabled, onChange, currentValue, step]
   );
 
   const handleChange = useCallback(
@@ -133,8 +134,10 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
           <CenteredInput
             name={id}
             disabled={disabled || disableInput}
+            readOnly={readOnly}
             value={currentValue}
             onChange={handleChange}
+            type="number"
             {...slotProps?.input}
           />
 
@@ -161,8 +164,6 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
   );
 });
 
-// ----------------------------------------------------------------------
-
 export function transformNumberOnChange(
   value: string,
   options?: { min?: number; max?: number }
@@ -176,7 +177,6 @@ export function transformNumberOnChange(
   const numericValue = Number(value.trim());
 
   if (!Number.isNaN(numericValue)) {
-    // Clamp the value between min and max
     return Math.min(Math.max(numericValue, min), max);
   }
 

@@ -40,10 +40,12 @@ export const FORMAT_OPTIONS = [
 ];
 
 export const TEAM_OPTIONS = [
+  { label: "2", value: 2 },
   { label: "4", value: 4 },
   { label: "8", value: 8 },
   { label: "16", value: 16 },
   { label: "32", value: 32 },
+  { label: "64", value: 64 },
 ];
 
 export const QUALIFIED_OPTIONS = [

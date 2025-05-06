@@ -25,7 +25,6 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
-
   "&.Mui-selected": {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -77,16 +76,18 @@ export function RHFSingleToggleButtonGroup({
             orientation={column ? "vertical" : "horizontal"}
             value={field.value || ""}
             onChange={(_, newValue) => {
-              if (newValue !== null) {
-                field.onChange(newValue);
-              }
+              if (newValue !== null) field.onChange(newValue);
             }}
-            sx={{ gap: 4, border: "none" }}
+            sx={{
+              display: "flex",
+              flexWrap: column ? "nowrap" : "wrap",
+              gap: 4,
+              border: "none",
+            }}
             {...other}
           >
             {options.map((option) => {
               const selected = field.value === option.value;
-
               return (
                 <StyledToggleButton key={option.value} value={option.value}>
                   <Box display="flex" alignItems="center" gap={0.5}>

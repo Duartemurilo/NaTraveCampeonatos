@@ -24,8 +24,10 @@ const MainRoot = styled("main")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
   flexDirection: "column",
+  height: "100%", // <- ESSENCIAL
+  minHeight: 0, // <- PREVINE OVERFLOW
   backgroundColor: theme.palette.primary.dark,
-  padding: theme.spacing(2.5, 2, 1, 2.5),
+  padding: theme.spacing(2.5, 2, 1.5, 2.5),
   boxSizing: "border-box",
   overflow: "hidden",
 

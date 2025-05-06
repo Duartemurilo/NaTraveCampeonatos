@@ -15,7 +15,7 @@ export default function RoundRobinFields() {
         textAlign={mdDown ? "center" : "left"}
       >
         <Typography>Número de times no campeonato:</Typography>
-        <Field.NumberInput name="teamCount" sx={{ maxWidth: 120 }} />
+        <Field.NumberInput name="teamCount" sx={{ maxWidth: 120 }} min={2} max={64} />
       </Stack>
 
       <Stack

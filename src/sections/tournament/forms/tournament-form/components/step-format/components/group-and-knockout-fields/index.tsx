@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useWatch, useFormContext } from "react-hook-form";
 
 import Grid from "@mui/material/Grid2";
@@ -15,28 +15,42 @@ import {
 
 import { Field } from "src/components/hook-form";
 
-import { TEAM_OPTIONS, QUALIFIED_OPTIONS } from "../../../../constants";
+import {
+  getValidGroupCounts,
+  getValidAdvancingPerGroupOptions,
+} from "src/sections/tournament/forms/utils/tournament-utils";
 
 import type { TournamentFormatSchemaType } from "../../../../types";
 
-const generateGroupOptions = (teams: number) => {
-  if (!teams) return [];
-  const options: { label: string; value: number }[] = [];
-  for (let i = 2; i <= teams; i++) {
-    if (teams % i === 0) {
-      options.push({ label: `${i}`, value: i });
-    }
-  }
-  return options;
-};
-
 export default function GroupAndKnockoutFields() {
-  const { control, formState } = useFormContext<TournamentFormatSchemaType>();
+  const { control, formState, setValue } = useFormContext<TournamentFormatSchemaType>();
   const { errors } = formState;
 
   const teamCount = useWatch({ control, name: "teamCount" });
+  const selectedGroupCount = useWatch({ control, name: "numberOfGroups" });
 
-  const groupOptions = generateGroupOptions(teamCount);
+  useEffect(() => {
+    const defaultGroups = 2;
+    const isDefaultValid = getValidGroupCounts(teamCount).includes(defaultGroups);
+    setValue("numberOfGroups", isDefaultValid ? defaultGroups : null, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }, [teamCount, setValue]);
+
+  useEffect(() => {
+    const defaultAdvancing = 2;
+    const isDefaultValid = getValidAdvancingPerGroupOptions(teamCount, selectedGroupCount).includes(
+      defaultAdvancing
+    );
+    setValue("teamsAdvancing", isDefaultValid ? defaultAdvancing : null, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }, [selectedGroupCount, teamCount, setValue]);
+
+  const groupOptions = getValidGroupCounts(teamCount);
+  const advancingOptions = getValidAdvancingPerGroupOptions(teamCount, selectedGroupCount);
 
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
@@ -47,11 +61,12 @@ export default function GroupAndKnockoutFields() {
 
   return (
     <Grid container spacing={3}>
-      <Grid size={{ xs: 12, md: 4 }}>
+      <Grid size={{ xs: 12, md: 5 }}>
         <Stack spacing={2}>
           <Typography variant="h6" fontWeight="bold" textAlign={mdDown ? "center" : "left"}>
             1ª fase (Grupos)
           </Typography>
+
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
@@ -59,27 +74,23 @@ export default function GroupAndKnockoutFields() {
             textAlign={mdDown ? "center" : "left"}
           >
             <Typography>Número de times:</Typography>
-            <Field.Select
+
+            <Field.NumberInput
               name="teamCount"
-              noShowError
-              slotProps={{ inputLabel: { shrink: true } }}
-              sx={{
-                maxWidth: { sm: 80, md: 70, lg: 60 },
-                "& .MuiSelect-select": { padding: "5px 10px !important" },
-              }}
-            >
-              {TEAM_OPTIONS.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Field.Select>
+              step={2}
+              min={4}
+              max={64}
+              readOnly
+              sx={{ maxWidth: 120 }}
+            />
+
+            {teamCountError && (
+              <FormHelperText error sx={{ mt: -2 }}>
+                {teamCountError.message}
+              </FormHelperText>
+            )}
           </Stack>
-          {teamCountError && (
-            <FormHelperText error sx={{ mt: -2 }}>
-              {teamCountError.message}
-            </FormHelperText>
-          )}
+
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
@@ -96,18 +107,19 @@ export default function GroupAndKnockoutFields() {
                 "& .MuiSelect-select": { padding: "5px 10px !important" },
               }}
             >
-              {groupOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {groupOptions.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
                 </MenuItem>
               ))}
             </Field.Select>
+
+            {groupsError && (
+              <FormHelperText error sx={{ mt: -2 }}>
+                {groupsError.message}
+              </FormHelperText>
+            )}
           </Stack>
-          {groupsError && (
-            <FormHelperText error sx={{ mt: -2 }}>
-              {groupsError.message}
-            </FormHelperText>
-          )}
 
           <Stack
             direction={mdDown ? "column" : "row"}
@@ -133,13 +145,14 @@ export default function GroupAndKnockoutFields() {
           <Typography variant="h6" fontWeight="bold" textAlign={mdDown ? "center" : "left"}>
             2ª fase (Mata-Mata)
           </Typography>
+
           <Stack
             direction={mdDown ? "column" : "row"}
             spacing={2}
             alignItems="center"
             textAlign={mdDown ? "center" : "left"}
           >
-            <Typography>Times por grupo que passam para a 2ª fase:</Typography>
+            <Typography>Números de times por grupo que passam para a 2ª fase:</Typography>
             <Field.Select
               name="teamsAdvancing"
               noShowError
@@ -149,19 +162,19 @@ export default function GroupAndKnockoutFields() {
                 "& .MuiSelect-select": { padding: "5px 10px !important" },
               }}
             >
-              {QUALIFIED_OPTIONS.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {advancingOptions.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
                 </MenuItem>
               ))}
             </Field.Select>
-          </Stack>
 
-          {advancingError && (
-            <FormHelperText error sx={{ mt: -2 }}>
-              {advancingError.message}
-            </FormHelperText>
-          )}
+            {advancingError && (
+              <FormHelperText error sx={{ mt: -2 }}>
+                {advancingError.message}
+              </FormHelperText>
+            )}
+          </Stack>
 
           <Stack
             direction={mdDown ? "column" : "row"}

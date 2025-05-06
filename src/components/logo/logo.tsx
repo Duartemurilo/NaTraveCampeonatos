@@ -1,14 +1,14 @@
-import type { LinkProps } from '@mui/material/Link';
+import type { LinkProps } from "@mui/material/Link";
 
-import { useId, forwardRef } from 'react';
-import { mergeClasses } from 'minimal-shared/utils';
+import { useId, forwardRef } from "react";
+import { mergeClasses } from "minimal-shared/utils";
 
-import Link from '@mui/material/Link';
-import { styled, useTheme } from '@mui/material/styles';
+import Link from "@mui/material/Link";
+import { styled, useTheme } from "@mui/material/styles";
 
-import { RouterLink } from 'src/routes/components';
+import { RouterLink } from "src/routes/components";
 
-import { logoClasses } from './classes';
+import { logoClasses } from "./classes";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ export type LogoProps = LinkProps & {
 };
 
 export const Logo = forwardRef<HTMLAnchorElement, LogoProps>((props, ref) => {
-  const { className, href = '/', isSingle = true, disabled, sx, ...other } = props;
+  const { className, href = "/", isSingle = true, disabled, sx, ...other } = props;
 
   const theme = useTheme();
 
@@ -195,7 +195,7 @@ export const Logo = forwardRef<HTMLAnchorElement, LogoProps>((props, ref) => {
           width: 40,
           height: 40,
           ...(!isSingle && { width: 102, height: 36 }),
-          ...(disabled && { pointerEvents: 'none' }),
+          ...(disabled && { pointerEvents: "none" }),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -210,7 +210,7 @@ export const Logo = forwardRef<HTMLAnchorElement, LogoProps>((props, ref) => {
 
 const LogoRoot = styled(Link)(() => ({
   flexShrink: 0,
-  color: 'transparent',
-  display: 'inline-flex',
-  verticalAlign: 'middle',
+  color: "transparent",
+  display: "inline-flex",
+  verticalAlign: "middle",
 }));

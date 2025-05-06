@@ -54,13 +54,14 @@ export const ContentWrapper = styled(Card, {
 })<ContentWrapperProps>(({ theme, isLoading }) => ({
   display: "flex",
   flex: "1 1 auto",
-  height: "95%",
   flexDirection: "column",
+  minHeight: 0,
   position: "relative",
   background: "linear-gradient(180deg, #FFFFFF 0%, #F2F2F2 100%)",
   border: "1px solid #F0F0F0",
   boxShadow: "0px 4px 16px rgba(255, 255, 255, 0.102)",
   padding: theme.spacing(8, 3, 8, 3),
+
   ...(isLoading && {
     justifyContent: "center",
   }),

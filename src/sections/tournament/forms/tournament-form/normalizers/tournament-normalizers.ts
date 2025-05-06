@@ -1,22 +1,17 @@
 import type {
+  ITournamentSetupDto,
   ITournamentDraftUpdateDto,
   ITournamentDraftCreationDto,
-  ITournamentFormatCreationDto,
   ITournamentPeriodAndLocationSetDto,
 } from "@natrave/tournaments-service-types";
 
-import { MatchLegMode } from "@natrave/tournaments-service-types";
+import { MatchLegMode, TournamentFormat } from "@natrave/tournaments-service-types";
 
 import type {
   TournamentDraftSchemaType,
   TournamentFormatSchemaType,
   TournamentPeriodAndLocationSchemaType,
 } from "../types";
-
-function convertBooleanToMatchLegMode(value: boolean | null | undefined): MatchLegMode | null {
-  if (value === undefined || value === null) return null;
-  return value ? MatchLegMode.HOME_AND_AWAY : MatchLegMode.SINGLE;
-}
 
 //------------------------------------------------------------------------------
 
@@ -55,17 +50,34 @@ export function normalizeUpdateTournamentPeriodAndLocation(
 
 //------------------------------------------------------------------------------
 
+function toMatchLegModeOrNull(
+  value?: boolean | null,
+  format?: TournamentFormat
+): MatchLegMode | null {
+  if (format === TournamentFormat.KNOCKOUT) return null;
+  return value ? MatchLegMode.HOME_AND_AWAY : MatchLegMode.SINGLE;
+}
+
+function toOptionalMatchLegMode(
+  value?: boolean | null,
+  format?: TournamentFormat
+): MatchLegMode | null {
+  if (format === TournamentFormat.ROUND_ROBIN) return null;
+  if (value == null) return null;
+  return value ? MatchLegMode.HOME_AND_AWAY : MatchLegMode.SINGLE;
+}
+
 export function normalizeTournamentFormatForCreate(
   data: TournamentFormatSchemaType,
   _tournamentId: string
-): ITournamentFormatCreationDto {
+): ITournamentSetupDto {
   const tournamentId = Number(_tournamentId);
 
   return {
     ...data,
     tournamentId,
-    initialPhaseMatchMode: convertBooleanToMatchLegMode(data.initialPhaseMatchMode),
-    knockoutMatchMode: convertBooleanToMatchLegMode(data.knockoutMatchMode),
+    initialPhaseMatchMode: toMatchLegModeOrNull(data.initialPhaseMatchMode, data.format),
+    knockoutMatchMode: toOptionalMatchLegMode(data.knockoutMatchMode, data.format),
   };
 }
 

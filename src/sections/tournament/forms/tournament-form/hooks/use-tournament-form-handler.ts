@@ -1,8 +1,8 @@
 import type { useRouter } from "next/navigation";
 import type {
+  ITournamentSetupDto,
   ITournamentDraftUpdateDto,
   ITournamentDraftCreationDto,
-  ITournamentFormatCreationDto,
   ITournamentDraftUpdateResponse,
   ITournamentDraftCreationResponse,
   ITournamentPeriodAndLocationSetDto,
@@ -36,7 +36,7 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
   const draftUpdate = usePatch<ITournamentDraftUpdateDto, ITournamentDraftUpdateResponse>();
 
   const periodAndLocationUpdate = usePatch<ITournamentPeriodAndLocationSetDto>();
-  const formatCreate = useCreate<ITournamentFormatCreationDto>();
+  const formatCreate = useCreate<ITournamentSetupDto>();
 
   const { create: createDraft, isLoading: isCreatingDraft } = draftCreate;
   const { patch: updateDraft, isLoading: isUpdatingDraft } = draftUpdate;
@@ -45,23 +45,23 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
 
   const { mutate } = useMutate();
 
-  const handleDraftStep = async (data: TournamentDraftSchemaType, tournamentId: string) => {
+  const handleDraftStep = async (data: TournamentDraftSchemaType, tournamentId?: number) => {
     if (tournamentId) {
       await updateDraft({
-        formData: normalizeEditTournamentDraft(data, tournamentId),
+        formData: normalizeEditTournamentDraft(data, tournamentId.toString()),
         endpoint: endpoints.tournament.updateDraft,
-        successMessage: "Informações atualizadas com sucesso!",
-        errorMessage: "Erro ao atualizar as informações.",
+        successMessage: "Dados do torneio atualizados com sucesso!",
+        errorMessage: "Não foi possível atualizar os dados. Tente novamente.",
         onSuccess: () => {
           mutate(SWR_KEYS.getTournamentDraft);
-          router.push(getRoute(1, tournamentId));
+          router.push(getRoute(1, tournamentId.toString()));
         },
       });
     } else {
       await createDraft({
         formData: normalizeCreateTournamentDraft(data),
         endpoint: endpoints.tournament.createDraft,
-        errorMessage: "Erro ao criar o rascunho do torneio.",
+        errorMessage: "Não foi possível criar o rascunho do torneio. Tente novamente.",
         onSuccess: (res: ITournamentDraftCreationResponse) => {
           router.push(getRoute(1, res.tournamentId.toString()));
         },
@@ -71,25 +71,35 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
 
   const handlePeriodAndLocationStepSubmit = async (
     data: TournamentPeriodAndLocationSchemaType,
-    tournamentId: string,
+    tournamentId: number,
     isEditing: boolean
   ) => {
     await setPeriodLocation({
-      formData: normalizeUpdateTournamentPeriodAndLocation(data, tournamentId),
+      formData: normalizeUpdateTournamentPeriodAndLocation(data, tournamentId.toString()),
       endpoint: endpoints.tournament.setPeriodLocation,
-      successMessage: isEditing ? "Torneio atualizado com sucesso!" : "",
-      errorMessage: "Erro ao atualizar o torneio.",
-      onSuccess: () => router.push(getRoute(2, tournamentId)),
+      successMessage: isEditing ? "Período e localização atualizados com sucesso!" : "",
+      errorMessage: "Não foi possível salvar período e localização. Tente novamente.",
+      onSuccess: () => {
+        mutate(SWR_KEYS.getTournamentDraft);
+        router.push(getRoute(2, tournamentId.toString()));
+      },
     });
   };
 
-  const handleFormatStepSubmit = async (data: TournamentFormatSchemaType, tournamentId: string) => {
+  const handleFormatStepSubmit = async (
+    data: TournamentFormatSchemaType,
+    tournamentId: number,
+    options?: { onSuccess?: () => void }
+  ) => {
     await createFormat({
-      formData: normalizeTournamentFormatForCreate(data, tournamentId),
-      endpoint: endpoints.tournament.createFormat,
+      formData: normalizeTournamentFormatForCreate(data, tournamentId.toString()),
+      endpoint: endpoints.tournament.createSetup,
       successMessage: "Torneio criado com sucesso!",
-      errorMessage: "Erro ao criar o formato do torneio.",
-      onSuccess: () => router.push(paths.dashboard.tournaments.list),
+      errorMessage: "Não foi possível salvar o formato do torneio. Tente novamente.",
+      onSuccess: () => {
+        if (options?.onSuccess) options.onSuccess();
+        router.push(paths.dashboard.tournaments.list);
+      },
     });
   };
 
@@ -98,5 +108,11 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
 
   const isLoading = isUpdating || isCreating;
 
-  return { handleDraftStep, handleFormatStepSubmit, handlePeriodAndLocationStepSubmit, isLoading };
+  return {
+    handleDraftStep,
+    handleFormatStepSubmit,
+    handlePeriodAndLocationStepSubmit,
+    isLoading,
+    isCreatingFormat,
+  };
 }

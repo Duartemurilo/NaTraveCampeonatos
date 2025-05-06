@@ -1,6 +1,8 @@
-import { Stack, useTheme, Typography, useMediaQuery } from "@mui/material";
+import { Stack, useTheme, MenuItem, Typography, useMediaQuery } from "@mui/material";
 
 import { Field } from "src/components/hook-form";
+
+import { TEAM_OPTIONS } from "../../../../constants";
 
 export default function KnockoutFields() {
   const theme = useTheme();
@@ -15,7 +17,21 @@ export default function KnockoutFields() {
         textAlign={mdDown ? "center" : "left"}
       >
         <Typography>Número de times no campeonato:</Typography>
-        <Field.NumberInput name="teamCount" sx={{ maxWidth: 120 }} />
+        <Field.Select
+          name="teamCount"
+          noShowError
+          slotProps={{ inputLabel: { shrink: true } }}
+          sx={{
+            maxWidth: { sm: 80, md: 70, lg: 60 },
+            "& .MuiSelect-select": { padding: "5px 10px !important" },
+          }}
+        >
+          {TEAM_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Field.Select>
       </Stack>
 
       <Stack

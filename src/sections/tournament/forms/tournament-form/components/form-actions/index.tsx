@@ -32,7 +32,7 @@ export function FormActions({ isLoading, isFirstStep, isLastStep, onSubmit, hand
         gap: 2,
         position: { xs: "relative", md: "absolute" },
         right: { xs: 0, md: 40 },
-        bottom: { xs: 0, md: -10 },
+        bottom: { xs: 50, md: -10 },
       }}
     >
       <>

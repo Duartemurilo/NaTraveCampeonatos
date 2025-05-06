@@ -1,9 +1,9 @@
 import type { z as zod } from "zod";
 
-import type { TournamentDraftSchema } from "./schemas/tournament-info.schema";
+import type { TournamentDraftSchema } from "./schemas/tournament-draft.schema";
 import type { TournamentFormatSchema } from "./schemas/tournament-format.schema";
 import type { useTournamentFormHandler } from "./hooks/use-tournament-form-handler";
-import type { TournamentPeriodAndLocationSchema } from "./schemas/tournament-dates.schema";
+import type { TournamentPeriodAndLocationSchema } from "./schemas/tournament-period-and-location.schema";
 
 // Tipagens brutas dos schemas
 export type TournamentDraftSchemaType = zod.infer<typeof TournamentDraftSchema>;
