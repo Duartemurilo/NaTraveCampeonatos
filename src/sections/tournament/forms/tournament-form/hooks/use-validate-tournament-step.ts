@@ -1,10 +1,6 @@
 import { useEffect } from "react";
-import {
-  TournamentStatus,
-  type ITournamentDraftFetchResponse,
-} from "@natrave/tournaments-service-types";
+import { type ITournamentDraftFetchResponse } from "@natrave/tournaments-service-types";
 
-import { paths } from "src/routes/paths";
 import { useRouter } from "src/routes/hooks";
 
 import { getRoute } from "../routes/tournament-routes";
@@ -21,11 +17,11 @@ export function useValidateTournamentStep({ currentStep, tournament, isLoading }
   const router = useRouter();
 
   useEffect(() => {
-    // 0) se já estiver publicado (não for draft), manda pra lista e sai
-    if (!isLoading && tournament?.status !== TournamentStatus.DRAFT) {
+    /*   // 0) se já estiver publicado (não for draft), manda pra lista e sai
+    if (!isLoading && tournament && tournament?.status !== TournamentStatus.DRAFT) {
       router.push(paths.dashboard.tournaments.list);
       return;
-    }
+    } */
     if (isLoading) return;
 
     const idStr = tournament?.tournamentId?.toString();
