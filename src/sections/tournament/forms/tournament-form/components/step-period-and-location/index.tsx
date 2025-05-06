@@ -38,7 +38,7 @@ export function StepPeriodAndLocation({ tournament, onGoBack }: Props) {
     defaultValues: tournamentDatesDefaultValues,
   });
 
-  const { handleSubmit, formState, reset, control } = methods;
+  const { handleSubmit, formState, reset, control, setValue, getValues } = methods;
   const selectedState = useWatch({ control, name: "state" });
 
   const { states, isLoading: statesLoading } = useStates();
@@ -55,6 +55,14 @@ export function StepPeriodAndLocation({ tournament, onGoBack }: Props) {
       });
     }
   }, [tournament, reset]);
+
+  useEffect(() => {
+    const currentCity = getValues("city");
+    const isValidCity = cities.some((c) => c.value === currentCity);
+    if (!isValidCity && currentCity) {
+      setValue("city", "", { shouldValidate: true });
+    }
+  }, [selectedState, cities, getValues, setValue]);
 
   const isEditingPeriodAndLocation =
     Boolean(tournament?.city) &&
