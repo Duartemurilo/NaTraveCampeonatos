@@ -5,23 +5,20 @@ import type { NavSectionProps } from "src/components/nav-section";
 
 import { merge } from "es-toolkit";
 import { UserButton } from "@clerk/nextjs";
-import { useBoolean } from "minimal-shared/hooks";
 
+import { Box } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography } from "@mui/material";
 import { iconButtonClasses } from "@mui/material/IconButton";
 
 import { CONFIG } from "src/global-config";
 
 import { useSettingsContext } from "src/components/settings";
 
-import { NavMobile } from "./nav-mobile";
 import { layoutClasses } from "./classes";
 import { VerticalDivider } from "./content";
 import { HeaderSection } from "./header-section";
 import { NavHorizontal } from "./nav-horizontal";
-import { MenuButton } from "../components/menu-button";
 import { LayoutSection } from "../core/layout-section";
 import { TournamentLabel } from "../components/tournament-label";
 import { navData as dashboardNavData } from "../nav-config-dashboard";
@@ -59,8 +56,6 @@ export function DashboardOrganizerLayout({
 
   const navVars = dashboardNavColorVars(theme, settings.state.navColor, settings.state.navLayout);
 
-  const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
-
   const navData = slotProps?.nav?.data ?? dashboardNavData;
 
   const isNavMini = settings.state.navLayout === "mini";
@@ -88,26 +83,22 @@ export function DashboardOrganizerLayout({
           This is an info Alert.
         </Alert>
       ),
-      centerArea: (
-        <Box sx={{ display: { xs: "flex", [layoutQuery]: "none" } }}>
-          <TournamentLabel
-            name="Novo Campeonato"
-            logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
-            sx={{ color: "var(--layout-nav-text-primary-color)" }}
-          />
-        </Box>
-      ),
+      centerArea: null,
       bottomArea: isNavHorizontal ? (
         <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
       ) : null,
       leftArea: (
         <Box display="flex" gap={1.5} alignItems="center">
-          <MenuButton
-            onClick={onOpen}
-            sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: "none" } }}
-          />
-          <NavMobile data={navData} open={open} onClose={onClose} cssVars={navVars.section} />
+          {/* Logo removido no mobile e TournamentLabel exibido no lugar */}
+          <Box sx={{ display: { xs: "flex", [layoutQuery]: "none" } }}>
+            <TournamentLabel
+              name="Novo Campeonato"
+              logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
+              sx={{ color: "var(--layout-nav-text-primary-color)" }}
+            />
+          </Box>
 
+          {/* Logo padrão no desktop */}
           <Box sx={{ [theme.breakpoints.down(layoutQuery)]: { display: "none" } }}>
             <img
               alt="Full logo"
@@ -120,6 +111,7 @@ export function DashboardOrganizerLayout({
 
           <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
 
+          {/* TournamentLabel para desktop */}
           <Box sx={{ display: { xs: "none", [layoutQuery]: "flex" } }}>
             <TournamentLabel
               name="Novo Campeonato"
@@ -127,21 +119,9 @@ export function DashboardOrganizerLayout({
               sx={{ color: "var(--layout-nav-text-primary-color)" }}
             />
           </Box>
-
-          <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
-
-          <Box display="flex" gap={1.5} ml={2} alignItems="center">
-            <Typography
-              sx={{ display: { xs: "none", [layoutQuery]: "inline-flex" } }}
-              variant="subtitle2"
-              color="info.contrastText"
-              fontWeight="regular"
-            >
-              Campeonatos
-            </Typography>
-          </Box>
         </Box>
       ),
+
       rightArea: (
         <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0, sm: 0.75 } }}>
           <UserButton />

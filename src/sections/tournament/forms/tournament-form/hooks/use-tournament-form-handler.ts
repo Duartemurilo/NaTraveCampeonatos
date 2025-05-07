@@ -50,7 +50,6 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
       await updateDraft({
         formData: normalizeEditTournamentDraft(data, tournamentId.toString()),
         endpoint: endpoints.tournament.updateDraft,
-        successMessage: "Dados do torneio atualizados com sucesso!",
         errorMessage: "Não foi possível atualizar os dados. Tente novamente.",
         onSuccess: () => {
           mutate(SWR_KEYS.getTournamentDraft);
@@ -71,13 +70,11 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
 
   const handlePeriodAndLocationStepSubmit = async (
     data: TournamentPeriodAndLocationSchemaType,
-    tournamentId: number,
-    isEditing: boolean
+    tournamentId: number
   ) => {
     await setPeriodLocation({
       formData: normalizeUpdateTournamentPeriodAndLocation(data, tournamentId.toString()),
       endpoint: endpoints.tournament.setPeriodLocation,
-      successMessage: isEditing ? "Período e localização atualizados com sucesso!" : "",
       errorMessage: "Não foi possível salvar período e localização. Tente novamente.",
       onSuccess: () => {
         mutate(SWR_KEYS.getTournamentDraft);
@@ -94,7 +91,6 @@ export function useTournamentFormHandler(router: ReturnType<typeof useRouter>) {
     await createFormat({
       formData: normalizeTournamentFormatForCreate(data, tournamentId.toString()),
       endpoint: endpoints.tournament.createSetup,
-      successMessage: "Torneio criado com sucesso!",
       errorMessage: "Não foi possível salvar o formato do torneio. Tente novamente.",
       onSuccess: () => {
         if (options?.onSuccess) options.onSuccess();

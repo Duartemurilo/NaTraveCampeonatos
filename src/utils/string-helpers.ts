@@ -33,3 +33,11 @@ export const normalizeEmptyStrings = <T extends { [key: string]: unknown }>(data
   Object.fromEntries(
     Object.entries(data).map(([key, value]) => [key, emptyStringToNull(value)])
   ) as T;
+
+export function normalizeStr(str?: string) {
+  return (str || "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toUpperCase()
+    .trim();
+}

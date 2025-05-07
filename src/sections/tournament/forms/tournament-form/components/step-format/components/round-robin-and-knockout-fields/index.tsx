@@ -26,7 +26,7 @@ export default function RoundRobinAndKnockoutFields() {
   const teamCount = useWatch({ control, name: "teamCount" });
 
   const validAdvancingOptions = POWERS_OF_TWO.filter(
-    (n) => typeof teamCount === "number" && n < teamCount
+    (n) => typeof teamCount === "number" && n <= teamCount
   );
 
   const numberOfTeamsError = (errors as any).teamCount;
@@ -75,13 +75,15 @@ export default function RoundRobinAndKnockoutFields() {
           </Typography>
 
           <Stack direction={mdDown ? "column" : "row"} spacing={2} alignItems="center">
-            <Typography>Número total de times que passam para a 2ª fase:</Typography>
+            <Typography>
+              Número total de times que <br /> passam para a 2ª fase:
+            </Typography>
             <Field.Select
               name="teamsAdvancing"
               noShowError
               slotProps={{ inputLabel: { shrink: true } }}
               sx={{
-                maxWidth: 120,
+                maxWidth: { sm: 80, md: 70, lg: 60 },
                 "& .MuiSelect-select": { padding: "5px 10px !important" },
               }}
             >

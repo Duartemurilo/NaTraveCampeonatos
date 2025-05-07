@@ -74,7 +74,7 @@ export function StepFormat({ tournament, onGoBack }: Props) {
         <SplashScreen portal={false} />
       ) : (
         <Form methods={methods} onSubmit={onSubmit}>
-          <Stack spacing={isMdOrSmaller ? 5 : 10} sx={{ pt: 0, pl: { xs: 0, lg: 7 } }}>
+          <Stack spacing={isMdOrSmaller ? 5 : 10}>
             <Typography
               variant="h2"
               mt={-2}

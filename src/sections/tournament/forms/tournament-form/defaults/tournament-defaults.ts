@@ -54,7 +54,7 @@ export const formatDefaults: Record<
     initialPhaseMatchMode: false,
     knockoutMatchMode: false,
     numberOfGroups: null,
-    teamsAdvancing: 4,
+    teamsAdvancing: 2,
   },
 };
 

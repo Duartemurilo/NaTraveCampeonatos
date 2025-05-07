@@ -2,7 +2,7 @@
 
 import type { ITournamentDraftFetchResponse } from "@natrave/tournaments-service-types";
 
-import { useEffect } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch, Controller } from "react-hook-form";
 
@@ -15,6 +15,8 @@ import { useCities, useStates } from "src/hooks/brazil-addresses";
 import { Form, Field } from "src/components/hook-form";
 
 import { FormActions } from "../form-actions";
+import { getRoute } from "../../routes/tournament-routes";
+import { isStepPeriodAndLocationChanged } from "../../utils/is-step-changed";
 import { tournamentDatesDefaultValues } from "../../defaults/tournament-defaults";
 import { useTournamentFormHandler } from "../../hooks/use-tournament-form-handler";
 import { TournamentPeriodAndLocationSchema } from "../../schemas/tournament-period-and-location.schema";
@@ -22,61 +24,81 @@ import { TournamentPeriodAndLocationSchema } from "../../schemas/tournament-peri
 export type Props = {
   tournament: ITournamentDraftFetchResponse | null;
   onGoBack: () => void;
+  isTournamentLoading: boolean;
 };
 
-export function StepPeriodAndLocation({ tournament, onGoBack }: Props) {
+export function StepPeriodAndLocation({ tournament, onGoBack, isTournamentLoading }: Props) {
   const theme = useTheme();
   const isMdOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
   const router = useRouter();
   const tournamentId = tournament?.tournamentId;
+  const isEditing = Boolean(tournamentId);
 
   const { handlePeriodAndLocationStepSubmit, isLoading } = useTournamentFormHandler(router);
 
   const methods = useForm({
     mode: "onSubmit",
     resolver: zodResolver(TournamentPeriodAndLocationSchema),
-    defaultValues: tournamentDatesDefaultValues,
+    defaultValues: {
+      city: tournament?.city ?? tournamentDatesDefaultValues.city,
+      state: tournament?.state ?? tournamentDatesDefaultValues.state,
+      initialDate: tournament?.initialDate ?? tournamentDatesDefaultValues.initialDate,
+      endDate: tournament?.endDate ?? tournamentDatesDefaultValues.endDate,
+      tournamentId: tournament?.tournamentId ?? undefined,
+    },
   });
 
-  const { handleSubmit, formState, reset, control, setValue, getValues } = methods;
+  const { handleSubmit, formState, control, setValue, getValues } = methods;
   const selectedState = useWatch({ control, name: "state" });
+  const prevStateRef = useRef<string | undefined>();
 
   const { states, isLoading: statesLoading } = useStates();
   const { cities, isLoading: citiesLoading } = useCities(selectedState);
 
-  useEffect(() => {
-    if (tournament) {
-      reset({
-        city: tournament.city ?? tournamentDatesDefaultValues.city,
-        state: tournament.state ?? tournamentDatesDefaultValues.state,
-        initialDate: tournament.initialDate ?? tournamentDatesDefaultValues.initialDate,
-        endDate: tournament.endDate ?? tournamentDatesDefaultValues.endDate,
-        tournamentId: tournament.tournamentId ?? undefined,
-      });
-    }
-  }, [tournament, reset]);
+  const sortedCities = useMemo(
+    () => [...cities].sort((a, b) => a.label.localeCompare(b.label, "pt-BR")),
+    [cities]
+  );
+
+  const isLoadingStep = statesLoading || citiesLoading || isTournamentLoading;
 
   useEffect(() => {
+    if (prevStateRef.current === undefined) {
+      prevStateRef.current = selectedState;
+      return;
+    }
+
+    if (selectedState !== prevStateRef.current) {
+      prevStateRef.current = selectedState;
+
+      if (formState.dirtyFields.state) {
+        setValue("city", "", { shouldValidate: true });
+      }
+    }
+  }, [selectedState, formState.dirtyFields.state, setValue]);
+
+  useEffect(() => {
+    if (isLoadingStep || citiesLoading) return;
+
     const currentCity = getValues("city");
     const isValidCity = cities.some((c) => c.value === currentCity);
+
     if (!isValidCity && currentCity) {
       setValue("city", "", { shouldValidate: true });
     }
-  }, [selectedState, cities, getValues, setValue]);
+  }, [selectedState, cities, getValues, setValue, isLoadingStep, citiesLoading]);
 
-  const isEditingPeriodAndLocation =
-    Boolean(tournament?.city) &&
-    Boolean(tournament?.state) &&
-    Boolean(tournament?.initialDate) &&
-    Boolean(tournament?.endDate);
-
-  const onSubmit = handleSubmit((data) =>
-    handlePeriodAndLocationStepSubmit(data, tournamentId!, isEditingPeriodAndLocation)
-  );
+  const onSubmit = handleSubmit(async (data) => {
+    if (isEditing && !isStepPeriodAndLocationChanged(getValues(), tournament)) {
+      router.push(getRoute(2, tournamentId!.toString()));
+      return;
+    }
+    await handlePeriodAndLocationStepSubmit(data, tournamentId!);
+  });
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={isMdOrSmaller ? 5 : 10} sx={{ pt: 0, pl: { xs: 0, lg: 7 } }}>
+      <Stack spacing={isMdOrSmaller ? 5 : 10}>
         <Typography
           variant="h2"
           mt={-2}
@@ -108,6 +130,7 @@ export function StepPeriodAndLocation({ tournament, onGoBack }: Props) {
                     onChange={(_, newValue) => field.onChange(newValue?.value)}
                     options={states}
                     getOptionLabel={(option) => option.label}
+                    disabled={isLoadingStep}
                     noOptionsText={
                       statesLoading ? "Carregando estados..." : "Nenhum estado encontrado"
                     }
@@ -124,12 +147,12 @@ export function StepPeriodAndLocation({ tournament, onGoBack }: Props) {
                     {...field}
                     value={cities.find((option) => option.value === field.value) || null}
                     onChange={(_, newValue) => field.onChange(newValue?.value)}
-                    options={cities}
+                    options={sortedCities}
                     getOptionLabel={(option) => option.label}
                     noOptionsText={
                       citiesLoading ? "Carregando cidades..." : "Nenhuma cidade encontrada"
                     }
-                    disabled={!selectedState}
+                    disabled={isLoadingStep}
                   />
                 )}
               />

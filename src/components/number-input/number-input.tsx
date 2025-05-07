@@ -138,6 +138,15 @@ export const NumberInput = forwardRef<HTMLDivElement, NumberInputProps>((props, 
             value={currentValue}
             onChange={handleChange}
             type="number"
+            sx={{
+              // WebKit
+              "& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button": {
+                WebkitAppearance: "none",
+                margin: 0,
+              },
+              // Firefox
+              "& input": { MozAppearance: "textfield" },
+            }}
             {...slotProps?.input}
           />
 

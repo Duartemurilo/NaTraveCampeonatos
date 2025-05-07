@@ -14,6 +14,8 @@ import { useRouter } from "src/routes/hooks";
 import { Form, Field } from "src/components/hook-form";
 
 import { FormActions } from "../form-actions";
+import { getRoute } from "../../routes/tournament-routes";
+import { isStepInfoChanged } from "../../utils/is-step-changed";
 import { GENDER_OPTIONS, MODALITY_OPTIONS } from "../../constants";
 import { TournamentDraftSchema } from "../../schemas/tournament-draft.schema";
 import { tournamentDraftDefaultValues } from "../../defaults/tournament-defaults";
@@ -30,6 +32,7 @@ export function StepInfo({ tournament, onGoBack }: Props) {
   const theme = useTheme();
   const isMdOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
   const tournamentId = tournament?.tournamentId;
+  const isEditing = Boolean(tournamentId);
 
   const methods = useForm({
     mode: "onSubmit",
@@ -37,7 +40,7 @@ export function StepInfo({ tournament, onGoBack }: Props) {
     defaultValues: tournamentDraftDefaultValues,
   });
 
-  const { handleSubmit, formState, reset } = methods;
+  const { handleSubmit, formState, reset, getValues } = methods;
 
   useEffect(() => {
     if (tournament) {
@@ -49,11 +52,18 @@ export function StepInfo({ tournament, onGoBack }: Props) {
     }
   }, [tournament, reset]);
 
-  const onSubmit = handleSubmit(async (data) => handleDraftStep(data, tournamentId));
+  const onSubmit = handleSubmit(async (data) => {
+    // Se já existe rascunho e nada mudou ➜ pula requisição
+    if (isEditing && !isStepInfoChanged(getValues(), tournament)) {
+      router.push(getRoute(1, tournamentId!.toString()));
+      return;
+    }
+    await handleDraftStep(data, tournamentId);
+  });
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={isMdOrSmaller ? 5 : 10} sx={{ pt: 0, pl: { xs: 0, lg: 7 } }}>
+      <Stack spacing={isMdOrSmaller ? 5 : 10}>
         <Typography
           variant="h2"
           mt={-2}

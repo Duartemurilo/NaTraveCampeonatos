@@ -152,7 +152,10 @@ export default function GroupAndKnockoutFields() {
             alignItems="center"
             textAlign={mdDown ? "center" : "left"}
           >
-            <Typography>Números de times por grupo que passam para a 2ª fase:</Typography>
+            <Typography>
+              Números de times por grupo <br />
+              que passam para a 2ª fase:
+            </Typography>
             <Field.Select
               name="teamsAdvancing"
               noShowError

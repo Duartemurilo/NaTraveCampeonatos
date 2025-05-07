@@ -4,13 +4,7 @@ import { Step, Divider, StepLabel, Typography } from "@mui/material";
 
 import { CONFIG } from "src/global-config";
 
-import {
-  SidebarTitle,
-  SidebarHeader,
-  VerticalStepper,
-  SidebarSubtitle,
-  SidebarContainer,
-} from "../../styles";
+import { SidebarTitle, SidebarHeader, VerticalStepper } from "../../styles";
 
 type Props = {
   steps: { label: string }[];
@@ -19,7 +13,7 @@ type Props = {
 
 export function TournamentFormSidebar({ steps, activeStep }: Props) {
   return (
-    <SidebarContainer>
+    <>
       <SidebarHeader>
         <img
           alt="trophy"
@@ -34,16 +28,7 @@ export function TournamentFormSidebar({ steps, activeStep }: Props) {
         </SidebarTitle>
       </SidebarHeader>
 
-      <SidebarSubtitle
-        variant="subtitle1"
-        color="text.secondary"
-        textAlign="center"
-        fontWeight="regular"
-      >
-        Vamos gerar automaticamente as partidas, tabelas e chaves do seu campeonato.
-      </SidebarSubtitle>
-
-      <Divider sx={{ width: 250, mb: "40px" }} />
+      <Divider sx={{ width: 250, my: "40px" }} />
 
       <VerticalStepper
         orientation="vertical"
@@ -74,6 +59,6 @@ export function TournamentFormSidebar({ steps, activeStep }: Props) {
           </Step>
         ))}
       </VerticalStepper>
-    </SidebarContainer>
+    </>
   );
 }

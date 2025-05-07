@@ -17,7 +17,7 @@ import { SWR_KEYS } from "src/constants/swr-keys";
 
 import { LoadingScreen } from "src/components/loading-screen";
 
-import { ContentWrapper } from "./styles";
+import { CardContainer } from "./styles";
 import { tournamentSteps } from "./step-config";
 import { getRoute } from "./routes/tournament-routes";
 import { TournamentFormSidebar } from "./components/form-sidebar";
@@ -58,30 +58,25 @@ export function TournamentForm({ currentStep, tournamentId }: Props) {
 
   return (
     <MainSection>
-      <Grid container spacing={4} sx={{ width: "100%", flex: 1, minHeight: 0 }}>
-        <Grid
-          size={{ xs: 12, md: 12, lg: 3.5, xl: 3 }}
-          sx={{ display: "flex", flexDirection: "column", flex: "1 auto" }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-            <TournamentFormSidebar steps={tournamentSteps} activeStep={currentStep} />
+      <Grid container spacing={3}>
+        <Grid size={{ xs: 12, lg: 3 }}>
+          <Box height="100%">
+            <CardContainer sx={{ alignItems: "center" }}>
+              <TournamentFormSidebar steps={tournamentSteps} activeStep={currentStep} />{" "}
+            </CardContainer>
           </Box>
         </Grid>
 
-        <Grid
-          size={{ xs: 12, md: 12, lg: 8.5, xl: 9 }}
-          sx={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-            <ContentWrapper isLoading={isTournamentLoading}>
+        <Grid size={{ xs: 12, lg: 9 }}>
+          <Box height="100%">
+            <CardContainer>
               {isTournamentLoading ? (
                 <Box
                   sx={{
                     display: "flex",
-                    flex: 1,
                     flexDirection: "column",
+                    flex: 1,
                     minHeight: 0,
-                    height: "100%",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
@@ -89,9 +84,15 @@ export function TournamentForm({ currentStep, tournamentId }: Props) {
                   <LoadingScreen />
                 </Box>
               ) : (
-                <Component tournament={tournament} onGoBack={handleGoBack} />
+                <Box sx={{ pb: 3, pl: { xs: 0, md: 0, lg: 3 } }}>
+                  <Component
+                    tournament={tournament}
+                    onGoBack={handleGoBack}
+                    isTournamentLoading={isTournamentLoading}
+                  />
+                </Box>
               )}
-            </ContentWrapper>
+            </CardContainer>
           </Box>
         </Grid>
       </Grid>

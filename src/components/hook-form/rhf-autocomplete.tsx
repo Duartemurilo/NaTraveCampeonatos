@@ -18,6 +18,7 @@ export type RHFAutocompleteProps = AutocompleteBaseProps & {
   label?: string;
   placeholder?: string;
   helperText?: React.ReactNode;
+  disableClearable?: boolean; // <-- NEW
   slotProps?: AutocompleteBaseProps["slotProps"] & {
     textfield?: TextFieldProps;
   };
@@ -29,10 +30,10 @@ export function RHFAutocomplete({
   slotProps,
   helperText,
   placeholder,
+  disableClearable = true, // default: hide the button
   ...other
 }: RHFAutocompleteProps) {
   const { control, setValue } = useFormContext();
-
   const { textfield, ...otherSlotProps } = slotProps ?? {};
 
   return (
@@ -43,7 +44,8 @@ export function RHFAutocomplete({
         <Autocomplete
           {...field}
           id={`rhf-autocomplete-${name}`}
-          onChange={(event, newValue) => setValue(name, newValue, { shouldValidate: true })}
+          disableClearable={disableClearable}
+          onChange={(_, newValue) => setValue(name, newValue, { shouldValidate: true })}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -54,7 +56,6 @@ export function RHFAutocomplete({
               helperText={error?.message ?? helperText}
               slotProps={{
                 ...textfield?.slotProps,
-
                 htmlInput: {
                   ...params.inputProps,
                   autoComplete: "new-password",
