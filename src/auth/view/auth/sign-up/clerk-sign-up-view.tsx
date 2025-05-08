@@ -16,6 +16,7 @@ import { IconButton, InputAdornment, CircularProgress } from "@mui/material";
 import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 
+import { isValidBRPhone } from "src/utils/validators";
 import {
   checkIfHasNumbers,
   checkIfHasLoweCase,
@@ -29,10 +30,11 @@ import { isPasswordValid } from "src/auth/utils";
 import { useSignUpLogic } from "src/auth/hooks/use-sign-up";
 import { SignUpTerms } from "src/auth/components/sign-up-terms";
 import { useCheckPhoneNumber } from "src/auth/hooks/use-check-phone-number";
+import { normalizeSignUpData } from "src/auth/normalizers/sign-up-normalize";
 import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
 
 import { FormHead } from "../../../components/form-head";
-import { SignUpSchema, normalizeSignUpData } from "../form-data";
+import { SignUpSchema } from "../../../schema/sign-up-schema";
 import { EmailVerificationView } from "./components/email-code-verification-view";
 import { ORGANIZATION_TYPE_OPTIONS, signUpdefaultValues as defaultValues } from "../constants";
 
@@ -44,6 +46,8 @@ export function ClerkSignUpView() {
   const signUpMethods = useForm<SignUpFormData>({
     resolver: zodResolver(SignUpSchema),
     defaultValues,
+    mode: "all",
+    reValidateMode: "onBlur",
   });
 
   const { handleSubmit, formState, watch } = signUpMethods;
@@ -65,6 +69,8 @@ export function ClerkSignUpView() {
     const normalizedData = normalizeSignUpData(data);
     await handleSignUp(normalizedData);
   });
+
+  const isPhoneReady = isValidBRPhone(phone) && !isPhoneLoading && phoneData?.exists !== true;
 
   const renderForm = () => (
     <Box sx={{ gap: 3, display: "flex", flexDirection: "column" }}>
@@ -161,12 +167,7 @@ export function ClerkSignUpView() {
         variant="contained"
         loading={isSubmitting}
         loadingIndicator={<CircularProgress size={16} />}
-        disabled={
-          !isValid ||
-          !isPasswordValid(passwordValue) ||
-          isPhoneLoading ||
-          phoneData?.exists === true
-        }
+        disabled={!isValid || !isPasswordValid(passwordValue) || !isPhoneReady}
       >
         Criar conta
       </LoadingButton>

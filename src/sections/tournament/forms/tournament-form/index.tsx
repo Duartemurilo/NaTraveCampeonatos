@@ -84,7 +84,12 @@ export function TournamentForm({ currentStep, tournamentId }: Props) {
                   <LoadingScreen />
                 </Box>
               ) : (
-                <Box sx={{ pb: 3, pl: { xs: 0, md: 0, lg: 3 } }}>
+                <Box
+                  sx={{
+                    pl: { xs: 0, md: 0, lg: 3 },
+                    height: { md: "auto", lg: "60vh" },
+                  }}
+                >
                   <Component
                     tournament={tournament}
                     onGoBack={handleGoBack}

@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import {
   BrazilianState,
   TournamentFormat,
@@ -60,15 +57,9 @@ export const formatDefaults: Record<
 
 //-------------------------------------------------------------------------------
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const today = dayjs().tz("America/Sao_Paulo").startOf("day").toISOString();
-const tomorrow = dayjs().add(1, "day").toISOString();
-
 export const tournamentDatesDefaultValues: TournamentPeriodAndLocationSchemaType = {
-  initialDate: today,
-  endDate: tomorrow,
+  initialDate: "",
+  endDate: "",
   state: BrazilianState.SAO_PAULO,
   city: "",
   tournamentId: undefined,

@@ -25,14 +25,14 @@ export function FormActions({ isLoading, isFirstStep, isLastStep, onSubmit, hand
         p: 4,
         pl: 0,
         pr: 0,
-        width: { xs: "100%", lg: "80%" },
-        flexDirection: { xs: "column", md: "row" },
-        justifyContent: { xs: "center", md: "flex-end" },
-        alignItems: { xs: "center", md: "flex-end" },
+        width: { xs: "100%", md: "100%", lg: "80%" },
+        flexDirection: { xs: "column", md: "column", lg: "row" },
+        justifyContent: { xs: "center", md: "center", lg: "flex-end" },
+        alignItems: { xs: "center", md: "center", lg: "flex-end" },
         gap: 2,
-        position: { xs: "relative", md: "absolute" },
-        right: { xs: 0, md: 40 },
-        bottom: { xs: 50, md: -10 },
+        position: { xs: "relative", md: "relative", lg: "absolute" },
+        right: { xs: 0, lg: 40 },
+        bottom: { xs: 0, lg: -20 },
       }}
     >
       <>

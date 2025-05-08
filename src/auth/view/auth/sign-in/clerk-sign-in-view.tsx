@@ -21,12 +21,12 @@ import { RouterLink } from "src/routes/components";
 import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
-import { SignInSchema } from "../form-data";
 import { defaultValues } from "../constants";
 import { getErrorMessage } from "../../../utils";
 import { FormHead } from "../../../components/form-head";
+import { SignInSchema } from "../../../schema/sign-in-schema";
 
-import type { SignInSchemaType } from "../form-data";
+import type { SignInSchemaType } from "../../../types/schema";
 
 export function ClerkSignInView() {
   const router = useRouter();

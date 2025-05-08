@@ -1,6 +1,6 @@
-import { OrganizationType } from "src/types/organization";
+import type { SignInSchemaType, SignUpSchemaType } from "src/auth/types/schema";
 
-import type { SignInSchemaType, SignUpSchemaType } from "./form-data";
+import { OrganizationType } from "src/types/organization";
 
 export const defaultValues: SignInSchemaType = {
   email: "",

@@ -29,9 +29,8 @@ import { Iconify } from "src/components/iconify";
 import { Form, Field } from "src/components/hook-form";
 
 import { isPasswordValid } from "src/auth/utils";
+import { ResetPasswordStep2Schema } from "src/auth/schema/reset-password-schema";
 import PasswordRequirementsSection from "src/auth/components/password-requirements-section";
-
-import { ResetPasswordStep2Schema } from "../../../form-data";
 
 interface Props {
   onSubmit: (data: { password: string; code: string }) => Promise<void>;

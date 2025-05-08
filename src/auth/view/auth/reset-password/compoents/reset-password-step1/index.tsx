@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { Form, Field } from "src/components/hook-form";
 
-import { ResetPasswordStep1Schema } from "../../../form-data";
+import { ResetPasswordStep1Schema } from "src/auth/schema/reset-password-schema";
 
 interface ResetPasswordStep1Props {
   onSubmit: (data: { email: string }) => Promise<void>;
