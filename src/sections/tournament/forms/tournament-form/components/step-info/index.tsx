@@ -63,7 +63,7 @@ export function StepInfo({ tournament, onGoBack }: Props) {
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={isMdOrSmaller ? 5 : 10}>
+      <Stack spacing={7}>
         <Typography
           variant="h2"
           mt={-2}

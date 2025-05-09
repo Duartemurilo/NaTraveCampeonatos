@@ -6,6 +6,7 @@ export const CardContainer = styled(Card, {
   shouldForwardProp: (prop) => prop !== "isLoading",
 })<ContentWrapperProps>(({ theme, isLoading }) => ({
   display: "flex",
+
   flex: "1  auto",
   flexDirection: "column",
   height: "100%",

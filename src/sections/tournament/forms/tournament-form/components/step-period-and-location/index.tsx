@@ -6,7 +6,7 @@ import { useRef, useMemo, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch, Controller } from "react-hook-form";
 
-import { Stack, useTheme, Typography, useMediaQuery } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 import { useRouter } from "src/routes/hooks";
 
@@ -28,8 +28,6 @@ export type Props = {
 };
 
 export function StepPeriodAndLocation({ tournament, onGoBack, isTournamentLoading }: Props) {
-  const theme = useTheme();
-  const isMdOrSmaller = useMediaQuery(theme.breakpoints.down("md"));
   const router = useRouter();
   const tournamentId = tournament?.tournamentId;
   const isEditing = Boolean(tournamentId);
@@ -98,7 +96,7 @@ export function StepPeriodAndLocation({ tournament, onGoBack, isTournamentLoadin
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={isMdOrSmaller ? 5 : 10}>
+      <Stack spacing={7}>
         <Typography
           variant="h2"
           mt={-2}

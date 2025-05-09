@@ -22,7 +22,7 @@ export default function KnockoutFields() {
           noShowError
           slotProps={{ inputLabel: { shrink: true } }}
           sx={{
-            maxWidth: { sm: 80, md: 70, lg: 60 },
+            maxWidth: { xs: 70, sm: 80, md: 70, lg: 60 },
             "& .MuiSelect-select": { padding: "5px 10px !important" },
           }}
         >
