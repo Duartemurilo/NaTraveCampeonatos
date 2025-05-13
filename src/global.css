@@ -1,35 +1,137 @@
+/* 1) Declare as web-fonts Madani Arabic antes de qualquer import */
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    url("/fonts/MadaniArabic-Thin.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    url("/fonts/MadaniArabic-ExtraLight.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-ExtraLight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Light.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Regular.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Medium.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-SemiBold.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Bold.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-ExtraBold.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Black.woff2") format("woff2"),
+    url("/fonts/MadaniArabic-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MadaniArabic";
+  src:
+    local("☺"),
+    url("/fonts/MadaniArabic-Variable.woff2") format("woff2");
+  /* se quiser usar variações via axis, defina font-variation-settings */
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ... resto do seu global.css ... */
+
 /** **************************************
 * Fonts: app
 *************************************** */
-@import '@fontsource-variable/public-sans';
+@import "@fontsource-variable/public-sans";
 
-@import '@fontsource/barlow/400.css';
-@import '@fontsource/barlow/500.css';
-@import '@fontsource/barlow/600.css';
-@import '@fontsource/barlow/700.css';
-@import '@fontsource/barlow/800.css';
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow/700.css";
+@import "@fontsource/barlow/800.css";
 
 /** **************************************
 * Fonts: options
 *************************************** */
-@import '@fontsource-variable/dm-sans';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/nunito-sans';
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/nunito-sans";
 
 /** **************************************
 * Plugins
 *************************************** */
 /* scrollbar */
-@import './components/scrollbar/styles.css';
+@import "./components/scrollbar/styles.css";
 
 /* map */
-@import './components/map/styles.css';
+@import "./components/map/styles.css";
 
 /* lightbox */
-@import './components/lightbox/styles.css';
+@import "./components/lightbox/styles.css";
 
 /* chart */
-@import './components/chart/styles.css';
+@import "./components/chart/styles.css";
 
 /** **************************************
 * Baseline
@@ -55,15 +157,15 @@ ul {
   padding: 0;
   list-style-type: none;
 }
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
   appearance: none;
 }
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
-input[type='number']::-webkit-inner-spin-button {
+input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
