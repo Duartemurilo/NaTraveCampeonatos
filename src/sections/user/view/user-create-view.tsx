@@ -17,7 +17,6 @@ export function UserCreateView() {
         heading="Create a new user"
         links={[
           { name: "Dashboard", href: paths.dashboard.tournaments.criar(0) },
-          { name: "User", href: paths.dashboard.tournaments.list },
           { name: "New user" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}

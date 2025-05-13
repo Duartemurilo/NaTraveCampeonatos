@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { forwardRef } from 'react';
-import { mergeClasses } from 'minimal-shared/utils';
+import { forwardRef } from "react";
+import { mergeClasses } from "minimal-shared/utils";
 
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
-import { svgColorClasses } from './classes';
+import { svgColorClasses } from "./classes";
 
-import type { SvgColorProps } from './types';
+import type { SvgColorProps } from "./types";
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +22,8 @@ export const SvgColor = forwardRef<HTMLSpanElement, SvgColorProps>((props, ref) 
         () => ({
           mask: `url(${src}) no-repeat center / contain`,
           WebkitMask: `url(${src}) no-repeat center / contain`,
+          maskSize: "100% 100%",
+          WebkitMaskSize: "100% 100%",
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -32,10 +34,10 @@ export const SvgColor = forwardRef<HTMLSpanElement, SvgColorProps>((props, ref) 
 
 // ----------------------------------------------------------------------
 
-const SvgRoot = styled('span')(() => ({
+const SvgRoot = styled("span")(() => ({
   width: 24,
   height: 24,
   flexShrink: 0,
-  display: 'inline-flex',
-  backgroundColor: 'currentColor',
+  display: "inline-flex",
+  backgroundColor: "currentColor",
 }));

@@ -25,12 +25,14 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
+
   "&.Mui-selected": {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
-    border: `1px solid ${theme.palette.primary.main} !important`,
+    border: `1px solid ${theme.palette.primary.main}`,
+
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.main,
     },
   },
 }));

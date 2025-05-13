@@ -22,7 +22,6 @@ export function UserCardsView() {
         heading="User cards"
         links={[
           { name: "Dashboard", href: paths.dashboard.tournaments.criar(0) },
-          { name: "Campeonatos", href: paths.dashboard.tournaments.list },
           { name: "Cards" },
         ]}
         action={

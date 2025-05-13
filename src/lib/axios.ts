@@ -42,6 +42,10 @@ export const endpoints = {
     getPeriodLocation: "/tournaments/tournament/period-location",
 
     createSetup: "/tournaments/tournament/setup",
+
+    myTournaments: "/tournaments/my-tournaments",
+
+    getConfigurationSteps: "/tournaments/tournament/configuration-steps",
   },
 
   auth: {

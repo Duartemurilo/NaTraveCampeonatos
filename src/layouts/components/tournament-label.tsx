@@ -24,7 +24,7 @@ export function TournamentLabel({ name, logo, sx, breakpoint = "sm" }: Tournamen
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      <Box component="img" alt={name} src={logo} sx={{ width: 25, height: 25 }} />
+      <Box component="img" alt={name} src={logo} sx={{ width: 20, height: 20 }} />
 
       <Box
         component="span"

@@ -7,7 +7,6 @@ import Tab from "@mui/material/Tab";
 import Card from "@mui/material/Card";
 import Tabs from "@mui/material/Tabs";
 
-import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 import { usePathname, useSearchParams } from "src/routes/hooks";
 
@@ -76,11 +75,7 @@ export function UserProfileView() {
     <DashboardContent>
       <CustomBreadcrumbs
         heading="Profile"
-        links={[
-          { name: "Dashboard", href: paths.dashboard.tournaments.list },
-          { name: "User", href: paths.dashboard.tournaments.list },
-          { name: user?.displayName },
-        ]}
+        links={[{ name: user?.displayName }]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 

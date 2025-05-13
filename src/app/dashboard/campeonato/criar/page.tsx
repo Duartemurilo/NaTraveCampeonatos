@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { CONFIG } from "src/global-config";
 
-import TournamentCreateView from "src/sections/tournament/view/tournament-create-view";
+import TournamentCreateView from "src/sections/tournament/new/view/tournament-create-view";
 
 // ----------------------------------------------------------------------
 

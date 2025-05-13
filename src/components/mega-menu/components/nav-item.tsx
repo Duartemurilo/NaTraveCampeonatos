@@ -1,14 +1,14 @@
-import { forwardRef } from 'react';
-import { mergeClasses } from 'minimal-shared/utils';
+import { forwardRef } from "react";
+import { mergeClasses } from "minimal-shared/utils";
 
-import { styled } from '@mui/material/styles';
-import ButtonBase from '@mui/material/ButtonBase';
+import { styled } from "@mui/material/styles";
+import ButtonBase from "@mui/material/ButtonBase";
 
-import { Iconify } from '../../iconify';
-import { createNavItem } from '../utils';
-import { navItemStyles, megaMenuClasses } from '../styles';
+import { Iconify } from "../../iconify";
+import { createNavItem } from "../utils";
+import { navItemStyles, megaMenuClasses } from "../styles";
 
-import type { NavItemProps } from '../types';
+import type { NavItemProps } from "../types";
 
 // ----------------------------------------------------------------------
 
@@ -90,35 +90,35 @@ export const NavItem = forwardRef<HTMLButtonElement, NavItemProps>((props, ref) 
 
 // ----------------------------------------------------------------------
 
-type StyledState = Pick<NavItemProps, 'active' | 'open' | 'disabled'>;
+type StyledState = Pick<NavItemProps, "active" | "open" | "disabled">;
 
-const shouldForwardProp = (prop: string) => !['active', 'open', 'disabled', 'sx'].includes(prop);
+const shouldForwardProp = (prop: string) => !["active", "open", "disabled", "sx"].includes(prop);
 
 /**
  * @slot root
  */
 const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({ theme }) => ({
-  width: '100%',
-  minHeight: 'var(--nav-item-height)',
-  padding: 'var(--nav-item-padding)',
-  borderRadius: 'var(--nav-item-radius)',
-  transition: theme.transitions.create(['background-color'], {
+  width: "100%",
+  minHeight: "var(--nav-item-height)",
+  padding: "var(--nav-item-padding)",
+  borderRadius: "var(--nav-item-radius)",
+  transition: theme.transitions.create(["background-color"], {
     duration: theme.transitions.duration.standard,
   }),
-  '&:hover': { backgroundColor: 'var(--nav-item-hover-bg)' },
+  "&:hover": { backgroundColor: "var(--nav-item-hover-bg)" },
   variants: [
     {
       props: { active: true },
       style: {
-        color: 'var(--nav-item-active-color)',
-        backgroundColor: 'var(--nav-item-active-bg)',
-        '&:hover': { backgroundColor: 'var(--nav-item-active-hover-bg)' },
+        color: "var(--nav-item-active-color)",
+        backgroundColor: "var(--nav-item-active-bg)",
+        "&:hover": { backgroundColor: "var(--nav-item-active-hover-bg)" },
       },
     },
-    { props: { open: true }, style: { backgroundColor: 'var(--nav-item-hover-bg)' } },
+    { props: { open: true }, style: { backgroundColor: "var(--nav-item-hover-bg)" } },
     {
       props: { open: true, active: true },
-      style: { backgroundColor: 'var(--nav-item-active-hover-bg)' },
+      style: { backgroundColor: "var(--nav-item-active-hover-bg)" },
     },
     { props: { disabled: true }, style: navItemStyles.disabled },
   ],
@@ -127,15 +127,15 @@ const ItemRoot = styled(ButtonBase, { shouldForwardProp })<StyledState>(({ theme
 /**
  * @slot icon
  */
-const ItemIcon = styled('span', { shouldForwardProp })(() => ({
+const ItemIcon = styled("span", { shouldForwardProp })(() => ({
   ...navItemStyles.icon,
-  width: 'var(--nav-icon-size)',
-  height: 'var(--nav-icon-size)',
-  margin: 'var(--nav-icon-margin)',
+  width: "var(--nav-icon-size)",
+  height: "var(--nav-icon-size)",
+  margin: "var(--nav-icon-margin)",
 }));
 
 /** @slot title */
-const ItemTitle = styled('span', { shouldForwardProp })(({ theme }) => ({
+const ItemTitle = styled("span", { shouldForwardProp })(({ theme }) => ({
   ...navItemStyles.title(theme),
   ...theme.typography.body2,
   fontWeight: theme.typography.fontWeightMedium,
@@ -147,7 +147,7 @@ const ItemTitle = styled('span', { shouldForwardProp })(({ theme }) => ({
 /**
  * @slot icon
  */
-const ItemInfo = styled('span', { shouldForwardProp })(() => ({ ...navItemStyles.info }));
+const ItemInfo = styled("span", { shouldForwardProp })(() => ({ ...navItemStyles.info }));
 
 /**
  * @slot arrow

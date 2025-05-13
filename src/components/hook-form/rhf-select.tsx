@@ -48,7 +48,7 @@ export function RHFSelect({
             sx: [
               {
                 maxHeight: 220,
-                background: "white",
+
                 borderRadius: 2,
                 boxShadow: 3,
                 p: 1,

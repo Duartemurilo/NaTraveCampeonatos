@@ -144,11 +144,7 @@ export function UserListView() {
       <DashboardContent>
         <CustomBreadcrumbs
           heading="List"
-          links={[
-            { name: "Dashboard", href: paths.dashboard.tournaments.list },
-            { name: "User", href: paths.dashboard.tournaments.list },
-            { name: "List" },
-          ]}
+          links={[{ name: "List" }]}
           action={
             <Button
               component={RouterLink}

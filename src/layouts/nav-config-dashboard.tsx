@@ -22,16 +22,9 @@ const ICONS = {
 export const navData: NavSectionProps["data"] = [
   {
     subheader: "Campeonatos",
+
     items: [
-      {
-        title: "Campeonatos",
-        path: paths.dashboard.tournaments.list,
-        icon: ICONS.trophy,
-        children: [
-          { title: "Lista", path: paths.dashboard.tournaments.list },
-          { title: "Criar", path: paths.dashboard.tournaments.criar(0) },
-        ],
-      },
+      { title: "Meus Campeonatos", path: paths.dashboard.tournaments.criar(0), icon: ICONS.trophy },
     ],
   },
 ];
