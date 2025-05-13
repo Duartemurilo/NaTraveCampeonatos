@@ -18,6 +18,7 @@ import { endpoints } from "src/lib/axios";
 import { SWR_KEYS } from "src/constants/swr-keys";
 
 import { Label } from "src/components/label";
+import { Iconify } from "src/components/iconify";
 import { CustomPopover } from "src/components/custom-popover";
 
 import { getTournamentStatusDisplay } from "./helper";
@@ -139,6 +140,7 @@ export function StatusPopover({ name, logo, status, isLoading, sx, ...other }: S
           <Skeleton variant="circular" width={20} height={20} />
           <Skeleton width={70} height={20} />
           <Skeleton width={50} height={20} />
+          <Iconify width={16} icon="carbon:chevron-sort" sx={{ color: "text.disabled" }} />
         </ButtonBase>
       );
     }
@@ -191,6 +193,7 @@ export function StatusPopover({ name, logo, status, isLoading, sx, ...other }: S
         >
           {statusInfo.label}
         </Label>
+        <Iconify width={16} icon="carbon:chevron-sort" sx={{ color: "text.disabled" }} />
       </ButtonBase>
     );
   };

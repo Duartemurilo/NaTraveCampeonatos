@@ -132,7 +132,15 @@ export function ChampionshipHeaderSection({ layoutQuery, slotProps }: Props) {
                 isLoading={isTournamentLoading}
               />
             </Box>
-            <VerticalDivider sx={{ [theme.breakpoints.up(layoutQuery)]: { display: "flex" } }} />
+            <VerticalDivider
+              sx={{
+                [theme.breakpoints.up(layoutQuery)]: {
+                  display: "flex",
+                  height: 20,
+                  alignSelf: "center",
+                },
+              }}
+            />
           </>
         )}
 
