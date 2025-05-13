@@ -1,7 +1,7 @@
 import type { CommonColors } from "@mui/material/styles/createPalette";
 
 import type { PaletteColorNoChannels } from "./core/palette";
-import type { ThemeDirection, ThemeColorScheme, ThemeCssVariables } from "./types";
+import type { ThemeColorScheme, ThemeCssVariables, ThemeDirection } from "./types";
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +36,8 @@ export const themeConfig: ThemeConfig = {
    * Typography
    *************************************** */
   fontFamily: {
-    primary: "MadaniArabic-Bold",
-    secondary: "Barlow",
+    primary: "'MadaniArabic', sans-serif",
+    secondary: "Barlow, sans-serif",
   },
   /** **************************************
    * Palette
