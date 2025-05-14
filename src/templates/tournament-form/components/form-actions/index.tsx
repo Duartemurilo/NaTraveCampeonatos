@@ -65,6 +65,13 @@ export function FormActions({ isLoading, isFirstStep, isLastStep, onSubmit, hand
           color="secondary"
           loading={isLoading}
           endIcon={<ChevronRightIcon />}
+          sx={{
+            maxWidth: 200,
+
+            "&:hover": {
+              bgcolor: (theme) => theme.palette.secondary.light,
+            },
+          }}
         >
           Finalizar campeonato
         </LoadingButton>
@@ -74,7 +81,13 @@ export function FormActions({ isLoading, isFirstStep, isLastStep, onSubmit, hand
           color="secondary"
           loading={isLoading}
           endIcon={<ChevronRightIcon />}
-          sx={{ maxWidth: 200 }}
+          sx={{
+            maxWidth: 200,
+
+            "&:hover": {
+              bgcolor: (theme) => theme.palette.secondary.light,
+            },
+          }}
           onClick={onSubmit}
         >
           Próxima etapa

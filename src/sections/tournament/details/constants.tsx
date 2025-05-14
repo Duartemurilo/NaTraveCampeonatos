@@ -21,3 +21,10 @@ export const TOURNAMENT_TABS = [
 ] as const;
 
 export const TOURNAMENT_TAB_PARAM = "tab";
+
+export const swrConfig = {
+  revalidateOnMount: false,
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  keepPreviousData: true,
+};

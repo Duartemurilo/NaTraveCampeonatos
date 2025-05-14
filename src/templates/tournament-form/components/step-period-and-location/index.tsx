@@ -18,6 +18,7 @@ import { isStepPeriodAndLocationChanged } from "src/sections/tournament/new/util
 
 import { FormActions } from "../form-actions";
 import { getRoute } from "../../routes/tournament-routes";
+import { useTournamentDateLimits } from "../../hooks/use-tournament-date-limits";
 import { tournamentDatesDefaultValues } from "../../defaults/tournament-defaults";
 import { useTournamentFormHandler } from "../../hooks/use-tournament-form-handler";
 import { TournamentPeriodAndLocationSchema } from "../../schemas/tournament-period-and-location.schema";
@@ -53,6 +54,9 @@ export function StepPeriodAndLocation({ tournament, onGoBack, isTournamentLoadin
 
   const { states, isLoading: statesLoading } = useStates();
   const { cities, isLoading: citiesLoading } = useCities(selectedState);
+
+  const initialDateSelected = useWatch({ control, name: "initialDate" });
+  const { minInitialDate, minEndDate } = useTournamentDateLimits(initialDateSelected);
 
   const sortedCities = useMemo(
     () => [...cities].sort((a, b) => a.label.localeCompare(b.label, "pt-BR")),
@@ -171,11 +175,15 @@ export function StepPeriodAndLocation({ tournament, onGoBack, isTournamentLoadin
 
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <Stack spacing={1.5} sx={{ flex: 1, maxWidth: { xs: "100%", md: "100%", lg: "20%" } }}>
-              <Field.DatePicker name="initialDate" />
+              <Field.DatePicker name="initialDate" minDate={minInitialDate} />
             </Stack>
 
             <Stack spacing={1.5} sx={{ flex: 1, maxWidth: { xs: "100%", md: "100%", lg: "20%" } }}>
-              <Field.DatePicker name="endDate" />
+              <Field.DatePicker
+                name="endDate"
+                disabled={!initialDateSelected}
+                minDate={minEndDate}
+              />
             </Stack>
           </Stack>
         </Stack>

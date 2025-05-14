@@ -2,13 +2,16 @@
 
 import type { Breakpoint } from "@mui/material/styles";
 import type { NavSectionProps } from "src/components/nav-section";
-import type { ITournamentDraftFetchResponse } from "@natrave/tournaments-service-types";
 
 import React from "react";
 import { merge } from "es-toolkit";
 import { UserButton } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useBoolean } from "minimal-shared/hooks";
+import {
+  TournamentStatus,
+  type ITournamentDraftFetchResponse,
+} from "@natrave/tournaments-service-types";
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Alert, Typography } from "@mui/material";
@@ -93,7 +96,7 @@ export function ChampionshipHeaderSection({ layoutQuery, slotProps }: Props) {
         {!error && (
           <StatusPopover
             name={tournament?.name ?? "Carregando..."}
-            status={tournament?.status ?? "Carregando..."}
+            status={tournament?.status ?? TournamentStatus.DRAFT}
             logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
             isLoading={isTournamentLoading}
           />
@@ -126,8 +129,8 @@ export function ChampionshipHeaderSection({ layoutQuery, slotProps }: Props) {
           <>
             <Box sx={{ display: { xs: "none", [layoutQuery]: "flex" } }}>
               <StatusPopover
-                name={tournament?.name ?? "Carregando..."}
-                status={tournament?.status ?? "Carregando..."}
+                name={tournament?.name ?? "Não Encontrado..."}
+                status={tournament?.status ?? TournamentStatus.DRAFT}
                 logo={`${CONFIG.assetsDir}/assets/icons/frames/trophy.svg`}
                 isLoading={isTournamentLoading}
               />

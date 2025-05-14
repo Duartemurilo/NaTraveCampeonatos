@@ -1,9 +1,9 @@
-import type { SvgIconProps } from '@mui/material/SvgIcon';
-import type { Theme, Components } from '@mui/material/styles';
+import type { SvgIconProps } from "@mui/material/SvgIcon";
+import type { Theme, Components } from "@mui/material/styles";
 
-import SvgIcon from '@mui/material/SvgIcon';
-import { buttonClasses } from '@mui/material/Button';
-import { dialogActionsClasses } from '@mui/material/DialogActions';
+import SvgIcon from "@mui/material/SvgIcon";
+import { buttonClasses } from "@mui/material/Button";
+import { dialogActionsClasses } from "@mui/material/DialogActions";
 
 // ----------------------------------------------------------------------
 
@@ -82,84 +82,84 @@ const defaultProps = {
   },
 };
 
-const MuiDatePicker: Components<Theme>['MuiDatePicker'] = {
+const MuiDatePicker: Components<Theme>["MuiDatePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiDateTimePicker: Components<Theme>['MuiDateTimePicker'] = {
+const MuiDateTimePicker: Components<Theme>["MuiDateTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiStaticDatePicker: Components<Theme>['MuiStaticDatePicker'] = {
+const MuiStaticDatePicker: Components<Theme>["MuiStaticDatePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiDesktopDatePicker: Components<Theme>['MuiDesktopDatePicker'] = {
+const MuiDesktopDatePicker: Components<Theme>["MuiDesktopDatePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiDesktopDateTimePicker: Components<Theme>['MuiDesktopDateTimePicker'] = {
+const MuiDesktopDateTimePicker: Components<Theme>["MuiDesktopDateTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiMobileDatePicker: Components<Theme>['MuiMobileDatePicker'] = {
+const MuiMobileDatePicker: Components<Theme>["MuiMobileDatePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiMobileDateTimePicker: Components<Theme>['MuiMobileDateTimePicker'] = {
+const MuiMobileDateTimePicker: Components<Theme>["MuiMobileDateTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.date },
 };
 
-const MuiTimePicker: Components<Theme>['MuiTimePicker'] = {
+const MuiTimePicker: Components<Theme>["MuiTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.time },
 };
 
-const MuiMobileTimePicker: Components<Theme>['MuiMobileTimePicker'] = {
+const MuiMobileTimePicker: Components<Theme>["MuiMobileTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.time },
 };
 
-const MuiStaticTimePicker: Components<Theme>['MuiStaticTimePicker'] = {
+const MuiStaticTimePicker: Components<Theme>["MuiStaticTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.time },
 };
 
-const MuiDesktopTimePicker: Components<Theme>['MuiDesktopTimePicker'] = {
+const MuiDesktopTimePicker: Components<Theme>["MuiDesktopTimePicker"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
   defaultProps: { slots: defaultProps.time },
 };
 
-const MuiPickersLayout: Components<Theme>['MuiPickersLayout'] = {
+const MuiPickersLayout: Components<Theme>["MuiPickersLayout"] = {
   /** **************************************
    * STYLE
    *************************************** */
@@ -170,7 +170,7 @@ const MuiPickersLayout: Components<Theme>['MuiPickersLayout'] = {
           [`&:last-of-type`]: {
             color: theme.vars.palette.common.white,
             backgroundColor: theme.vars.palette.text.primary,
-            ...theme.applyStyles('dark', {
+            ...theme.applyStyles("dark", {
               color: theme.vars.palette.grey[800],
             }),
           },
@@ -180,7 +180,7 @@ const MuiPickersLayout: Components<Theme>['MuiPickersLayout'] = {
   },
 };
 
-const MuiPickersPopper: Components<Theme>['MuiPickersPopper'] = {
+const MuiPickersPopper: Components<Theme>["MuiPickersPopper"] = {
   /** **************************************
    * DEFAULT PROPS
    *************************************** */
@@ -188,6 +188,20 @@ const MuiPickersPopper: Components<Theme>['MuiPickersPopper'] = {
     paper: ({ theme }) => ({
       boxShadow: theme.vars.customShadows.dropdown,
       borderRadius: theme.shape.borderRadius * 1.5,
+    }),
+  },
+};
+
+const MuiPickersDay: Components<Theme>["MuiPickersDay"] = {
+  styleOverrides: {
+    root: ({ theme }) => ({
+      "&.Mui-selected": {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+        "&:hover": {
+          backgroundColor: theme.palette.primary.dark,
+        },
+      },
     }),
   },
 };
@@ -210,4 +224,6 @@ export const datePicker = {
   MuiMobileTimePicker,
   MuiStaticTimePicker,
   MuiDesktopTimePicker,
+
+  MuiPickersDay,
 };

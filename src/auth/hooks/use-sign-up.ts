@@ -28,7 +28,7 @@ export function useSignUpLogic() {
     if (!signUp || !setActive) return;
 
     const { organization_type, organization_name, ...rest } = data;
-    const hasOrganization = Boolean(organization_name || organization_type);
+    const hasOrganization = Boolean(data.hasOrganization);
 
     try {
       const registerPayload: IRegisterOrganizationDto = {
@@ -37,6 +37,7 @@ export function useSignUpLogic() {
           email: rest.email,
           phone: rest.phoneNumber,
           type: organization_type || OrganizationType.FACILITY,
+          isActualOrganization: hasOrganization,
         },
         user: {
           firstName: rest.firstName,

@@ -57,7 +57,7 @@
     "@mui/x-data-grid": "^7.23.5",
     "@mui/x-date-pickers": "^7.23.3",
     "@mui/x-tree-view": "^7.23.2",
-    "@natrave/auth-service-types": "^1.1.61",
+    "@natrave/auth-service-types": "^1.1.63",
     "@natrave/tournaments-service-types": "^1.1.72",
     "@react-pdf/renderer": "^4.1.6",
     "@supabase/supabase-js": "^2.47.10",

@@ -29,7 +29,6 @@ type LayoutBaseProps = Pick<LayoutSectionProps, "sx" | "children" | "cssVars">;
 
 export type SimpleLayoutProps = LayoutBaseProps & {
   layoutQuery?: Breakpoint;
-  hideHeader?: boolean;
   slotProps?: {
     header?: HeaderSectionProps;
     main?: MainSectionProps;
@@ -40,7 +39,6 @@ export type SimpleLayoutProps = LayoutBaseProps & {
 export function SimpleLayout({
   sx,
   cssVars,
-  hideHeader,
   children,
   slotProps,
   layoutQuery = "md",
@@ -102,7 +100,7 @@ export function SimpleLayout({
       /** **************************************
        * @Header
        *************************************** */
-      headerSection={hideHeader ? null : renderHeader()}
+      headerSection={renderHeader()}
       /** **************************************
        * @Footer
        *************************************** */

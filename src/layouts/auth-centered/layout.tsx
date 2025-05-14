@@ -155,7 +155,4 @@ const backgroundStyles = (theme: Theme): CSSObject => ({
   height: "100%",
   content: "''",
   position: "absolute",
-  ...theme.applyStyles("dark", {
-    opacity: 0.08,
-  }),
 });

@@ -1,7 +1,7 @@
 import type { CommonColors } from "@mui/material/styles/createPalette";
 
 import type { PaletteColorNoChannels } from "./core/palette";
-import type { ThemeColorScheme, ThemeCssVariables, ThemeDirection } from "./types";
+import type { ThemeDirection, ThemeColorScheme, ThemeCssVariables } from "./types";
 
 // ----------------------------------------------------------------------
 
@@ -52,8 +52,8 @@ export const themeConfig: ThemeConfig = {
       contrastText: "#FFFFFF",
     },
     secondary: {
-      lighter: "#B3A6D1",
-      light: "#685A8C",
+      lighter: "#B2EFE7",
+      light: "#4CDBC9",
       main: "#00BFA5",
       dark: "#1B5E20",
       darker: "#0F3A14",

@@ -21,6 +21,6 @@ export function getTournamentStatusDisplay(status: TournamentStatus): {
         },
       };
     default:
-      return { label: "Desconhecido", color: "info" };
+      return { label: "Desconhecido", color: "error" };
   }
 }

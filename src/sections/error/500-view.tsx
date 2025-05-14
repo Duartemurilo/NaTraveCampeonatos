@@ -2,16 +2,17 @@
 
 import { m } from "framer-motion";
 
+import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
+import { paths } from "src/routes/paths";
 import { RouterLink } from "src/routes/components";
 
-import { SimpleLayout } from "src/layouts/simple";
-import { ServerErrorIllustration } from "src/assets/illustrations";
+import { CONFIG } from "src/global-config";
+import { MainSection } from "src/layouts/core";
 
-import { varBounce, MotionContainer } from "src/components/animate";
+import { varBounce } from "src/components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -21,13 +22,21 @@ export type Props = {
 
 export function View500({ showbutton = true }: Props) {
   return (
-    <SimpleLayout
-      hideHeader
-      slotProps={{
-        content: { compact: true },
-      }}
-    >
-      <Container component={MotionContainer}>
+    <MainSection>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "80vh",
+        }}
+      >
+        <m.div style={{ marginBottom: "40px" }} variants={varBounce("in")}>
+          <img src={`${CONFIG.assetsDir}/assets/illustrations/view-500.png`} height="350" />
+        </m.div>
+
         <m.div variants={varBounce("in")}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             Algo deu errado por aqui
@@ -35,22 +44,23 @@ export function View500({ showbutton = true }: Props) {
         </m.div>
 
         <m.div variants={varBounce("in")}>
-          <Typography sx={{ color: "text.secondary" }}>
+          <Typography maxWidth={600} textAlign="center" sx={{ color: "text.secondary" }}>
             Estamos enfrentando uma instabilidade no momento. <br />
             Mas não se preocupe, já estamos verificando isso!
           </Typography>
         </m.div>
 
-        <m.div variants={varBounce("in")}>
-          <ServerErrorIllustration sx={{ my: { xs: 5, sm: 10 } }} />
-        </m.div>
-
         {showbutton && (
-          <Button component={RouterLink} href="/" size="large" variant="contained">
+          <Button
+            component={RouterLink}
+            href={paths.dashboard.tournaments.criar(0)}
+            size="large"
+            variant="contained"
+          >
             Voltar para a página inicial
           </Button>
         )}
-      </Container>
-    </SimpleLayout>
+      </Box>
+    </MainSection>
   );
 }
