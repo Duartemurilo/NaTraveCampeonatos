@@ -6,7 +6,7 @@ import { ptBR } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { AppRouterCacheProvider } from "@mui/material/nextjs/v14-appRouter";
 
 import { CONFIG } from "src/global-config";
 import { primary } from "src/theme/core/palette";
@@ -48,21 +48,31 @@ type RootLayoutProps = {
 };
 
 async function getAppConfig() {
-  if (CONFIG.isStaticExport) {
+  try {
+    if (CONFIG.isStaticExport) {
+      return {
+        lang: "pt-BR",
+        i18nLang: undefined,
+        cookieSettings: undefined,
+        dir: defaultSettings.direction,
+      };
+    } else {
+      const [lang, settings] = await Promise.all([detectLanguage(), detectSettings()]);
+
+      return {
+        lang: lang ?? "pt-BR",
+        i18nLang: lang ?? "pt-BR",
+        cookieSettings: settings,
+        dir: settings.direction,
+      };
+    }
+  } catch (error) {
+    // Fallback configuration if there's an error
     return {
       lang: "pt-BR",
-      i18nLang: undefined,
+      i18nLang: "pt-BR",
       cookieSettings: undefined,
       dir: defaultSettings.direction,
-    };
-  } else {
-    const [lang, settings] = await Promise.all([detectLanguage(), detectSettings()]);
-
-    return {
-      lang: lang ?? "pt-BR",
-      i18nLang: lang ?? "pt-BR",
-      cookieSettings: settings,
-      dir: settings.direction,
     };
   }
 }

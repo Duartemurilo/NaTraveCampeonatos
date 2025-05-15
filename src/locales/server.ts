@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import { createInstance } from 'i18next';
-import { cookies as getCookies } from 'next/headers';
+import { headers } from 'next/headers';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next/initReactI18next';
 
@@ -29,11 +29,20 @@ import type { LanguageValue } from './locales-config';
  */
 
 export async function detectLanguage() {
-  const cookies = getCookies();
+  try {
+    const headersList = headers();
+    const cookieHeader = headersList.get('cookie') || '';
+    const cookies = Object.fromEntries(
+      cookieHeader.split('; ').map(cookie => {
+        const [name, value] = cookie.split('=');
+        return [name, value];
+      })
+    );
 
-  const language = cookies.get(cookieName)?.value ?? fallbackLng;
-
-  return language as LanguageValue;
+    return (cookies[cookieName] || fallbackLng) as LanguageValue;
+  } catch (error) {
+    return fallbackLng as LanguageValue;
+  }
 }
 
 // ----------------------------------------------------------------------
